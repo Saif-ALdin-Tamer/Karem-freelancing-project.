@@ -892,7 +892,7 @@ window.addEventListener('hashchange', function(){
       // This makes the line end at the start of the final chapter
       let top;
       if(idx === lastIdx){
-        top = chapRect.top - stageRect.top + 80; // 80px into the chapter (around eyebrow area)
+        top = chapRect.top - stageRect.top - 30; // 30px above the chapter (to sit cleanly above the 'And Today' eyebrow)
       } else {
         top = chapRect.top - stageRect.top + chapRect.height / 2;
       }

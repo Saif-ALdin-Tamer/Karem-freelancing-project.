@@ -371,7 +371,7 @@ carousel.innerHTML = `
 
 // ═══════ STUDENT REVIEWS CAROUSEL ═══════
 const studentRow = document.getElementById('studentReviews');
-studentRow.innerHTML = studentReviews.map(makeCard).join('');
+studentRow.innerHTML = studentReviews.map(makeCard).join('') + studentReviews.map(makeCard).join('');
 
 // ═══════ WORLD MAP — D3 + TopoJSON ═══════
 // Real world map drawn from TopoJSON with stroke-only outlines + animated lines
@@ -561,11 +561,11 @@ function drawMarkersAndLines(svg, positions) {
     label.setAttribute('x', p.x);
     label.setAttribute('y', p.y + (c.home ? 18 : 14));
     label.setAttribute('text-anchor', 'middle');
-    label.setAttribute('fill', c.home ? '#ffffff' : 'rgba(174,220,255,0.9)');
-    label.setAttribute('font-size', c.home ? '9' : '7.5');
+    label.setAttribute('fill', c.home ? '#ffffff' : 'rgba(255,255,255,0.9)');
+    label.setAttribute('font-size', c.home ? '12' : '10');
     label.setAttribute('font-family', 'Inter, sans-serif');
     label.setAttribute('font-weight', c.home ? '600' : '500');
-    label.setAttribute('letter-spacing', '0.2');
+    label.setAttribute('letter-spacing', '0');
     label.style.pointerEvents = 'none';
     label.dataset.en = c.name;
     label.dataset.ar = c.name_ar;

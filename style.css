@@ -2790,16 +2790,25 @@ html[dir="rtl"] .mentorship-link:hover::after {
   z-index: 2;
 }
 .ctry {
-  font-size: 11px;
-  padding: 6px 14px;
-  letter-spacing: 1px;
+  font-size: 14px;
+  padding: 8px 18px;
+  letter-spacing: 0;
   background: rgba(58, 127, 199, 0.12);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(58, 127, 199, 0.25);
-  color: #9ec0e8;
+  color: #ffffff;
   border-radius: 100px;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ctry-flag {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 13px;
+  opacity: 0.8;
+  letter-spacing: 0 !important;
 }
 .ctry.home {
   background: rgba(58, 127, 199, 0.3);
@@ -2877,11 +2886,11 @@ html[dir="rtl"] .svc-rword {
 }
 
 .services-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
   margin-top: 56px;
-  max-width: 900px;
+  max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -2908,8 +2917,10 @@ html[dir="rtl"] .svc-rword {
     inset -1px 0 1px rgba(72, 103, 255, 0.05);
   cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 32px;
+  text-align: center;
+  gap: 20px;
 }
 .svc-card:hover {
   background: linear-gradient(
@@ -2917,7 +2928,7 @@ html[dir="rtl"] .svc-rword {
     rgba(35, 70, 160, 0.12) 0%,
     rgba(110, 40, 180, 0.04) 100%
   );
-  transform: translateX(8px);
+  transform: translateY(-6px);
   border-color: rgba(72, 103, 255, 0.1);
   border-top-color: rgba(72, 103, 255, 0.35);
   border-right-color: rgba(72, 103, 255, 0.3);
@@ -2928,7 +2939,7 @@ html[dir="rtl"] .svc-rword {
     inset -1px 0 1px rgba(72, 103, 255, 0.1);
 }
 html[dir="rtl"] .svc-card:hover {
-  transform: translateX(-8px);
+  transform: translateY(-6px);
 }
 .svc-card:hover .svc-icon {
   background: rgba(58, 127, 199, 0.3);
@@ -2939,18 +2950,12 @@ html[dir="rtl"] .svc-card:hover {
   flex-shrink: 0;
 }
 .svc-card-body {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 .svc-card .svc-cta {
-  margin-left: auto;
-  flex-shrink: 0;
-}
-html[dir="rtl"] .svc-card .svc-cta {
-  margin-left: 0;
-  margin-right: auto;
+  display: none !important;
 }
 .svc-icon {
   width: 48px;
@@ -3542,6 +3547,7 @@ html[dir="rtl"] .svc-card .svc-cta {
   border-radius: 18px;
   padding: 24px;
   text-align: center;
+  transition: all 0.35s;
 }
 .ts-n {
   font-size: 42px;
@@ -3579,6 +3585,16 @@ html[dir="rtl"] .svc-card .svc-cta {
   display: flex;
   gap: 16px;
   width: max-content;
+  animation: marqueeMove 60s linear infinite;
+}
+.student-reviews-row:hover {
+  animation-play-state: paused;
+}
+.student-reviews .slider-btn {
+  display: none !important;
+}
+.student-reviews-wrap {
+  overflow: hidden !important;
 }
 .student-reviews-wrap {
   mask-image: linear-gradient(
@@ -3740,7 +3756,7 @@ html[dir="rtl"] .svc-card .svc-cta {
 /* CONTACT */
 #contact {
   text-align: center;
-  padding: 80px 60px 0;
+  padding: 140px 60px 0;
 }
 .contact-inner {
   max-width: 880px;
@@ -8460,7 +8476,21 @@ body::after {
 }
 
 /* Override home-svc-card to match the "Ready to make something real?" inner glassy box */
-.home-svc-card {
+.home-svc-card,
+.testi-card,
+.process-card,
+.qb-card,
+.contact-card,
+.work-item,
+.work-card,
+.edu-item,
+.exp-item,
+.story-card,
+.training-card,
+.faq-item,
+.ts,
+.contact-cta-primary,
+.contact-cta-secondary {
   background: linear-gradient(
     135deg,
     rgba(35, 70, 160, 0.08) 0%,
@@ -8481,7 +8511,22 @@ body::after {
   overflow: hidden !important;
 }
 
-.home-svc-card:hover {
+.home-svc-card:hover,
+.testi-card:hover,
+.process-card:hover,
+.qb-card:hover,
+.contact-card:hover,
+.work-item:hover,
+.work-card:hover,
+.edu-item:hover,
+.exp-item:hover,
+.story-card:hover,
+.training-card:hover,
+.faq-item:hover,
+.ts:hover,
+.contact-cta-primary:hover,
+.contact-cta-secondary:hover {
+  transform: translateY(-6px) !important;
   background: linear-gradient(
     135deg,
     rgba(35, 70, 160, 0.12) 0%,
@@ -8498,7 +8543,21 @@ body::after {
 }
 
 .home-svc-card::before,
-.svc-card::before {
+.testi-card::before,
+.process-card::before,
+.qb-card::before,
+.contact-card::before,
+.work-item::before,
+.work-card::before,
+.edu-item::before,
+.exp-item::before,
+.story-card::before,
+.faq-item::before,
+.training-card::before,
+.svc-card::before,
+.ts::before,
+.contact-cta-primary::before,
+.contact-cta-secondary::before {
   content: "" !important;
   position: absolute !important;
   top: -30% !important;

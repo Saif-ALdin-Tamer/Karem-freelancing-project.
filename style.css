@@ -3245,7 +3245,7 @@ html[dir="rtl"] .svc-card .svc-cta {
   font-size: 18px;
   cursor: pointer;
   z-index: 10;
-  display: flex;
+  display: none !important; /* Hidden as per user request */
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
@@ -3711,7 +3711,7 @@ html[dir="rtl"] .svc-card .svc-cta {
 /* CONTACT */
 #contact {
   text-align: center;
-  padding: 160px 60px;
+  padding: 160px 60px 0;
 }
 .contact-inner {
   max-width: 880px;
@@ -3882,8 +3882,8 @@ html[dir="rtl"] .contact-faq {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin-top: 64px;
-  padding-top: 48px;
+  margin-top: 32px;
+  padding-top: 32px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .soc {
@@ -3916,7 +3916,7 @@ html[dir="rtl"] .contact-faq {
 
 footer {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding: 64px 60px 24px;
+  padding: 32px 60px 24px;
   background: rgba(0, 0, 0, 0.2);
 }
 .footer-content {
@@ -7936,4 +7936,153 @@ body::before {
 }
 #nav .nav-cta:hover {
   box-shadow: 0 8px 25px -3px rgba(120, 80, 255, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* =========================================================
+   SHINY & AMAZING VIBRANT BACKGROUND OVERRIDE
+   ========================================================= */
+
+/* 1. Make the base global glow more vibrant */
+body::before {
+  background: 
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25) 0%, transparent 50%), /* Cyan glow */
+    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 60%), /* Purple glow */
+    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%), /* Center Indigo glow */
+    #0B1121 !important; /* Deep dark space-like blue */
+  z-index: -2;
+}
+
+/* 2. Upgrade the floating orbs to be massive glowing light sources */
+.orb {
+  filter: blur(120px) !important; /* Softer, wider glow */
+  opacity: 0.6 !important;
+  mix-blend-mode: screen !important; /* Makes them "shine" when overlapping */
+}
+
+/* Orb 1: Vibrant Purple/Pink */
+.orb-1, .orb1 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent 70%) !important;
+  width: 600px !important;
+  height: 600px !important;
+  animation-duration: 25s !important;
+}
+
+/* Orb 2: Bright Cyan/Blue */
+.orb-2, .orb2 {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%) !important;
+  width: 550px !important;
+  height: 550px !important;
+  animation-duration: 30s !important;
+}
+
+/* Orb 3: Deep Indigo */
+.orb-3, .orb3 {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.6), transparent 70%) !important;
+  width: 700px !important;
+  height: 700px !important;
+  animation-duration: 35s !important;
+}
+
+/* =========================================================
+   SHINY & AMAZING BACKGROUND (NO PURPLE, ONLY BLUES/CYANS)
+   ========================================================= */
+
+/* 1. Make the base global glow vibrant, but ONLY Blues and Cyans */
+body::before {
+  background: 
+    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25) 0%, transparent 50%), /* Cyan glow */
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 60%), /* Bright Blue glow (Replaced Purple) */
+    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%), /* Sky Blue center glow */
+    #0B1121 !important; /* Deep dark space-like blue */
+  z-index: -2;
+}
+
+/* 2. Upgrade the floating orbs to be massive glowing light sources (NO PURPLE) */
+.orb {
+  filter: blur(120px) !important;
+  opacity: 0.6 !important;
+  mix-blend-mode: screen !important;
+}
+
+/* Orb 1: Vibrant Bright Blue (Replaced Purple) */
+.orb-1, .orb1 {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent 70%) !important;
+  width: 600px !important;
+  height: 600px !important;
+  animation-duration: 25s !important;
+}
+
+/* Orb 2: Bright Cyan */
+.orb-2, .orb2 {
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%) !important;
+  width: 550px !important;
+  height: 550px !important;
+  animation-duration: 30s !important;
+}
+
+/* Orb 3: Deep Sky Blue */
+.orb-3, .orb3 {
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.6), transparent 70%) !important;
+  width: 700px !important;
+  height: 700px !important;
+  animation-duration: 35s !important;
+}
+
+/* Reset the italicized 'something real?' text to normal white text */
+.home-cta-title em, .heading em {
+  font-style: normal !important;
+  color: #ffffff !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+}
+
+/* EXACT MATCH for avatar/initials icons based on navbar logo */
+#nav .nav-logo, 
+.footer-logo, 
+.testi-card .testi-avatar, 
+.testi-avatar, 
+.home-testi-author .home-testi-avatar, 
+.home-testi-avatar, 
+.chapter-intro .intro-logo,
+.intro-logo,
+.nav-logo {
+  background: #172340 !important; /* Navy blue (كحلي) */
+  background-color: #172340 !important;
+  background-image: none !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important; /* Distinct grayish border */
+  color: #ffffff !important; /* Pure white text */
+  border-radius: 50% !important; /* Perfect circle */
+  box-shadow: none !important;
+  
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+  letter-spacing: normal !important;
+}
+
+/* Ensure avatars are sized correctly */
+.testi-card .testi-avatar,
+.testi-avatar {
+  width: 42px !important;
+  height: 42px !important;
+  min-width: 42px !important;
+  font-size: 14px !important;
+}
+
+.home-testi-author .home-testi-avatar,
+.home-testi-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  font-size: 15px !important;
+}
+
+/* Ensure footer logo is sized correctly */
+.footer-logo {
+  width: 46px !important;
+  height: 46px !important;
+  min-width: 46px !important;
+  font-size: 16px !important;
+  margin-bottom: 16px !important;
 }

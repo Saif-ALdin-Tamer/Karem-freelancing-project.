@@ -7633,3 +7633,307 @@ body::before {
   mask-image: none !important;
   -webkit-mask-image: none !important;
 }
+
+/* EXACT Glassy & Shiny Effect for Feedback Boxes */
+.testi-card {
+  /* Deep glassy blue background */
+  background: linear-gradient(180deg, rgba(30, 58, 138, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
+  backdrop-filter: blur(20px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  
+  /* Bright blue border to match the screenshot */
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  border-top: 1px solid rgba(96, 165, 250, 0.4) !important; /* Brighter top edge for reflection */
+  
+  /* Shiny outer glow and inner reflection */
+  box-shadow: 
+    0 10px 40px -10px rgba(59, 130, 246, 0.3), /* Outer blue shine */
+    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important; /* Inner top edge shine */
+    
+  border-radius: 16px !important;
+  position: relative;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+}
+
+/* Hover effect to make the shine even stronger */
+.testi-card:hover {
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  box-shadow: 
+    0 20px 50px -10px rgba(59, 130, 246, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Re-add the subtle corner brackets exactly as shown in the screenshot */
+.testi-card::after {
+  content: '';
+  position: absolute;
+  top: 12px; left: 12px; right: 12px; bottom: 12px;
+  border-radius: 8px;
+  pointer-events: none;
+  display: block !important;
+  background: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top left / 100% 1px no-repeat,
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top left / 1px 100% no-repeat,
+    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top right / 100% 1px no-repeat,
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top right / 1px 100% no-repeat,
+    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom left / 100% 1px no-repeat,
+    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom left / 1px 100% no-repeat,
+    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom right / 100% 1px no-repeat,
+    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom right / 1px 100% no-repeat !important;
+}
+
+/* Add a massive ambient blue glow behind the entire testimonials section */
+#testimonials::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 80%; height: 80%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* EXACT MATCH for the "What I Do" button/pill from screenshot */
+.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+  /* Colors to match the screenshot */
+  background: rgba(30, 58, 138, 0.3) !important; /* Subtle dark blue tint */
+  border: 1px solid rgba(59, 130, 246, 0.4) !important; /* Distinct blue border */
+  color: #60a5fa !important; /* Vibrant blue text */
+  
+  /* Shape and Size */
+  border-radius: 100px !important; /* Perfect pill shape */
+  padding: 10px 28px !important; /* Thicker and wider padding */
+  
+  /* Typography */
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  
+  /* Layout alignment */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: fit-content !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+/* Hover effect */
+.ghost-link:hover, .eyebrow:hover, .home-cta-eyebrow:hover, .home-brands-label:hover {
+  background: rgba(30, 58, 138, 0.5) !important;
+  border-color: rgba(59, 130, 246, 0.6) !important;
+  color: #93c5fd !important;
+}
+
+/* Ensure all these pills (like What I Do) are perfectly centered horizontally */
+.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+  display: flex !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Increase the size of all pill buttons by "2 degrees" */
+.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+  font-size: 17px !important; /* Increased from 15px */
+  padding: 12px 36px !important; /* Increased padding to match the larger text */
+}
+
+/* EXACT MATCH for Hero Buttons based on screenshot */
+
+.hero-ctas {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: center !important;
+}
+
+/* Primary Button: Book a Free Discovery Call */
+.hero-ctas .cta-primary,
+.cta-primary {
+  /* Exact gradient from screenshot: Soft Blue to Vibrant Purple */
+  background: linear-gradient(to right, #4867FF 0%, #B04DFF 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  
+  /* Inner reflection and outer glow */
+  box-shadow: 
+    0 10px 30px -5px rgba(120, 80, 255, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+    
+  border-radius: 100px !important;
+  padding: 16px 36px !important;
+  
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.2px !important;
+  
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important; /* Space before arrow */
+}
+
+/* Thin SVG arrow to match screenshot */
+.hero-ctas .cta-primary svg,
+.cta-primary svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 2 !important;
+  margin: 0 !important;
+}
+
+/* Hover effect */
+.hero-ctas .cta-primary:hover,
+.cta-primary:hover {
+  box-shadow: 
+    0 15px 40px -5px rgba(120, 80, 255, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Secondary Button: See My Work */
+.hero-ctas .cta-secondary,
+.cta-secondary {
+  /* Faint dark glass look */
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  
+  border-radius: 100px !important;
+  padding: 16px 36px !important;
+  
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.2px !important;
+  
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: none !important;
+}
+
+.hero-ctas .cta-secondary:hover,
+.cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* =========================================================
+   EXACT NAVBAR FLOATING PILL STYLING
+   ========================================================= */
+
+/* Desktop Floating Pill Nav */
+@media (min-width: 992px) {
+  #nav {
+    position: fixed !important;
+    top: 24px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: max-content !important;
+    
+    background: rgba(17, 24, 39, 0.75) !important; /* Slate grey translucent */
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 100px !important;
+    
+    padding: 6px 6px 6px 12px !important; /* Tighter padding to match screenshot */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 16px !important;
+    
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Logo Circle */
+#nav .nav-logo {
+  width: 38px !important;
+  height: 38px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  text-decoration: none !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Nav Links Container */
+#nav .nav-links {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Nav Link Items */
+#nav .nav-links a {
+  padding: 8px 16px !important;
+  border-radius: 100px !important;
+  color: #cbd5e1 !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+#nav .nav-links a:hover, #nav .nav-links a.active {
+  background: rgba(255, 255, 255, 0.08) !important; /* Active pill effect */
+  color: #ffffff !important;
+}
+
+/* Actions Area */
+#nav .nav-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* Language Button */
+#nav .nav-lang {
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 100px !important;
+  padding: 8px 16px !important;
+  color: #fff !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+/* Book a Call Button (Nav Size) */
+#nav .nav-cta {
+  background: linear-gradient(to right, #4867FF 0%, #B04DFF 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  border-radius: 100px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  font-size: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  box-shadow: 0 4px 15px -3px rgba(120, 80, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease !important;
+}
+#nav .nav-cta svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke-width: 2 !important;
+  margin: 0 !important;
+}
+#nav .nav-cta:hover {
+  box-shadow: 0 8px 25px -3px rgba(120, 80, 255, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+}

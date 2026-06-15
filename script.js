@@ -734,14 +734,31 @@ window.addEventListener('scroll', () => {
 // Override enterSite to swap sections instead of redirecting
 window.enterSite = function(){
   const body = document.body;
-  body.style.transition = 'opacity .5s ease';
-  body.style.opacity = '0';
+  
+  // Create overlay for smooth transition to avoid WebKit blur glitch
+  const overlay = document.createElement('div');
+  overlay.style.position = 'fixed';
+  overlay.style.inset = '0';
+  overlay.style.background = '#050814'; // Match the dark background
+  overlay.style.zIndex = '999999';
+  overlay.style.opacity = '0';
+  overlay.style.transition = 'opacity .5s ease';
+  body.appendChild(overlay);
+  
+  // Force reflow and start fade in
+  overlay.offsetHeight;
+  overlay.style.opacity = '1';
+
   setTimeout(() => {
     document.getElementById('welcome-section').classList.add('hidden');
     document.getElementById('portfolio-section').classList.add('visible');
     body.classList.add('in-portfolio');
     window.scrollTo(0, 0);
-    body.style.opacity = '1';
+    
+    // Fade out overlay
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.remove(), 500);
+
     // Save flag to sessionStorage so welcome doesn't show again in this session
     try { sessionStorage.setItem('intro_done', '1'); } catch(e){}
     // Activate home page by default

@@ -11,19 +11,19 @@
 ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #04060a;
-  --blue: #224f81;
-  --blue2: #2d6aab;
-  --blue3: #3a7fc7;
-  --blue4: #5fa3e0;
+  --bg: #070b14;
+  --blue: #0f1c36;
+  --blue2: #1a2c54;
+  --blue3: #2a4380;
+  --blue4: #4867ff;
   --white: #fff;
-  --text: #e9e4fc;
-  --muted: rgba(233, 228, 252, 0.6);
-  --dim: rgba(233, 228, 252, 0.35);
-  --glass-bg: rgba(30, 20, 60, 0.4);
-  --glass-border: rgba(176, 112, 255, 0.4);
+  --text: #f1f5f9;
+  --muted: rgba(241, 245, 249, 0.6);
+  --dim: rgba(241, 245, 249, 0.35);
+  --glass-bg: rgba(22, 33, 62, 0.4);
+  --glass-border: rgba(100, 140, 255, 0.2);
   --glass-glow:
-    0 0 20px rgba(176, 112, 255, 0.15), inset 0 0 15px rgba(176, 112, 255, 0.05);
+    0 0 20px rgba(100, 140, 255, 0.1), inset 0 0 15px rgba(100, 140, 255, 0.05);
 }
 *,
 *::before,
@@ -77,7 +77,7 @@ html[lang="ar"] body {
 .orb1 {
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(34, 79, 129, 0.4), transparent 70%);
+  background: radial-gradient(circle, rgba(26, 44, 84, 0.4), transparent 70%);
   top: -100px;
   right: -100px;
   animation: orbDrift1 20s ease-in-out infinite;
@@ -85,7 +85,7 @@ html[lang="ar"] body {
 .orb2 {
   width: 500px;
   height: 500px;
-  background: radial-gradient(circle, rgba(45, 106, 171, 0.3), transparent 70%);
+  background: radial-gradient(circle, rgba(15, 28, 54, 0.5), transparent 70%);
   bottom: -50px;
   left: -80px;
   animation: orbDrift2 25s ease-in-out infinite;
@@ -95,7 +95,7 @@ html[lang="ar"] body {
   height: 400px;
   background: radial-gradient(
     circle,
-    rgba(58, 127, 199, 0.25),
+    rgba(42, 67, 128, 0.2),
     transparent 70%
   );
   top: 40%;
@@ -1065,28 +1065,28 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 ═══════════════════════════════════════════════════════════ */
 
 :root {
-  --bg: #04060a;
-  --blue: #224f81;
-  --blue2: #2d6aab;
-  --blue3: #3a7fc7;
-  --blue4: #5fa3e0;
+  --bg: #070b14;
+  --blue: #0f1c36;
+  --blue2: #1a2c54;
+  --blue3: #2a4380;
+  --blue4: #4867ff;
   --white: #fff;
-  --text: #f0f3f8;
-  --muted: rgba(240, 243, 248, 0.55);
-  --dim: rgba(240, 243, 248, 0.32);
+  --text: #f1f5f9;
+  --muted: rgba(241, 245, 249, 0.6);
+  --dim: rgba(241, 245, 249, 0.35);
 
   /* ═══ UNIFIED GLASS SYSTEM ═══ */
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-bg-hover: rgba(255, 255, 255, 0.08);
-  --glass-bg-strong: rgba(255, 255, 255, 0.07);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-  --glass-border-hover: 1px solid rgba(255, 255, 255, 0.18);
-  --glass-border-strong: 1px solid rgba(95, 163, 224, 0.25);
+  --glass-bg: rgba(22, 33, 62, 0.4);
+  --glass-bg-hover: rgba(30, 45, 80, 0.5);
+  --glass-bg-strong: rgba(15, 25, 50, 0.6);
+  --glass-border: 1px solid rgba(100, 140, 255, 0.15);
+  --glass-border-hover: 1px solid rgba(100, 140, 255, 0.3);
+  --glass-border-strong: 1px solid rgba(100, 140, 255, 0.4);
   --glass-blur: blur(20px) saturate(160%);
   --glass-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(100, 140, 255, 0.1);
   --glass-shadow-lg:
-    0 16px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(100, 140, 255, 0.15);
   --glass-radius: 16px;
   --glass-radius-lg: 24px;
   --glass-radius-pill: 100px;
@@ -1528,7 +1528,7 @@ html[dir="rtl"] .skill-cell:last-child {
 .orb-1 {
   width: 420px;
   height: 420px;
-  background: #224f81;
+  background: var(--blue2);
   top: 8%;
   left: -100px;
   opacity: 0.55;
@@ -1537,7 +1537,7 @@ html[dir="rtl"] .skill-cell:last-child {
 .orb-2 {
   width: 380px;
   height: 380px;
-  background: #2d6aab;
+  background: var(--blue);
   top: 45%;
   right: -80px;
   opacity: 0.5;
@@ -1546,7 +1546,7 @@ html[dir="rtl"] .skill-cell:last-child {
 .orb-3 {
   width: 320px;
   height: 320px;
-  background: #3a7fc7;
+  background: var(--blue3);
   bottom: 8%;
   left: 30%;
   opacity: 0.35;
@@ -3711,7 +3711,7 @@ html[dir="rtl"] .svc-card .svc-cta {
 /* CONTACT */
 #contact {
   text-align: center;
-  padding: 160px 60px 0;
+  padding: 80px 60px 0;
 }
 .contact-inner {
   max-width: 880px;
@@ -4598,30 +4598,41 @@ html[dir="rtl"] .ghost-link:hover svg {
 }
 .home-cta-wrap {
   text-align: center;
-  max-width: 780px;
+  max-width: 760px; /* Reduced to minimize box size */
   margin: 0 auto;
-  padding: 72px 56px;
+  padding: 60px 40px; /* Reduced vertical padding */
+  /* Glassy Background */
   background: linear-gradient(
     135deg,
-    rgba(34, 79, 129, 0.15) 0%,
-    rgba(58, 127, 199, 0.05) 100%
+    rgba(35, 70, 160, 0.08) 0%,
+    rgba(110, 40, 180, 0.02) 100%
   );
-  border: 1px solid rgba(95, 163, 224, 0.2);
-  border-radius: 32px;
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  /* Glowing Blue Borders - Softer */
+  border: 1px solid rgba(72, 103, 255, 0.05); /* Faint overall border */
+  border-top: 1px solid rgba(72, 103, 255, 0.25); /* Softer top blue edge */
+  border-right: 1px solid rgba(72, 103, 255, 0.2); /* Softer right blue edge */
+  border-radius: 24px;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 10, 0.8),
+    0 0 40px rgba(72, 103, 255, 0.1), /* Softer outer blue glow */
+    inset 0 1px 1px rgba(72, 103, 255, 0.1), /* Softer inner blue shine (top) */
+    inset -1px 0 1px rgba(72, 103, 255, 0.05); /* Softer inner blue shine (right) */
   position: relative;
   overflow: hidden;
 }
 .home-cta-wrap::before {
   content: "";
   position: absolute;
-  top: -50%;
+  top: -30%;
   left: 50%;
   transform: translateX(-50%);
-  width: 120%;
+  width: 100%;
   height: 100%;
   background: radial-gradient(
-    ellipse,
-    rgba(58, 127, 199, 0.2),
+    ellipse at top,
+    rgba(72, 103, 255, 0.1),
     transparent 60%
   );
   pointer-events: none;
@@ -4637,31 +4648,34 @@ html[dir="rtl"] .ghost-link:hover svg {
   z-index: 1;
 }
 .home-cta-title {
-  font-size: clamp(36px, 5vw, 56px);
-  font-weight: 600;
+  font-size: clamp(28px, 4.5vw, 48px); /* Reduced to fit in smaller box */
+  font-weight: 700;
   letter-spacing: -1.5px;
-  line-height: 1.1;
+  line-height: 1.15;
   color: var(--white);
   margin-bottom: 20px;
   position: relative;
   z-index: 1;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .home-cta-title em {
   font-style: italic;
   color: var(--blue4);
-  font-weight: 500;
+  font-weight: 600;
 }
 .home-cta-sub {
-  font-size: 17px;
+  font-size: 18px;
   color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 40px;
+  line-height: 1.6;
+  margin-bottom: 48px;
   position: relative;
   z-index: 1;
 }
 .home-cta-actions {
   display: flex;
-  gap: 14px;
+  gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
   position: relative;
@@ -6912,7 +6926,6 @@ body,
 /* 4. Cards with Corner Brackets */
 .home-svc-card,
 .testi-card,
-.home-cta-wrap,
 .qb-card {
   position: relative;
   background: rgba(255, 255, 255, 0.02) !important;
@@ -7073,7 +7086,6 @@ body,
 
 /* Override: Remove corner brackets and make cards smooth/glassy */
 .home-svc-card,
-.home-cta-wrap,
 .qb-card {
   background: rgba(10, 15, 30, 0.4) !important; /* Slightly darker glass */
   backdrop-filter: blur(24px) saturate(180%) !important;
@@ -7152,6 +7164,8 @@ body,
 
 #testimonials {
   padding-top: 56px !important; /* Matches margin-top: 56px of home-section-cta */
+  padding-bottom: 70px !important; /* Cut bottom space in half as requested */
+  overflow: visible !important; /* Allow background glows to blend without a hard clipped line */
 }
 
 #testimonials .eyebrow {
@@ -7185,7 +7199,6 @@ body,
 
 /* FINAL BOX STYLING — process card style */
 .home-svc-card,
-.home-cta-wrap,
 .qb-card {
   background: rgba(10, 20, 40, 0.3) !important; /* Deep dark blue background */
   backdrop-filter: none !important;
@@ -7200,15 +7213,18 @@ body,
 /* Hover Effect */
 .home-svc-card:hover,
 .testi-card:hover,
-.home-cta-wrap:hover,
 .qb-card:hover {
   border-color: rgba(59, 130, 246, 0.4) !important;
   box-shadow: 0 10px 40px rgba(59, 130, 246, 0.1) !important;
   transform: translateY(-4px) !important;
 }
 
-/* Perfect thin corner brackets */
-.home-svc-card::before,
+/* Hide corner brackets for home-svc-card as it now has a glowing border */
+.home-svc-card::before {
+  display: none !important;
+}
+
+/* Perfect thin corner brackets for others */
 .testi-card::before,
 .qb-card::before {
   content: "";
@@ -7241,7 +7257,6 @@ body,
 }
 
 /* Make brackets glow blue on hover */
-.home-svc-card:hover::before,
 .testi-card:hover::before,
 .qb-card:hover::before {
   background:
@@ -7263,28 +7278,27 @@ body,
       bottom right / 1.5px 100% no-repeat !important;
 }
 
-/* EXACT BOX EFFECT FROM SCREENSHOT */
+/* EXACT BOX EFFECT FROM SCREENSHOT FOR SERVICES */
 .home-svc-card,
-.home-cta-wrap,
 .qb-card {
-  /* Faint blue-ish gradient background */
   background: linear-gradient(
-    180deg,
-    rgba(30, 50, 90, 0.15) 0%,
-    rgba(10, 15, 30, 0.4) 100%
+    135deg,
+    rgba(35, 70, 160, 0.08) 0%,
+    rgba(110, 40, 180, 0.02) 100%
   ) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-
-  /* Borders with a brighter top edge for that glass reflection effect */
-  border: 1px solid rgba(255, 255, 255, 0.03) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-
-  /* Drop shadow to separate from background */
+  backdrop-filter: blur(80px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(80px) saturate(200%) !important;
+  border: 1px solid rgba(72, 103, 255, 0.05) !important;
+  border-top: 1px solid rgba(72, 103, 255, 0.25) !important;
+  border-right: 1px solid rgba(72, 103, 255, 0.2) !important;
+  border-left: none !important;
+  border-bottom: none !important;
+  border-radius: 24px !important;
   box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-  border-radius: 16px !important;
+    0 40px 80px -20px rgba(0, 0, 10, 0.8),
+    0 0 40px rgba(72, 103, 255, 0.1),
+    inset 0 1px 1px rgba(72, 103, 255, 0.1),
+    inset -1px 0 1px rgba(72, 103, 255, 0.05) !important;
 
   /* Reset hover so it doesn't do my custom bounce */
   transform: none !important;
@@ -7293,7 +7307,6 @@ body,
 /* Remove my custom hover effect */
 .home-svc-card:hover,
 .testi-card:hover,
-.home-cta-wrap:hover,
 .qb-card:hover {
   transform: none !important;
   border-color: rgba(255, 255, 255, 0.03) !important;
@@ -7400,19 +7413,36 @@ html {
 /* FULL HERO THEME MATCHING SCREENSHOT */
 
 /* 1. Global Background with Soft Glow */
-body, html {
+body,
+html {
   background-color: #080c17 !important; /* Very dark navy base */
 }
 
 /* Beautiful soft ambient glow on the right side */
 .hero-image::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: 
-    radial-gradient(circle at 100% 50%, rgba(56, 189, 248, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 80% 100%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-    linear-gradient(to right, #080c17 20%, rgba(8,12,23,0.8) 50%, transparent 100%) !important;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(56, 189, 248, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 100%,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to right,
+      #080c17 20%,
+      rgba(8, 12, 23, 0.8) 50%,
+      transparent 100%
+    ) !important;
   z-index: 2;
   pointer-events: none;
 }
@@ -7434,7 +7464,10 @@ body, html {
   margin-bottom: 24px !important;
 }
 @media (max-width: 768px) {
-  .hero-name { font-size: 56px !important; letter-spacing: -1.5px !important; }
+  .hero-name {
+    font-size: 56px !important;
+    letter-spacing: -1.5px !important;
+  }
 }
 
 .hero-tagline {
@@ -7453,7 +7486,11 @@ body, html {
 
 /* 3. Buttons */
 .hero-ctas .cta-primary {
-  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important; /* Purple/Blue Gradient */
+  background: linear-gradient(
+    135deg,
+    #6366f1 0%,
+    #a855f7 100%
+  ) !important; /* Purple/Blue Gradient */
   border: none !important;
   color: #ffffff !important;
   box-shadow: 0 0 30px rgba(139, 92, 246, 0.4) !important;
@@ -7495,54 +7532,98 @@ body, html {
 }
 
 /* Make the overall background noticeably lighter than the previous pitch-dark navy */
-body, html {
+body,
+html {
   background-color: #111827 !important; /* Lighter slate/navy blue */
 }
 
 /* Update hero gradient mask to match the lighter background */
 .hero-image::before {
-  background: 
-    radial-gradient(circle at 100% 50%, rgba(56, 189, 248, 0.25) 0%, transparent 40%),
-    radial-gradient(circle at 80% 100%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
-    linear-gradient(to right, #111827 20%, rgba(17,24,39,0.85) 50%, transparent 100%) !important;
+  background:
+    radial-gradient(
+      circle at 100% 50%,
+      rgba(56, 189, 248, 0.25) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 100%,
+      rgba(99, 102, 241, 0.2) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      to right,
+      #111827 20%,
+      rgba(17, 24, 39, 0.85) 50%,
+      transparent 100%
+    ) !important;
 }
 
 /* Ensure any other elements using the old dark background match the new one */
-.home-svc-card, .testi-card, .home-cta-wrap, .qb-card {
-  background: linear-gradient(180deg, rgba(50, 70, 110, 0.2) 0%, rgba(17, 24, 39, 0.6) 100%) !important;
+.home-svc-card,
+.testi-card,
+.qb-card {
+  background: linear-gradient(
+    180deg,
+    rgba(50, 70, 110, 0.2) 0%,
+    rgba(17, 24, 39, 0.6) 100%
+  ) !important;
 }
 
 /* Apply the ambient cyan/purple glow theme to all other main pages/sections */
-#about, #services, #training, #contact {
+#about,
+#services,
+#training,
+#contact {
   position: relative;
   overflow: hidden; /* Contains the glow */
 }
 
 /* Inject the glowing lights into the background of all these sections */
-#about::before, #services::before, #training::before, #contact::before {
-  content: '';
+#about::before,
+#services::before,
+#training::before,
+#contact::before {
+  content: "";
   position: absolute;
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: 
-    radial-gradient(circle at 90% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 10% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(56, 189, 248, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(99, 102, 241, 0.15) 0%,
+      transparent 60%
+    );
   z-index: 0;
   pointer-events: none;
 }
 
 /* Ensure the content sits above the new background glow */
-#about > *, #services > *, #training > *, #contact > * {
+#about > *,
+#services > *,
+#training > *,
+#contact > * {
   position: relative;
   z-index: 1;
 }
 
 /* Override any remaining hardcoded pure black backgrounds to the lighter navy */
-.story-bg-layer, .process-bg, .footer-wrap {
+.story-bg-layer,
+.process-bg,
+.footer-wrap {
   background-color: transparent !important;
 }
 
 /* Ensure body retains the lighter navy on all pages */
-body, html, main {
+body,
+html,
+main {
   background-color: #111827 !important;
 }
 
@@ -7551,20 +7632,32 @@ body, html, main {
    ========================================================= */
 
 /* 1. Global Primary Buttons (Purple/Blue Gradient) */
-.cta-primary, .nav-cta, .qb-start-btn, button[type="submit"] {
+.cta-primary,
+.nav-cta,
+.qb-start-btn,
+button[type="submit"] {
   background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
   color: #ffffff !important;
   border: none !important;
   box-shadow: 0 0 20px rgba(139, 92, 246, 0.3) !important;
   transition: all 0.3s ease !important;
 }
-.cta-primary:hover, .nav-cta:hover, .qb-start-btn:hover, button[type="submit"]:hover {
+.cta-primary:hover,
+.nav-cta:hover,
+.qb-start-btn:hover,
+button[type="submit"]:hover {
   box-shadow: 0 0 30px rgba(139, 92, 246, 0.5) !important;
   transform: translateY(-2px) !important;
 }
 
 /* 2. Global Headings (Pure White, Bold) */
-.heading, .home-cta-title, .section-title, h1, h2, h3, h4 {
+.heading,
+.home-cta-title,
+.section-title,
+h1,
+h2,
+h3,
+h4 {
   color: #ffffff !important;
   font-weight: 700 !important;
   letter-spacing: -1px !important;
@@ -7573,13 +7666,18 @@ body, html, main {
 }
 
 /* 3. Global Paragraphs / Subtitles (Slate Gray) */
-p, .home-section-sub, .home-cta-sub {
+p,
+.home-section-sub,
+.home-cta-sub {
   color: #94a3b8 !important;
   line-height: 1.6 !important;
 }
 
 /* 4. Ghost Links & Eyebrow Pills (Sleek Glassy Look) */
-.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+.ghost-link,
+.eyebrow,
+.home-cta-eyebrow,
+.home-brands-label {
   background: rgba(255, 255, 255, 0.03) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #cbd5e1 !important; /* Light slate gray */
@@ -7603,25 +7701,42 @@ p, .home-section-sub, .home-cta-sub {
 .nav-links a {
   color: #cbd5e1 !important;
 }
-.nav-links a:hover, .nav-links a.active {
+.nav-links a:hover,
+.nav-links a.active {
   color: #ffffff !important;
 }
 
 /* Global Ambient Background for the ENTIRE homepage and site */
 body::before {
-  content: '';
+  content: "";
   position: fixed; /* Stays in the background as you scroll */
-  top: 0; right: 0; bottom: 0; left: 0;
-  background: 
-    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(56, 189, 248, 0.15) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(99, 102, 241, 0.1) 0%,
+      transparent 50%
+    ),
     #111827 !important; /* Lighter slate blue base */
   z-index: -1;
   pointer-events: none;
 }
 
 /* Ensure sections don't block the background */
-#hero, #home-brands, #home-services, #home-cta, #testimonials, .hero-image {
+#hero,
+#home-brands,
+#home-services,
+#home-cta,
+#testimonials,
+.hero-image {
   background: transparent !important;
 }
 
@@ -7637,19 +7752,23 @@ body::before {
 /* EXACT Glassy & Shiny Effect for Feedback Boxes */
 .testi-card {
   /* Deep glassy blue background */
-  background: linear-gradient(180deg, rgba(30, 58, 138, 0.15) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(30, 58, 138, 0.15) 0%,
+    rgba(15, 23, 42, 0.6) 100%
+  ) !important;
   backdrop-filter: blur(20px) saturate(150%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
-  
+
   /* Bright blue border to match the screenshot */
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
   border-top: 1px solid rgba(96, 165, 250, 0.4) !important; /* Brighter top edge for reflection */
-  
+
   /* Shiny outer glow and inner reflection */
-  box-shadow: 
-    0 10px 40px -10px rgba(59, 130, 246, 0.3), /* Outer blue shine */
-    inset 0 1px 0 rgba(255, 255, 255, 0.15) !important; /* Inner top edge shine */
-    
+  box-shadow:
+    0 10px 40px -10px rgba(59, 130, 246, 0.3),
+    /* Outer blue shine */ inset 0 1px 0 rgba(255, 255, 255, 0.15) !important; /* Inner top edge shine */
+
   border-radius: 16px !important;
   position: relative;
   overflow: hidden !important;
@@ -7659,84 +7778,117 @@ body::before {
 /* Hover effect to make the shine even stronger */
 .testi-card:hover {
   border-color: rgba(59, 130, 246, 0.6) !important;
-  box-shadow: 
+  box-shadow:
     0 20px 50px -10px rgba(59, 130, 246, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
 }
 
 /* Re-add the subtle corner brackets exactly as shown in the screenshot */
 .testi-card::after {
-  content: '';
+  content: "";
   position: absolute;
-  top: 12px; left: 12px; right: 12px; bottom: 12px;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
   border-radius: 8px;
   pointer-events: none;
   display: block !important;
-  background: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top left / 100% 1px no-repeat,
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top left / 1px 100% no-repeat,
-    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top right / 100% 1px no-repeat,
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px) top right / 1px 100% no-repeat,
-    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom left / 100% 1px no-repeat,
-    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom left / 1px 100% no-repeat,
-    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom right / 100% 1px no-repeat,
-    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px) bottom right / 1px 100% no-repeat !important;
+  background:
+    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      top left / 100% 1px no-repeat,
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      top left / 1px 100% no-repeat,
+    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      top right / 100% 1px no-repeat,
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      top right / 1px 100% no-repeat,
+    linear-gradient(to right, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      bottom left / 100% 1px no-repeat,
+    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      bottom left / 1px 100% no-repeat,
+    linear-gradient(to left, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      bottom right / 100% 1px no-repeat,
+    linear-gradient(to top, rgba(148, 163, 184, 0.3) 14px, transparent 14px)
+      bottom right / 1px 100% no-repeat !important;
 }
 
 /* Add a massive ambient blue glow behind the entire testimonials section */
 #testimonials::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: 50%; left: 50%;
-  width: 80%; height: 80%;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
   transform: translate(-50%, -50%);
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.15) 0%,
+    transparent 70%
+  );
   z-index: -1;
   pointer-events: none;
 }
 
 /* EXACT MATCH for the "What I Do" button/pill from screenshot */
-.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+.ghost-link,
+.eyebrow,
+.home-cta-eyebrow,
+.home-brands-label {
   /* Colors to match the screenshot */
-  background: rgba(30, 58, 138, 0.3) !important; /* Subtle dark blue tint */
-  border: 1px solid rgba(59, 130, 246, 0.4) !important; /* Distinct blue border */
+  background: rgba(30, 58, 138, 0.15) !important; /* Lighter, more transparent tint for glass */
+  border: 1px solid rgba(59, 130, 246, 0.3) !important; /* Distinct blue border */
   color: #60a5fa !important; /* Vibrant blue text */
-  
+
+  /* Glass Effect */
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+
   /* Shape and Size */
   border-radius: 100px !important; /* Perfect pill shape */
   padding: 10px 28px !important; /* Thicker and wider padding */
-  
+
   /* Typography */
   font-size: 15px !important;
   font-weight: 500 !important;
   letter-spacing: normal !important;
   text-transform: none !important;
-  
+
   /* Layout alignment */
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   width: fit-content !important;
   line-height: 1 !important;
-  box-shadow: none !important;
 }
 
 /* Hover effect */
-.ghost-link:hover, .eyebrow:hover, .home-cta-eyebrow:hover, .home-brands-label:hover {
+.ghost-link:hover,
+.eyebrow:hover,
+.home-cta-eyebrow:hover,
+.home-brands-label:hover {
   background: rgba(30, 58, 138, 0.5) !important;
   border-color: rgba(59, 130, 246, 0.6) !important;
   color: #93c5fd !important;
 }
 
 /* Ensure all these pills (like What I Do) are perfectly centered horizontally */
-.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+.ghost-link,
+.eyebrow,
+.home-cta-eyebrow,
+.home-brands-label {
   display: flex !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
 
 /* Increase the size of all pill buttons by "2 degrees" */
-.ghost-link, .eyebrow, .home-cta-eyebrow, .home-brands-label {
+.ghost-link,
+.eyebrow,
+.home-cta-eyebrow,
+.home-brands-label {
   font-size: 17px !important; /* Increased from 15px */
   padding: 12px 36px !important; /* Increased padding to match the larger text */
 }
@@ -7753,22 +7905,22 @@ body::before {
 .hero-ctas .cta-primary,
 .cta-primary {
   /* Exact gradient from screenshot: Soft Blue to Vibrant Purple */
-  background: linear-gradient(to right, #4867FF 0%, #B04DFF 100%) !important;
+  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%) !important;
   border: none !important;
   color: #ffffff !important;
-  
+
   /* Inner reflection and outer glow */
-  box-shadow: 
+  box-shadow:
     0 10px 30px -5px rgba(120, 80, 255, 0.5),
     inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
-    
+
   border-radius: 100px !important;
   padding: 16px 36px !important;
-  
+
   font-weight: 600 !important;
   font-size: 16px !important;
   letter-spacing: 0.2px !important;
-  
+
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -7787,7 +7939,7 @@ body::before {
 /* Hover effect */
 .hero-ctas .cta-primary:hover,
 .cta-primary:hover {
-  box-shadow: 
+  box-shadow:
     0 15px 40px -5px rgba(120, 80, 255, 0.7),
     inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
 }
@@ -7799,14 +7951,14 @@ body::before {
   background: rgba(255, 255, 255, 0.04) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   color: #ffffff !important;
-  
+
   border-radius: 100px !important;
   padding: 16px 36px !important;
-  
+
   font-weight: 600 !important;
   font-size: 16px !important;
   letter-spacing: 0.2px !important;
-  
+
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -7831,20 +7983,20 @@ body::before {
     left: 50% !important;
     transform: translateX(-50%) !important;
     width: max-content !important;
-    
+
     background: rgba(17, 24, 39, 0.75) !important; /* Slate grey translucent */
     backdrop-filter: blur(16px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-    
+
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 100px !important;
-    
+
     padding: 6px 6px 6px 12px !important; /* Tighter padding to match screenshot */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 16px !important;
-    
+
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
   }
 }
@@ -7887,7 +8039,8 @@ body::before {
   text-decoration: none !important;
   transition: all 0.2s ease !important;
 }
-#nav .nav-links a:hover, #nav .nav-links a.active {
+#nav .nav-links a:hover,
+#nav .nav-links a.active {
   background: rgba(255, 255, 255, 0.08) !important; /* Active pill effect */
   color: #ffffff !important;
 }
@@ -7913,7 +8066,7 @@ body::before {
 
 /* Book a Call Button (Nav Size) */
 #nav .nav-cta {
-  background: linear-gradient(to right, #4867FF 0%, #B04DFF 100%) !important;
+  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%) !important;
   border: none !important;
   color: #ffffff !important;
   border-radius: 100px !important;
@@ -7924,7 +8077,9 @@ body::before {
   align-items: center !important;
   justify-content: center !important;
   gap: 6px !important;
-  box-shadow: 0 4px 15px -3px rgba(120, 80, 255, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
+  box-shadow:
+    0 4px 15px -3px rgba(120, 80, 255, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25) !important;
   text-decoration: none !important;
   transition: all 0.3s ease !important;
 }
@@ -7935,7 +8090,9 @@ body::before {
   margin: 0 !important;
 }
 #nav .nav-cta:hover {
-  box-shadow: 0 8px 25px -3px rgba(120, 80, 255, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
+  box-shadow:
+    0 8px 25px -3px rgba(120, 80, 255, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* =========================================================
@@ -7944,11 +8101,25 @@ body::before {
 
 /* 1. Make the base global glow more vibrant */
 body::before {
-  background: 
-    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25) 0%, transparent 50%), /* Cyan glow */
-    radial-gradient(circle at 20% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 60%), /* Purple glow */
-    radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 70%), /* Center Indigo glow */
-    #0B1121 !important; /* Deep dark space-like blue */
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(56, 189, 248, 0.25) 0%,
+      transparent 50%
+    ),
+    /* Cyan glow */
+    radial-gradient(
+        circle at 20% 80%,
+        rgba(168, 85, 247, 0.2) 0%,
+        transparent 60%
+      ),
+    /* Purple glow */
+    radial-gradient(
+        circle at 50% 50%,
+        rgba(99, 102, 241, 0.1) 0%,
+        transparent 70%
+      ),
+    /* Center Indigo glow */ #0b1121 !important; /* Deep dark space-like blue */
   z-index: -2;
 }
 
@@ -7960,24 +8131,39 @@ body::before {
 }
 
 /* Orb 1: Vibrant Purple/Pink */
-.orb-1, .orb1 {
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.8), transparent 70%) !important;
+.orb-1,
+.orb1 {
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.8),
+    transparent 70%
+  ) !important;
   width: 600px !important;
   height: 600px !important;
   animation-duration: 25s !important;
 }
 
 /* Orb 2: Bright Cyan/Blue */
-.orb-2, .orb2 {
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%) !important;
+.orb-2,
+.orb2 {
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.7),
+    transparent 70%
+  ) !important;
   width: 550px !important;
   height: 550px !important;
   animation-duration: 30s !important;
 }
 
 /* Orb 3: Deep Indigo */
-.orb-3, .orb3 {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.6), transparent 70%) !important;
+.orb-3,
+.orb3 {
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.6),
+    transparent 70%
+  ) !important;
   width: 700px !important;
   height: 700px !important;
   animation-duration: 35s !important;
@@ -7987,13 +8173,20 @@ body::before {
    SHINY & AMAZING BACKGROUND (NO PURPLE, ONLY BLUES/CYANS)
    ========================================================= */
 
-/* 1. Make the base global glow vibrant, but ONLY Blues and Cyans */
+/* 1. EXACT Match Base Background for the Competitions Theme */
 body::before {
-  background: 
-    radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.25) 0%, transparent 50%), /* Cyan glow */
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 60%), /* Bright Blue glow (Replaced Purple) */
-    radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.1) 0%, transparent 70%), /* Sky Blue center glow */
-    #0B1121 !important; /* Deep dark space-like blue */
+  background:
+    radial-gradient(
+      ellipse at 80% 30%,
+      rgba(45, 65, 150, 0.25) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 20% 70%,
+      rgba(30, 45, 120, 0.15) 0%,
+      transparent 60%
+    ),
+    linear-gradient(135deg, #090b16 0%, #0e1225 50%, #151a33 100%) !important;
   z-index: -2;
 }
 
@@ -8005,31 +8198,47 @@ body::before {
 }
 
 /* Orb 1: Vibrant Bright Blue (Replaced Purple) */
-.orb-1, .orb1 {
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent 70%) !important;
+.orb-1,
+.orb1 {
+  background: radial-gradient(
+    circle,
+    rgba(59, 130, 246, 0.8),
+    transparent 70%
+  ) !important;
   width: 600px !important;
   height: 600px !important;
   animation-duration: 25s !important;
 }
 
 /* Orb 2: Bright Cyan */
-.orb-2, .orb2 {
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.7), transparent 70%) !important;
+.orb-2,
+.orb2 {
+  background: radial-gradient(
+    circle,
+    rgba(56, 189, 248, 0.7),
+    transparent 70%
+  ) !important;
   width: 550px !important;
   height: 550px !important;
   animation-duration: 30s !important;
 }
 
 /* Orb 3: Deep Sky Blue */
-.orb-3, .orb3 {
-  background: radial-gradient(circle, rgba(14, 165, 233, 0.6), transparent 70%) !important;
+.orb-3,
+.orb3 {
+  background: radial-gradient(
+    circle,
+    rgba(14, 165, 233, 0.6),
+    transparent 70%
+  ) !important;
   width: 700px !important;
   height: 700px !important;
   animation-duration: 35s !important;
 }
 
 /* Reset the italicized 'something real?' text to normal white text */
-.home-cta-title em, .heading em {
+.home-cta-title em,
+.heading em {
   font-style: normal !important;
   color: #ffffff !important;
   background: none !important;
@@ -8037,12 +8246,12 @@ body::before {
 }
 
 /* EXACT MATCH for avatar/initials icons based on navbar logo */
-#nav .nav-logo, 
-.footer-logo, 
-.testi-card .testi-avatar, 
-.testi-avatar, 
-.home-testi-author .home-testi-avatar, 
-.home-testi-avatar, 
+#nav .nav-logo,
+.footer-logo,
+.testi-card .testi-avatar,
+.testi-avatar,
+.home-testi-author .home-testi-avatar,
+.home-testi-avatar,
 .chapter-intro .intro-logo,
 .intro-logo,
 .nav-logo {
@@ -8053,7 +8262,7 @@ body::before {
   color: #ffffff !important; /* Pure white text */
   border-radius: 50% !important; /* Perfect circle */
   box-shadow: none !important;
-  
+
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -8085,4 +8294,98 @@ body::before {
   min-width: 46px !important;
   font-size: 16px !important;
   margin-bottom: 16px !important;
+}
+
+/* =========================================================
+   STARRY NIGHT BACKGROUND THEME (EXACT 1000% MATCH)
+   ========================================================= */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 25%, #ffffff 100%, transparent),
+    radial-gradient(
+      2.5px 2.5px at 35% 65%,
+      rgba(255, 255, 255, 0.7) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 75% 15%,
+      rgba(255, 255, 255, 0.9) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 85% 75%,
+      rgba(255, 255, 255, 0.4) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2.5px 2.5px at 45% 85%,
+      rgba(255, 255, 255, 0.6) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 65% 45%,
+      rgba(255, 255, 255, 0.8) 100%,
+      transparent
+    ),
+    radial-gradient(
+      3px 3px at 25% 10%,
+      rgba(255, 255, 255, 0.5) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 55% 95%,
+      rgba(255, 255, 255, 0.7) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2.5px 2.5px at 95% 35%,
+      rgba(255, 255, 255, 0.8) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 5% 55%,
+      rgba(255, 255, 255, 0.6) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2px 2px at 10% 80%,
+      rgba(255, 255, 255, 0.4) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 80% 90%,
+      rgba(255, 255, 255, 0.9) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2.5px 2.5px at 90% 10%,
+      rgba(255, 255, 255, 0.5) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 30% 30%,
+      rgba(255, 255, 255, 0.8) 100%,
+      transparent
+    ),
+    radial-gradient(
+      2.5px 2.5px at 50% 50%,
+      rgba(255, 255, 255, 0.6) 100%,
+      transparent
+    ),
+    radial-gradient(
+      1.5px 1.5px at 70% 70%,
+      rgba(255, 255, 255, 0.7) 100%,
+      transparent
+    );
+  background-size: 300px 300px;
+  background-repeat: repeat;
+  opacity: 0.9;
 }

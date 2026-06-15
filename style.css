@@ -2292,7 +2292,7 @@ section {
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--blue4);
@@ -2339,6 +2339,7 @@ section {
   line-height: 1.6;
   color: var(--text);
   max-width: 640px;
+  margin: 0 auto;
   font-weight: 300;
 }
 
@@ -5191,12 +5192,12 @@ html[dir="rtl"] .social-rail-dot:hover .social-rail-tooltip {
 
 /* Chapter — viewport snapping */
 .story-chapter {
-  min-height: 100vh;
+  min-height: 50vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 80px;
-  padding: 120px 80px;
+  padding: 65px 80px;
   max-width: 1400px;
   margin: 0 auto;
   position: relative;
@@ -5222,7 +5223,7 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
   grid-template-columns: 1fr;
   text-align: center;
   min-height: auto;
-  padding: 80px 80px 40px;
+  padding: 65px 80px 40px;
 }
 .story-content-centered {
   max-width: 780px;
@@ -5232,6 +5233,14 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
 /* Reduce gap between About story end and Map section */
 #about + section[id="map"] {
   margin-top: -40px;
+}
+
+/* Reduce gap between Map section and Process section */
+section#map {
+  padding-bottom: 20px;
+}
+section#process {
+  padding-top: 20px;
 }
 
 /* Reveal animations — scroll-driven */
@@ -5265,16 +5274,18 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
 /* Eyebrow tag */
 .story-eyebrow {
   display: inline-block;
-  padding: 8px 18px;
-  background: rgba(95, 163, 224, 0.1);
-  border: 1px solid rgba(95, 163, 224, 0.25);
+  padding: 6px 14px;
+  background: rgba(58, 127, 199, 0.12);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 11px;
-  letter-spacing: 4px;
+  font-size: 12px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: #5fa3e0;
-  font-weight: 600;
+  color: var(--blue4);
   margin-bottom: 28px;
+  font-weight: 500;
   transition: all 0.3s ease;
 }
 
@@ -5289,8 +5300,8 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
 }
 .story-title em {
   font-style: normal;
-  font-weight: 400;
-  background: linear-gradient(90deg, #5fa3e0, #3a7fc7);
+  font-weight: 600;
+  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -5302,9 +5313,11 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
   bottom: -4px;
   left: 0;
   width: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #5fa3e0, transparent);
-  border-radius: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #4867ff, #b04dff);
+  border-radius: 4px 6px 3px 5px;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
   animation: underlineGrow 1.5s 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 @keyframes underlineGrow {
@@ -5326,11 +5339,25 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
 }
 .story-title-big em {
   font-style: normal;
-  font-weight: 400;
-  background: linear-gradient(90deg, #5fa3e0, #3a7fc7);
+  font-weight: 600;
+  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  position: relative;
+}
+.story-title-big em::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 6px;
+  background: linear-gradient(to right, #4867ff, #b04dff);
+  border-radius: 6px 8px 5px 7px;
+  transform: rotate(-1.5deg);
+  transform-origin: left bottom;
+  animation: underlineGrow 1.5s 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Body text */
@@ -5361,7 +5388,7 @@ html[dir="rtl"] .story-chapter-reverse .story-visual {
   line-height: 0.9;
   color: rgba(95, 163, 224, 0.15);
   position: absolute;
-  bottom: 80px;
+  bottom: 50px;
   left: 80px;
   font-variant-numeric: tabular-nums;
   pointer-events: none;
@@ -5533,7 +5560,7 @@ html[dir="rtl"] .story-photo-badge {
   .story-chapter {
     grid-template-columns: 1fr;
     gap: 48px;
-    padding: 80px 24px;
+    padding: 55px 24px;
     min-height: auto;
   }
   .story-chapter-reverse .story-content {
@@ -6149,15 +6176,17 @@ html[dir="rtl"] .coming-soon-cta svg {
 .exp-eyebrow {
   display: inline-block;
   padding: 6px 14px;
-  background: rgba(95, 163, 224, 0.1);
-  border: 1px solid rgba(95, 163, 224, 0.3);
+  background: rgba(58, 127, 199, 0.12);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #5fa3e0;
-  font-weight: 600;
+  color: var(--blue4);
   margin-bottom: 18px;
+  font-weight: 500;
 }
 .exp-title {
   font-size: clamp(28px, 3.2vw, 40px);
@@ -6170,7 +6199,11 @@ html[dir="rtl"] .coming-soon-cta svg {
 .exp-title em {
   font-style: normal;
   font-weight: 500;
-  color: var(--blue4);
+  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
 }
 .exp-sub {
   font-size: 15px;
@@ -8388,4 +8421,96 @@ body::after {
   background-size: 300px 300px;
   background-repeat: repeat;
   opacity: 0.9;
+}
+
+/* Override home-brands-label to make it a normal white sentence without a box */
+.home-brands-label, .home-brands-label:hover {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #ffffff !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-size: 16px !important;
+  font-weight: 400 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+/* Override home-svc-card to match the "Ready to make something real?" inner glassy box */
+.home-svc-card {
+  background: linear-gradient(
+    135deg,
+    rgba(35, 70, 160, 0.08) 0%,
+    rgba(110, 40, 180, 0.02) 100%
+  ) !important;
+  backdrop-filter: blur(80px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(80px) saturate(200%) !important;
+  border: 1px solid rgba(72, 103, 255, 0.05) !important;
+  border-top: 1px solid rgba(72, 103, 255, 0.25) !important;
+  border-right: 1px solid rgba(72, 103, 255, 0.2) !important;
+  border-radius: 24px !important;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 10, 0.8),
+    0 0 40px rgba(72, 103, 255, 0.1),
+    inset 0 1px 1px rgba(72, 103, 255, 0.1),
+    inset -1px 0 1px rgba(72, 103, 255, 0.05) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.home-svc-card:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(35, 70, 160, 0.12) 0%,
+    rgba(110, 40, 180, 0.04) 100%
+  ) !important;
+  border-color: rgba(72, 103, 255, 0.1) !important;
+  border-top-color: rgba(72, 103, 255, 0.35) !important;
+  border-right-color: rgba(72, 103, 255, 0.3) !important;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 10, 0.9),
+    0 0 50px rgba(72, 103, 255, 0.15),
+    inset 0 1px 1px rgba(72, 103, 255, 0.15),
+    inset -1px 0 1px rgba(72, 103, 255, 0.1) !important;
+}
+
+.home-svc-card::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -30% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(72, 103, 255, 0.15) 0%,
+    transparent 70%
+  ) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  display: block !important;
+}
+
+.home-svc-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Increase space between all chapters in the timeline */
+.story-chapter:not(.story-chapter-final) {
+  margin-bottom: 135px !important;
+}
+
+/* Cut free space above "And Today" */
+.story-chapter-final {
+  padding-top: 0 !important;
+  margin-top: -80px !important;
 }

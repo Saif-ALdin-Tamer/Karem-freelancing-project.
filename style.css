@@ -1208,11 +1208,11 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
   }
 }
 .loader-name {
-  font-size: 13px;
-  letter-spacing: 5px;
+  font-size: 15px;
+  letter-spacing: 10px;
   text-transform: uppercase;
-  color: rgba(240, 243, 248, 0.5);
-  font-weight: 500;
+  color: #ffffff;
+  font-weight: 700;
   animation: loaderNameFade 1.8s ease-in-out infinite;
 }
 @keyframes loaderNameFade {
@@ -1259,6 +1259,7 @@ nav,
 .brands-strip,
 .world-stats-bar,
 .eyebrow,
+.exp-eyebrow,
 .story-eyebrow {
   position: relative;
   isolation: isolate;
@@ -1278,6 +1279,7 @@ nav::after,
 .brands-strip::after,
 .world-stats-bar::after,
 .eyebrow::after,
+.exp-eyebrow::after,
 .story-eyebrow::after {
   content: "";
   position: absolute;
@@ -2282,13 +2284,13 @@ section {
 }
 .eyebrow {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 10px 22px;
   background: rgba(58, 127, 199, 0.12);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 12px;
+  font-size: 16px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--blue4);
@@ -5271,13 +5273,13 @@ section#process {
 /* Eyebrow tag */
 .story-eyebrow {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 10px 22px;
   background: rgba(58, 127, 199, 0.12);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 12px;
+  font-size: 16px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--blue4);
@@ -6172,13 +6174,13 @@ html[dir="rtl"] .coming-soon-cta svg {
 }
 .exp-eyebrow {
   display: inline-block;
-  padding: 6px 14px;
+  padding: 10px 22px;
   background: rgba(58, 127, 199, 0.12);
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
-  font-size: 12px;
+  font-size: 16px;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--blue4);

@@ -379,7 +379,7 @@ studentRow.innerHTML = studentReviews.map(makeCard).join('') + studentReviews.ma
 const mapCountriesData = [
   {name:'USA',           name_ar:'أمريكا',   flag:'🇺🇸', lat: 37.1, lng: -95.7},
   {name:'Canada',        name_ar:'كندا',     flag:'🇨🇦', lat: 56.1, lng:-106.3},
-  {name:'United Kingdom',name_ar:'بريطانيا', flag:'🇬🇧', lat: 55.4, lng:  -3.4},
+  {name:'United Kingdom',name_ar:'بريطانيا', flag:'🇬🇧', lat: 55.4, lng:  -3.4, dx: -20, dy: -5},
   {name:'Norway',        name_ar:'النرويج',  flag:'🇳🇴', lat: 60.5, lng:   8.5},
   {name:'Turkey',        name_ar:'تركيا',    flag:'🇹🇷', lat: 38.9, lng:  35.2},
   {name:'Syria',         name_ar:'سوريا',    flag:'🇸🇾', lat: 34.8, lng:  38.9},
@@ -557,9 +557,11 @@ function drawMarkersAndLines(svg, positions) {
     }
 
     // Label
+    const offsetX = c.dx || 0;
+    const offsetY = c.dy || 0;
     const label = document.createElementNS(ns, 'text');
-    label.setAttribute('x', p.x);
-    label.setAttribute('y', p.y + (c.home ? 18 : 14));
+    label.setAttribute('x', p.x + offsetX);
+    label.setAttribute('y', p.y + (c.home ? 18 : 14) + offsetY);
     label.setAttribute('text-anchor', 'middle');
     label.setAttribute('fill', c.home ? '#ffffff' : 'rgba(255,255,255,0.9)');
     label.setAttribute('font-size', c.home ? '12' : '10');

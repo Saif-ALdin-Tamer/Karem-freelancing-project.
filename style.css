@@ -93,11 +93,7 @@ html[lang="ar"] body {
 .orb3 {
   width: 400px;
   height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(42, 67, 128, 0.2),
-    transparent 70%
-  );
+  background: radial-gradient(circle, rgba(42, 67, 128, 0.2), transparent 70%);
   top: 40%;
   right: 30%;
   animation: orbDrift3 18s ease-in-out infinite;
@@ -2784,7 +2780,7 @@ html[dir="rtl"] .mentorship-link:hover::after {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 20px;
   justify-content: center;
   position: relative;
   z-index: 2;
@@ -2805,7 +2801,8 @@ html[dir="rtl"] .mentorship-link:hover::after {
   gap: 8px;
 }
 .ctry-flag {
-  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
+  font-family:
+    "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
   font-size: 13px;
   opacity: 0.8;
   letter-spacing: 0 !important;
@@ -4661,9 +4658,10 @@ html[dir="rtl"] .ghost-link:hover svg {
   border-radius: 24px;
   box-shadow:
     0 40px 80px -20px rgba(0, 0, 10, 0.8),
-    0 0 40px rgba(72, 103, 255, 0.1), /* Softer outer blue glow */
-    inset 0 1px 1px rgba(72, 103, 255, 0.1), /* Softer inner blue shine (top) */
-    inset -1px 0 1px rgba(72, 103, 255, 0.05); /* Softer inner blue shine (right) */
+    0 0 40px rgba(72, 103, 255, 0.1),
+    /* Softer outer blue glow */ inset 0 1px 1px rgba(72, 103, 255, 0.1),
+    /* Softer inner blue shine (top) */ inset -1px 0 1px
+      rgba(72, 103, 255, 0.05); /* Softer inner blue shine (right) */
   position: relative;
   overflow: hidden;
 }
@@ -7902,14 +7900,21 @@ body::before {
 .home-cta-eyebrow,
 .home-brands-label {
   /* Colors to match the screenshot */
-  background: rgba(30, 58, 138, 0.15) !important; /* Lighter, more transparent tint for glass */
+  background: rgba(
+    30,
+    58,
+    138,
+    0.15
+  ) !important; /* Lighter, more transparent tint for glass */
   border: 1px solid rgba(59, 130, 246, 0.3) !important; /* Distinct blue border */
   color: #60a5fa !important; /* Vibrant blue text */
 
   /* Glass Effect */
   backdrop-filter: blur(20px) saturate(180%) !important;
   -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
 
   /* Shape and Size */
   border-radius: 100px !important; /* Perfect pill shape */
@@ -8456,7 +8461,8 @@ body::after {
 }
 
 /* Override home-brands-label to make it a normal white sentence without a box */
-.home-brands-label, .home-brands-label:hover {
+.home-brands-label,
+.home-brands-label:hover {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -8594,6 +8600,18 @@ body::after {
 /* Smoothly blend the background layers into the adjacent sections */
 .story-bg-layer,
 #about::before {
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 250px, black calc(100% - 350px), transparent 100%) !important;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 250px, black calc(100% - 350px), transparent 100%) !important;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 250px,
+    black calc(100% - 350px),
+    transparent 100%
+  ) !important;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 250px,
+    black calc(100% - 350px),
+    transparent 100%
+  ) !important;
 }

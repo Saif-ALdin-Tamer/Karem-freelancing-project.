@@ -423,6 +423,76 @@
   </div>
 </section>
 
+<!-- WORLD MAP (SPA section) -->
+<section id="map" data-page="about">
+  <div class="container">
+    <!-- World map full width below the about grid -->
+    <div style="margin-top:96px;">
+      <div class="map-frame">
+        <div class="map-wrap">
+          <div id="map-container">
+  <svg id="world-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;overflow:visible;">
+    <defs>
+      <radialGradient id="bgGrad" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#1a3a6e" stop-opacity="0.5"/>
+        <stop offset="50%" stop-color="#0a1830" stop-opacity="0.25"/>
+        <stop offset="100%" stop-color="#020812" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+        <stop offset="20%" stop-color="#ffffff" stop-opacity="0.6"/>
+        <stop offset="55%" stop-color="#7fc4ff" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="#7fc4ff" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="homeHaloGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+        <stop offset="15%" stop-color="#ffffff" stop-opacity="0.85"/>
+        <stop offset="50%" stop-color="#aedcff" stop-opacity="0.4"/>
+        <stop offset="100%" stop-color="#aedcff" stop-opacity="0"/>
+      </radialGradient>
+      <filter id="lineGlow" x="-100%" y="-100%" width="300%" height="300%">
+        <feGaussianBlur stdDeviation="1.2" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="continentGlow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="0.6" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(127,196,255,0.06)" stroke-width="0.5"/>
+      </pattern>
+    </defs>
+    <rect width="1000" height="500" fill="url(#gridPattern)"/>
+    <rect width="1000" height="500" fill="url(#bgGrad)"/>
+    <g id="continents-paths"></g>
+    <g id="glows"></g>
+    <g id="lines"></g>
+    <g id="markers" style="pointer-events:auto;"></g>
+  </svg>
+          </div>
+        </div>
+        <div class="map-countries">
+          <span class="ctry home"><span class="ctry-flag">🇪🇬</span> Egypt</span>
+          <span class="ctry"><span class="ctry-flag">🇸🇦</span> Saudi Arabia</span><span class="ctry"><span class="ctry-flag">🇦🇪</span> UAE</span>
+          <span class="ctry"><span class="ctry-flag">🇰🇼</span> Kuwait</span><span class="ctry"><span class="ctry-flag">🇱🇧</span> Lebanon</span>
+          <span class="ctry"><span class="ctry-flag">🇸🇾</span> Syria</span><span class="ctry"><span class="ctry-flag">🇯🇴</span> Jordan</span>
+          <span class="ctry"><span class="ctry-flag">🇮🇶</span> Iraq</span><span class="ctry"><span class="ctry-flag">🇹🇷</span> Turkey</span>
+          <span class="ctry"><span class="ctry-flag">🇳🇴</span> Norway</span><span class="ctry"><span class="ctry-flag">🇬🇧</span> UK</span>
+          <span class="ctry"><span class="ctry-flag">🇺🇸</span> USA</span><span class="ctry"><span class="ctry-flag">🇨🇦</span> Canada</span>
+          <span class="ctry"><span class="ctry-flag">🇦🇺</span> Australia</span>
+        </div>
+      </div>
+      <div class="world-stats-bar" style="margin-top: 32px; position: relative; z-index: 10;">
+        <div class="ws-item"><span class="ws-num"><span class="count" data-target="1318" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Projects" data-ar="مشروع">Projects</span></div>
+        <div class="ws-divider"></div>
+        <div class="ws-item"><span class="ws-num"><span class="count" data-target="14" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Countries" data-ar="دولة">Countries</span></div>
+        <div class="ws-divider"></div>
+        <div class="ws-item"><span class="ws-num"><span class="count" data-target="470" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Clients" data-ar="عميل">Clients</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- MERGED ABOUT + GLOBAL -->
 <section id="about" data-page="about">
   <!-- Cinematic storytelling — scroll-driven journey -->
@@ -563,80 +633,6 @@
   </div>
 </section>
 
-<!-- WORLD MAP (SPA section) -->
-<section id="map" data-page="about">
-  <div class="container">
-    <!-- World map full width below the about grid -->
-    <div style="margin-top:0;">
-      <div class="world-stats-bar">
-        <div class="ws-item"><span class="ws-num"><span class="count" data-target="1318" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Projects" data-ar="مشروع">Projects</span></div>
-        <div class="ws-divider"></div>
-        <div class="ws-item"><span class="ws-num"><span class="count" data-target="14" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Countries" data-ar="دولة">Countries</span></div>
-        <div class="ws-divider"></div>
-        <div class="ws-item"><span class="ws-num"><span class="count" data-target="470" data-suffix="+">0</span></span><span class="ws-lbl" data-en="Clients" data-ar="عميل">Clients</span></div>
-      </div>
-
-      <div class="map-frame">
-        <div class="map-wrap">
-          <div id="map-container">
-<div class="map-loading" id="mapLoading">
-  <div class="map-loading-spinner"></div>
-  <div class="map-loading-text" data-en="Loading world map..." data-ar="جاري تحميل الخريطة...">Loading world map...</div>
-</div>
-<svg id="world-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;overflow:visible;">
-  <defs>
-    <radialGradient id="bgGrad" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#1a3a6e" stop-opacity="0.5"/>
-      <stop offset="50%" stop-color="#0a1830" stop-opacity="0.25"/>
-      <stop offset="100%" stop-color="#020812" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="20%" stop-color="#ffffff" stop-opacity="0.6"/>
-      <stop offset="55%" stop-color="#7fc4ff" stop-opacity="0.2"/>
-      <stop offset="100%" stop-color="#7fc4ff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="homeHaloGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-      <stop offset="15%" stop-color="#ffffff" stop-opacity="0.85"/>
-      <stop offset="50%" stop-color="#aedcff" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#aedcff" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="lineGlow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="1.2" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="continentGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="0.6" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <pattern id="gridPattern" width="40" height="40" patternUnits="userSpaceOnUse">
-      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(127,196,255,0.06)" stroke-width="0.5"/>
-    </pattern>
-  </defs>
-  <rect width="1000" height="500" fill="url(#gridPattern)"/>
-  <rect width="1000" height="500" fill="url(#bgGrad)"/>
-  <g id="continents-paths"></g>
-  <g id="glows"></g>
-  <g id="lines"></g>
-  <g id="markers" style="pointer-events:auto;"></g>
-</svg>
-</div>
-        </div>
-        <div class="map-countries">
-          <span class="ctry home"><span class="ctry-flag">🇪🇬</span> Egypt</span>
-          <span class="ctry"><span class="ctry-flag">🇸🇦</span> Saudi Arabia</span><span class="ctry"><span class="ctry-flag">🇦🇪</span> UAE</span>
-          <span class="ctry"><span class="ctry-flag">🇰🇼</span> Kuwait</span><span class="ctry"><span class="ctry-flag">🇱🇧</span> Lebanon</span>
-          <span class="ctry"><span class="ctry-flag">🇸🇾</span> Syria</span><span class="ctry"><span class="ctry-flag">🇯🇴</span> Jordan</span>
-          <span class="ctry"><span class="ctry-flag">🇮🇶</span> Iraq</span><span class="ctry"><span class="ctry-flag">🇹🇷</span> Turkey</span>
-          <span class="ctry"><span class="ctry-flag">🇳🇴</span> Norway</span><span class="ctry"><span class="ctry-flag">🇬🇧</span> UK</span>
-          <span class="ctry"><span class="ctry-flag">🇺🇸</span> USA</span><span class="ctry"><span class="ctry-flag">🇨🇦</span> Canada</span>
-          <span class="ctry"><span class="ctry-flag">🇦🇺</span> Australia</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- HOW I WORK -->
 <section id="process" data-page="about">
@@ -775,54 +771,6 @@
       </div>
     </div>
 
-    <!-- What I Need From You — Collaboration expectations -->
-    <div class="process-expectations reveal">
-      <div class="exp-header">
-        <div class="exp-eyebrow" data-en="Your Part" data-ar="دورك">Your Part</div>
-        <h3 class="exp-title" data-en="What I'll need from <em>you</em>" data-ar="اللي محتاجه <em>منك</em>">What I'll need from <em>you</em></h3>
-        <p class="exp-sub" data-en="Great work is a two-way street. Here's how we'll keep your project moving without delays." data-ar="الشغل العظيم بيتعمل سوا. ده اللي بيخلي مشروعك يمشي بدون تأخير.">Great work is a two-way street. Here's how we'll keep your project moving without delays.</p>
-      </div>
-      <div class="exp-grid">
-        <div class="exp-item">
-          <div class="exp-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="exp-content">
-            <h4 class="exp-item-title" data-en="Quick feedback" data-ar="فيدباك سريع">Quick feedback</h4>
-            <p class="exp-item-desc" data-en="Reviews within 48 hours. Delayed feedback delays delivery — simple as that." data-ar="مراجعة الفيدباك في خلال ٤٨ ساعة. التأخير في الفيدباك بيأخر التسليم — ببساطة كده.">Reviews within 48 hours. Delayed feedback delays delivery — simple as that.</p>
-          </div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <div class="exp-content">
-            <h4 class="exp-item-title" data-en="Clear brief" data-ar="بريف واضح">Clear brief</h4>
-            <p class="exp-item-desc" data-en="A simple doc with your goals, audience, and references. I'll guide you if needed." data-ar="مستند بسيط فيه أهدافك، الجمهور، والـ references. هساعدك تكتبه لو محتاج.">A simple doc with your goals, audience, and references. I'll guide you if needed.</p>
-          </div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-          </div>
-          <div class="exp-content">
-            <h4 class="exp-item-title" data-en="Open communication" data-ar="تواصل مفتوح">Open communication</h4>
-            <p class="exp-item-desc" data-en="Tell me when something doesn't feel right. Honest feedback makes better work — always." data-ar="قوللي لو حاجة مش ماشية صح. الفيدباك الصريح بيعمل شغل أحسن — دايماً.">Tell me when something doesn't feel right. Honest feedback makes better work — always.</p>
-          </div>
-        </div>
-        <div class="exp-item">
-          <div class="exp-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          </div>
-          <div class="exp-content">
-            <h4 class="exp-item-title" data-en="Approval on time" data-ar="موافقة في الوقت">Approval on time</h4>
-            <p class="exp-item-desc" data-en="Once we agree on milestones, sign off on time so we can move forward together." data-ar="لما نتفق على المراحل، وافق في الميعاد عشان نقدر نكمل سوا.">Once we agree on milestones, sign off on time so we can move forward together.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Removed process-cta button based on user request -->
   </div>
 </section>
 

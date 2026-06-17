@@ -8615,3 +8615,199 @@ body::after {
     transparent 100%
   ) !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════
+   THE FINAL GLASSY FOOTER CONFIGURATION (STARRY NIGHT MATCH)
+   ═══════════════════════════════════════════════════════════ */
+
+footer, 
+html body .in-portfolio footer {
+    /* تأثير الزجاج الشفاف */
+    background: rgba(11, 17, 33, 0.4) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    
+    /* إلغاء الخطوط والحدود تماماً */
+    border: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    
+    /* التموضع والمساحات */
+    margin-top: 0 !important;
+    padding-top: 40px !important;
+}
+
+/* ضبط السيكشن اللي فوق الفوتر مباشرة عشان يمرر الإضاءة */
+#testimonials, 
+section[id="testimonials"] {
+    overflow: visible !important;
+    padding-bottom: 40px !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+}
+
+/* إلغاء خط الحقوق السفلي خالص لو مسبب خط */
+.footer-bottom {
+    border-top: none !important;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   FIX: REMOVE THE LIME/CYAN LINE ABOVE FOOTER
+   ═══════════════════════════════════════════════════════════ */
+
+footer, 
+html body .in-portfolio footer,
+section[id="testimonials"] + footer {
+    /* إجبار الحدود العلوية والجانبية على الاختفاء تماماً بنسبة 100% */
+    border-top: none !important;
+    border-top-color: transparent !important;
+    border: none !important;
+    
+    /* إلغاء الـ shadow الداخلي اللي ممكن يعمل خط إضاءة عاكس */
+    box-shadow: none !important;
+    
+    /* زيادة نسبة شفافية الكحلي عشان يدمج بسلاسة أكبر مع الجلو الخلفي */
+    background: rgba(8, 12, 23, 0.35) !important;
+}
+
+/* إلغاء أي خطوط وهمية ناتجة عن حواف السيكشن نفسه */
+#testimonials, 
+section[id="testimonials"] {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   THE ULTIMATE KILL SWITCH FOR THE LIME/CYAN LINE
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. استهداف كروت الفيدباك والـ Row اللي شايلهم لإلغاء أي حافة منورة من أسفل */
+#testimonials .testi-card,
+#testimonials .testi-row,
+.testi-marquee-wrap,
+.student-reviews-wrap {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+/* 2. إلغاء الـ pseudo-elements (زي ::after أو ::before) لو كانت هي اللي بتعمل الخط الفاصل */
+#testimonials .testi-card::after,
+#testimonials .testi-card::before {
+    border-bottom: none !important;
+}
+
+/* 3. سحب الفوتر برمجياً 15 بكسل لفوق عشان "يغطي" على حافة السيكشن تماماً ويحصل الـ Mixing */
+footer, 
+html body .in-portfolio footer {
+    margin-top: -15px !important;
+    position: relative !important;
+    z-index: 20 !important; /* رفعه فوق السيكشن اللي قبله */
+    border-top: none !important;
+    box-shadow: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FIX: FOOTER MATCHES THE AMBIENT GLOW BACKGROUND (PERFECT MIX)
+   ═══════════════════════════════════════════════════════════ */
+
+footer, 
+html body .in-portfolio footer,
+section[id="testimonials"] + footer {
+    /* 1. إعطاء الفوتر نفس لون الـ Space/Navy المضيء اللي ورا الكروت بالظبط */
+    background: #0b1121 !important;
+    background-color: #0b1121 !important;
+    
+    /* 2. إلغاء أي تأثير زجاجي أو بلور عشان ميعملش خطوط أو يغير الدرجة */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    
+    /* 3. تنظيف كامل للحدود والفواصل */
+    border: none !important;
+    border-top: none !important;
+    margin-top: -1px !important; /* قفل أي فراغ بكسل مابين السيكشن والفوتر */
+    padding-top: 50px !important;
+}
+
+/* 4. التأكد إن السيكشن اللي فوق الفوتر واخد نفس الأرضية ومفيش ماسك بيقطعه */
+#testimonials, 
+section[id="testimonials"] {
+    background: #0b1121 !important;
+    background-color: #0b1121 !important;
+    padding-bottom: 40px !important;
+    margin-bottom: 0 !important;
+    overflow: visible !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FINAL FIX: MATCH OUTER BACKGROUND (ZERO LINES)
+   ═══════════════════════════════════════════════════════════ */
+
+/* 1. إجبار الفوتر إنه ياخد نفس خلفية الموقع الأساسية (شفاف عشان يعكس اللي وراه) */
+footer, 
+html body .in-portfolio footer {
+    background: transparent !important; 
+    
+    /* 2. مسح أي تأثيرات زجاجية أو ضباب كانت بتغير درجة اللون وتعمل خطوط */
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    
+    /* 3. تدمير أي حدود أو انعكاسات (Shadows) تماماً */
+    border: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    
+    /* 4. تظبيط المسافات براحتك */
+    margin-top: 0 !important;
+    padding-top: 40px !important;
+}
+
+/* 5. إزالة أي خلفيات أو حدود من الأقسام اللي فوق الفوتر عشان يبقوا كلهم سايحين في خلفية واحدة */
+#testimonials, section[id="testimonials"],
+#home-cta, section[id="home-cta"] {
+    background: transparent !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+}
+
+/* 6. إزالة الخط الرفيع جداً بتاع قسم الحقوق السفلي (اختياري) */
+.footer-bottom {
+    border-top: none !important;
+}
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   FIX: REMOVE EXTRA SPACE BELOW COPYRIGHT TEXT
+   ═══════════════════════════════════════════════════════════ */
+
+footer, 
+html body .in-portfolio footer {
+    /* تصفير المسافة السفلية للفوتر نفسه */
+    padding-bottom: 0 !important; 
+}
+
+.footer-bottom {
+    /* تقليل المسافة تحت النص مباشرة (ممكن تخليها 0 لو عايزها تلزق في الشاشة تماماً) */
+    padding-bottom: 15px !important; 
+    margin-bottom: 0 !important;
+}
+
+.footer-text, 
+.footer-bottom p {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+

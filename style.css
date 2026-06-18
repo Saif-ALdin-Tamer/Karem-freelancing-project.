@@ -3357,6 +3357,9 @@ html[dir="rtl"] .svc-card:hover {
 .testi-card {
   flex-shrink: 0;
   width: 480px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
   background: linear-gradient(
     135deg,
     rgba(16, 33, 54, 0.3) 0%,
@@ -3447,7 +3450,22 @@ html[dir="rtl"] .svc-card:hover {
   color: var(--text);
   font-weight: 300;
   margin-bottom: 24px;
-  min-height: 90px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+.testi-text::-webkit-scrollbar {
+  width: 4px;
+}
+.testi-text::-webkit-scrollbar-track {
+  background: transparent;
+}
+.testi-text::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+.testi-text::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 .testi-foot {
   display: flex;
@@ -3593,6 +3611,11 @@ html[dir="rtl"] .svc-card:hover {
 }
 .student-reviews-row:hover {
   animation-play-state: paused;
+}
+.student-reviews .slider-nav-wrap {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
 }
 .student-reviews .slider-btn {
   display: none !important;
@@ -5047,25 +5070,32 @@ body.in-portfolio .social-rail {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   cursor: pointer;
   text-decoration: none;
-  color: rgba(240, 243, 248, 0.35);
+  color: rgba(240, 243, 248, 0.9);
   transition: all 0.3s ease;
   z-index: 1;
 }
 .social-rail-dot:hover {
-  color: #5fa3e0;
+  color: #fff;
   transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(95, 163, 224, 0.4);
 }
 html[dir="rtl"] .social-rail-dot:hover {
   transform: translateX(-3px);
 }
 
 .social-rail-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   transition: all 0.3s ease;
 }
 .social-rail-dot:hover .social-rail-icon {
@@ -8717,7 +8747,9 @@ section[id="testimonials"] {
 
 /* 1. استهداف كروت الفيدباك والـ Row اللي شايلهم لإلغاء أي حافة منورة من أسفل */
 #testimonials .testi-card,
+.student-reviews .testi-card,
 #testimonials .testi-row,
+.student-reviews-row,
 .testi-marquee-wrap,
 .student-reviews-wrap {
     border-bottom: none !important;
@@ -8726,8 +8758,16 @@ section[id="testimonials"] {
 
 /* 2. إلغاء الـ pseudo-elements (زي ::after أو ::before) لو كانت هي اللي بتعمل الخط الفاصل */
 #testimonials .testi-card::after,
-#testimonials .testi-card::before {
+#testimonials .testi-card::before,
+.student-reviews .testi-card::after,
+.student-reviews .testi-card::before {
     border-bottom: none !important;
+}
+
+/* 2.5. Match student reviews background perfectly with client reviews (overriding the training cyan glow) */
+.student-reviews .testi-card {
+    background: linear-gradient(135deg, #11223c 0%, #080c17 100%) !important;
+    backdrop-filter: none !important;
 }
 
 /* 3. سحب الفوتر برمجياً 15 بكسل لفوق عشان "يغطي" على حافة السيكشن تماماً ويحصل الـ Mixing */

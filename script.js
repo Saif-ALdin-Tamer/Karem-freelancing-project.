@@ -69,6 +69,11 @@
     const photoReveal = document.getElementById("photoReveal");
     photoReveal.classList.toggle("show", PHOTO_CHAPTERS.includes(chapterIndex));
 
+    const chap1NavyBg = document.getElementById("chap1NavyBg");
+    if (chap1NavyBg) {
+      chap1NavyBg.classList.toggle("show", chapterIndex === 1);
+    }
+
     // Switch chapter only if changed
     if (chapterIndex !== lastChapter) {
       const oldChapter = lastChapter;

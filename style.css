@@ -210,7 +210,7 @@ html[lang="ar"] body {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--blue2), var(--blue));
+  background: #172235;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -402,7 +402,7 @@ html[dir="rtl"] .rail-labels {
 .rail-label.active {
   transform: translateX(4px);
   font-weight: 600;
-  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
+  background: linear-gradient(to right, #6ba5e6 0%, #6ba5e6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -435,7 +435,7 @@ html[dir="rtl"] .chapter-counter {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   min-width: 24px;
-  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
+  background: linear-gradient(to right, #6ba5e6 0%, #6ba5e6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -796,7 +796,7 @@ html[dir="rtl"] .chapter-counter {
 .chapter-final .final-title em {
   font-style: italic;
   font-weight: 600;
-  background: linear-gradient(to right, #4867ff 0%, #b04dff 100%);
+  background: linear-gradient(to right, #6ba5e6 0%, #6ba5e6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -855,6 +855,19 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
+}
+/* Chapter 1 Navy Background */
+.chap1-navy-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: radial-gradient(ellipse 120% 120% at -10% 50%, #121010 0%, rgb(3, 10, 23) 50%, #070d1a 100%);
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.chap1-navy-bg.show {
+  opacity: 1;
 }
 
 /* Photo reveal layer */
@@ -7151,9 +7164,9 @@ body,
 /* Subtle Dark Logo Fix (Based on Screenshot) */
 .nav-logo,
 .brand-mark-logo {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: #172340 !important;
   background-image: none !important; /* Removes the linear-gradient */
-  border: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
   box-shadow: none !important;
   color: #ffffff !important;
   font-weight: 700 !important;
@@ -8604,4 +8617,89 @@ html body .in-portfolio footer {
     margin-bottom: 0 !important;
     padding-bottom: 0 !important;
 }
+
+
+
+/* =========================================================
+   تعديل رقم 8 وكلمة years والنص الذي تحتها (لون ثابت #6ba5e6)
+   ========================================================= */
+
+/* 1. التدرج اللوني لرقم 8 (من الأبيض للأزرق كما هو) */
+.chap-number {
+  background: linear-gradient(180deg, #ffffff 0%, #90c2f2 45%, #2a6fb9 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+/* 2. كلمة "years" (لون أزرق ثابت #6ba5e6) */
+.chap-number .num-suffix {
+  color: #6ba5e6 !important;
+  -webkit-text-fill-color: #6ba5e6 !important;
+  background: none !important;
+  font-weight: 600 !important;
+}
+
+/* 3. جعل النص الأساسي الذي تحت الرقم باللون الأبيض */
+.chap-phrase {
+  color: #f0f4f8 !important;
+  font-weight: 400 !important;
+}
+
+/* 4. الكلمات المميزة مثل "borrowed camera" (لون أزرق ثابت #6ba5e6) */
+.chap-phrase em {
+  color: #6ba5e6 !important;
+  -webkit-text-fill-color: #6ba5e6 !important;
+  background: none !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+}
+
+
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   تعديل شكل CHAPTER 01 ليكون نص بين خطين (بدون خلفية)
+   ═══════════════════════════════════════════════════════════ */
+
+.chap-label {
+  /* إلغاء ستايل الزرار القديم */
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  
+  /* تظبيط النص واللون */
+  color: #7ab4e2 !important; /* درجة اللبني اللي في الصورة */
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 4px !important; /* توسيع المسافات بين الحروف */
+  text-transform: uppercase !important;
+  
+  /* تظبيط التخطيط عشان الخطوط تظهر جنبه */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 20px !important; /* المسافة بين النص والخطوط */
+  padding: 0 !important;
+}
+
+/* عمل الخط اللي على الشمال واليمين */
+.chap-label::before,
+.chap-label::after {
+  content: "" !important;
+  display: block !important;
+  width: 45px !important; /* طول الخط */
+  height: 1px !important; /* سمك الخط */
+  background-color: #7ab4e2 !important; /* نفس لون النص */
+  opacity: 0.8 !important; /* شفافية بسيطة للخط */
+}
+
+
+
 

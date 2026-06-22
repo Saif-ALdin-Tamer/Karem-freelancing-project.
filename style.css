@@ -1334,7 +1334,7 @@ nav::after,
   pointer-events: none;
   border-radius: inherit;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='gnoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23gnoise)'/%3E%3C/svg%3E");
-  opacity: 0.04;
+  opacity: 0.015;
 }
 
 *,
@@ -2656,16 +2656,12 @@ html[dir="rtl"] .mentorship-link:hover::after {
 .ws-num {
   font-size: 20px;
   font-weight: 600;
-  color: var(--white);
+  color: #5fa3e0;
   letter-spacing: -0.5px;
-  background: linear-gradient(180deg, #fff 0%, #b8d4f0 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 .ws-num span {
-  color: var(--blue4);
-  -webkit-text-fill-color: var(--blue4);
+  color: #5fa3e0;
+  -webkit-text-fill-color: #5fa3e0;
 }
 .ws-lbl {
   font-size: 13px;
@@ -4396,6 +4392,7 @@ body.in-portfolio .skip-btn-floating {
   display: inline-flex;
   align-items: center;
   gap: 48px;
+  padding-right: 48px;
   white-space: nowrap;
   animation: hbScroll 30s linear infinite;
 }
@@ -4708,6 +4705,12 @@ html[dir="rtl"] .ghost-link:hover svg {
   position: relative;
   overflow: hidden;
 }
+
+/* Reduce the noise texture specifically inside the CTA box */
+.home-cta-wrap::after {
+  opacity: 0.015 !important;
+}
+
 .home-cta-wrap::before {
   content: "";
   position: absolute;
@@ -4863,6 +4866,7 @@ html[dir="rtl"] .ghost-link:hover svg {
   inset: 0;
   pointer-events: none;
   z-index: 0;
+  display: none !important;
 }
 .story-bg-1 {
   background: radial-gradient(
@@ -5083,8 +5087,8 @@ body.in-portfolio .social-rail {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -5107,8 +5111,8 @@ html[dir="rtl"] .social-rail-dot:hover {
 }
 
 .social-rail-icon {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   transition: all 0.3s ease;
 }
 .social-rail-dot:hover .social-rail-icon {
@@ -5533,10 +5537,7 @@ html[dir="rtl"] .story-year {
   font-weight: 600;
   letter-spacing: -2px;
   line-height: 1;
-  background: linear-gradient(180deg, #fff 0%, #5fa3e0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #5fa3e0;
   font-variant-numeric: tabular-nums;
 }
 .story-stat-lbl {
@@ -8271,7 +8272,7 @@ p,
   border-radius: 0 !important;
   text-transform: none !important;
   letter-spacing: normal !important;
-  font-size: 16px !important;
+  font-size: 15px !important;
   font-weight: 400 !important;
   display: flex !important;
   justify-content: center !important;

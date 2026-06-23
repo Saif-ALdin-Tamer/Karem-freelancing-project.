@@ -3035,6 +3035,36 @@ html[dir="rtl"] .svc-card:hover {
   transform: translateX(4px);
 }
 
+/* Services pills below Provided Services heading */
+.svc-marquee-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.svc-marquee-tags span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.75);
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.svc-marquee-tags span:hover {
+  background: rgba(72, 103, 255, 0.15);
+  border-color: rgba(72, 103, 255, 0.5);
+  color: #fff;
+}
+
 /* ==========================================================================
    SERVICES SHOWCASE MARQUEE
    ========================================================================== */
@@ -3048,6 +3078,8 @@ html[dir="rtl"] .svc-card:hover {
   overflow: hidden;
   padding: 20px 0;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .services-showcase-marquee {
@@ -3063,8 +3095,8 @@ html[dir="rtl"] .svc-card:hover {
   padding-right: 16px; /* matches internal gap so loop math is exact */
 }
 
-/* Pause on hover */
-.services-showcase-marquee-wrap:hover .services-showcase-marquee {
+/* Pause independently on hover */
+.services-showcase-marquee:hover {
   animation-play-state: paused;
 }
 
@@ -3111,14 +3143,14 @@ html[dir="rtl"] .services-showcase-marquee {
 
 /* Vertical / portrait */
 .sm-portrait {
-  width: 160px;
   height: 280px;
+  aspect-ratio: 1080 / 1920;
 }
 
 /* Horizontal / landscape */
 .sm-landscape {
-  width: 360px;
   height: 280px;
+  aspect-ratio: 1920 / 1080;
 }
 
 @keyframes servicesMarqueeMove {
@@ -3131,12 +3163,12 @@ html[dir="rtl"] .services-showcase-marquee {
     margin-top: 40px;
   }
   .sm-portrait {
-    width: 120px;
-    height: 210px;
+    height: 200px;
+    aspect-ratio: 1080 / 1920;
   }
   .sm-landscape {
-    width: 260px;
-    height: 210px;
+    height: 200px;
+    aspect-ratio: 1920 / 1080;
   }
 }
 

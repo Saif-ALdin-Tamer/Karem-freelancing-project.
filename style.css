@@ -4516,6 +4516,7 @@ body.in-portfolio .skip-btn-floating {
   position: relative;
   width: 100%;
   overflow: hidden;
+  direction: ltr; /* Force LTR so it loops continuously in Arabic */
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -4547,9 +4548,7 @@ body.in-portfolio .skip-btn-floating {
     transform: translateX(-50%);
   }
 }
-html[dir="rtl"] .home-brands-track {
-  animation-direction: reverse;
-}
+/* Removed reverse animation to allow continuous LTR looping */
 .hb-item {
   font-size: clamp(20px, 2.5vw, 32px);
   font-weight: 600;

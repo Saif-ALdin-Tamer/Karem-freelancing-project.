@@ -1980,7 +1980,7 @@ html[dir="rtl"] .nav-cta svg {
   position: absolute;
   top: 0;
   right: 0;
-  width: 75%;
+  width: 78%;
   height: 100%;
   background-image: url('hero-portrait.png');
   background-size: cover;
@@ -7481,7 +7481,7 @@ body,
 #hero {
   min-height: auto !important;
   padding-top: 20vh !important;
-  padding-bottom: 80px !important;
+  padding-bottom: 40px !important;
 }
 
 #home-brands {

@@ -1046,6 +1046,7 @@ window.addEventListener("hashchange", function () {
   // Position nodes at each chapter's center (last node at chapter top for clean ending)
   function positionJourneyNodes() {
     const stageRect = stage.getBoundingClientRect();
+    const zoomScale = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
     const lastIdx = chapters.length - 1;
     let firstNodeTop = null;
     let lastNodeTop = null;
@@ -1053,9 +1054,8 @@ window.addEventListener("hashchange", function () {
       const node = journeyNodes[idx];
       if (!node) return;
       const chapRect = chap.getBoundingClientRect();
-      // Last node: position at chapter top (near eyebrow), not center
-      // Position all nodes 30px above the chapter (to sit cleanly above the eyebrow badge)
-      let top = chapRect.top - stageRect.top - 30;
+      // Adjust for zoom scaling: bounding rect returns actual screen coords, we need to un-scale it for CSS top
+      let top = ((chapRect.top - stageRect.top) / zoomScale) - 30;
       node.style.top = top + "px";
       if (firstNodeTop === null) firstNodeTop = top;
       lastNodeTop = top;
@@ -1115,9 +1115,10 @@ window.addEventListener("hashchange", function () {
       const lineLengthPx = lastNodeTop - firstNodeTop;
 
       // Calculate how far scrolled past the first node (in stage-local coords)
+      const zoomScale = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
       const stageRect = stage.getBoundingClientRect();
-      const viewportCenter = winH / 2;
-      const scrolledIntoStage = viewportCenter - stageRect.top;
+      const viewportCenter = (winH / zoomScale) / 2;
+      const scrolledIntoStage = viewportCenter - (stageRect.top / zoomScale);
       const scrolledFromFirstNode = scrolledIntoStage - firstNodeTop;
 
       // Progress 0 → 1
@@ -1141,9 +1142,10 @@ window.addEventListener("hashchange", function () {
     // Activate journey nodes as we pass them
     journeyNodes.forEach((node, idx) => {
       const nodeTop = parseFloat(node.style.top) || 0;
+      const zoomScale = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
       const stageRect = stage.getBoundingClientRect();
-      const viewportCenter = winH / 2;
-      const scrolledIntoStage = viewportCenter - stageRect.top;
+      const viewportCenter = (winH / zoomScale) / 2;
+      const scrolledIntoStage = viewportCenter - (stageRect.top / zoomScale);
       if (scrolledIntoStage >= nodeTop - 50) {
         if (!node.classList.contains("passed")) {
           node.classList.add("passed");

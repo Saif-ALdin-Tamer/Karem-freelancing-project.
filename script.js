@@ -490,11 +490,11 @@
       dy: -5,
     },
     { name: "Norway", name_ar: "النرويج", flag: "🇳🇴", lat: 60.5, lng: 8.5 },
-    { name: "Turkey", name_ar: "تركيا", flag: "🇹🇷", lat: 38.9, lng: 35.2 },
-    { name: "Syria", name_ar: "سوريا", flag: "🇸🇾", lat: 34.8, lng: 38.9 },
-    { name: "Lebanon", name_ar: "لبنان", flag: "🇱🇧", lat: 33.9, lng: 35.5 },
-    { name: "Iraq", name_ar: "العراق", flag: "🇮🇶", lat: 33.2, lng: 43.7 },
-    { name: "Jordan", name_ar: "الأردن", flag: "🇯🇴", lat: 30.6, lng: 36.2 },
+    { name: "Turkey", name_ar: "تركيا", flag: "🇹🇷", lat: 39.0, lng: 35.0, dy: -5 },
+    { name: "Syria", name_ar: "سوريا", flag: "🇸🇾", lat: 35.0, lng: 39.0, dx: 15, dy: -5 },
+    { name: "Lebanon", name_ar: "لبنان", flag: "🇱🇧", lat: 33.8, lng: 35.8, dx: -25, dy: -2 },
+    { name: "Iraq", name_ar: "العراق", flag: "🇮🇶", lat: 33.0, lng: 44.0, dx: 15, dy: 5 },
+    { name: "Jordan", name_ar: "الأردن", flag: "🇯🇴", lat: 31.0, lng: 36.0, dx: -20, dy: 10 },
     {
       name: "Egypt",
       name_ar: "مصر",
@@ -502,16 +502,18 @@
       lat: 26.8,
       lng: 30.8,
       home: true,
+      dx: -10,
     },
-    { name: "Kuwait", name_ar: "الكويت", flag: "🇰🇼", lat: 29.3, lng: 47.5 },
+    { name: "Kuwait", name_ar: "الكويت", flag: "🇰🇼", lat: 29.3, lng: 47.5, dx: 25, dy: -5 },
     {
       name: "Saudi Arabia",
       name_ar: "السعودية",
       flag: "🇸🇦",
       lat: 24.0,
       lng: 45.0,
+      dy: 12,
     },
-    { name: "UAE", name_ar: "الإمارات", flag: "🇦🇪", lat: 23.4, lng: 53.8 },
+    { name: "UAE", name_ar: "الإمارات", flag: "🇦🇪", lat: 23.4, lng: 54.0, dx: 15, dy: 5 },
     {
       name: "Australia",
       name_ar: "أستراليا",
@@ -543,10 +545,9 @@
       const land = topojson.feature(world, world.objects.countries);
 
       // Set up D3 projection that matches our viewBox 1000x500
-      const projection = d3
-        .geoEquirectangular()
-        .scale(159) // 159 fits exactly into 1000x500 viewBox
-        .translate([500, 250]);
+      const projection = (d3.geoNaturalEarth1 || d3.geoEquirectangular)()
+        .scale(215) // Zoomed in another 0.5 degree
+        .translate([495, 290]); // Moved map down (increased Y) to reveal top of the map
 
       const pathGen = d3.geoPath().projection(projection);
 
@@ -554,7 +555,21 @@
       const continentsGroup = svg.querySelector("#continents-paths");
       continentsGroup.innerHTML = "";
 
+      // Draw spherical graticule (mesh network look)
+      if (typeof d3.geoGraticule === "function") {
+        const graticule = d3.geoGraticule();
+        const gratPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        gratPath.setAttribute("d", pathGen(graticule()));
+        gratPath.setAttribute("fill", "none");
+        gratPath.setAttribute("stroke", "rgba(0,170,255,0.15)");
+        gratPath.setAttribute("stroke-width", "0.6");
+        continentsGroup.appendChild(gratPath);
+      }
+
       land.features.forEach((country) => {
+        // Exclude Antarctica ("010") to remove the south area
+        if (country.id === "010" || (country.properties && country.properties.name === "Antarctica")) return;
+        
         const d = pathGen(country);
         if (!d) return;
         const path = document.createElementNS(
@@ -562,10 +577,10 @@
           "path",
         );
         path.setAttribute("d", d);
-        path.setAttribute("fill", "rgba(58,127,199,0.06)");
-        path.setAttribute("stroke", "rgba(127,196,255,0.55)");
-        path.setAttribute("stroke-width", "0.5");
-        path.setAttribute("filter", "url(#continentGlow)");
+        path.setAttribute("fill", "rgba(10,24,48,0.4)");
+        path.setAttribute("stroke", "rgba(0,170,255,0.7)");
+        path.setAttribute("stroke-width", "0.8");
+        // Removed filter="url(#continentGlow)" to fix severe performance/lag issues
         continentsGroup.appendChild(path);
       });
 
@@ -612,20 +627,7 @@
     const home = mapCountriesData.find((c) => c.home);
     const homePos = positions[home.name];
 
-    // Glows
-    mapCountriesData.forEach((c) => {
-      const p = positions[c.name];
-      if (!p) return;
-      const glow = document.createElementNS(ns, "circle");
-      glow.setAttribute("cx", p.x);
-      glow.setAttribute("cy", p.y);
-      glow.setAttribute("r", c.home ? 28 : 18);
-      glow.setAttribute(
-        "fill",
-        c.home ? "url(#homeHaloGrad)" : "url(#haloGrad)",
-      );
-      glowsGroup.appendChild(glow);
-    });
+    // Glows removed as per request
 
     // Lines + traveling dots
     const targets = mapCountriesData.filter((c) => !c.home);
@@ -642,15 +644,17 @@
 
       const pathD = `M ${homePos.x} ${homePos.y} Q ${midX} ${midY} ${target.x} ${target.y}`;
 
-      // Static line
+      // Static line (dashed with animation)
       const line = document.createElementNS(ns, "path");
       line.setAttribute("d", pathD);
       line.setAttribute("fill", "none");
-      line.setAttribute("stroke", "#ffffff");
-      line.setAttribute("stroke-width", "0.8");
-      line.setAttribute("stroke-opacity", "0.55");
+      line.setAttribute("stroke", "#00aaff");
+      line.setAttribute("stroke-width", "1.2");
+      line.setAttribute("stroke-opacity", "0.5");
       line.setAttribute("stroke-linecap", "round");
+      line.setAttribute("stroke-dasharray", "4 8");
       line.setAttribute("filter", "url(#lineGlow)");
+      line.innerHTML = `<animate attributeName="stroke-dashoffset" from="12" to="0" dur="1s" repeatCount="indefinite"/>`;
       linesGroup.appendChild(line);
 
       // Traveling dot
@@ -658,7 +662,7 @@
       const begin = i * 0.18;
 
       const dot = document.createElementNS(ns, "circle");
-      dot.setAttribute("r", "2.8");
+      dot.setAttribute("r", "1.5");
       dot.setAttribute("fill", "#ffffff");
       dot.setAttribute("filter", "url(#lineGlow)");
       dot.innerHTML = `
@@ -673,47 +677,32 @@
       const p = positions[c.name];
       if (!p) return;
 
-      // Center dot
+      // Center dot (glowing)
       const dot = document.createElementNS(ns, "circle");
       dot.setAttribute("cx", p.x);
       dot.setAttribute("cy", p.y);
-      dot.setAttribute("r", c.home ? 4 : 3);
-      dot.setAttribute("fill", "#ffffff");
+      dot.setAttribute("r", c.home ? 3.5 : 2); // Reduced dot size
+      dot.setAttribute("fill", c.home ? "#00d4ff" : "#ffffff");
+      dot.setAttribute("filter", "url(#pinShadow)");
       markersGroup.appendChild(dot);
 
-      // Pulse for home
+      // Pulse for home (centered on the dot)
       if (c.home) {
         const pulse = document.createElementNS(ns, "circle");
         pulse.setAttribute("cx", p.x);
         pulse.setAttribute("cy", p.y);
-        pulse.setAttribute("r", "6");
+        pulse.setAttribute("r", "2");
         pulse.setAttribute("fill", "none");
-        pulse.setAttribute("stroke", "#ffffff");
+        pulse.setAttribute("stroke", "#00d4ff");
         pulse.setAttribute("stroke-width", "1");
         pulse.innerHTML = `
-        <animate attributeName="r" from="6" to="22" dur="2.4s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" from="0.8" to="0" dur="2.4s" repeatCount="indefinite"/>
+        <animate attributeName="r" from="2" to="12" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" from="0.8" to="0" dur="2s" repeatCount="indefinite"/>
       `;
         markersGroup.appendChild(pulse);
       }
 
-      // Label
-      const offsetX = c.dx || 0;
-      const offsetY = c.dy || 0;
-      const label = document.createElementNS(ns, "text");
-      label.setAttribute("x", p.x + offsetX);
-      label.setAttribute("y", p.y + (c.home ? 18 : 14) + offsetY);
-      label.setAttribute("text-anchor", "middle");
-      label.setAttribute("fill", c.home ? "#ffffff" : "rgba(255,255,255,0.9)");
-      label.setAttribute("font-size", c.home ? "12" : "10");
-      label.setAttribute("font-family", "Inter, sans-serif");
-      label.setAttribute("font-weight", c.home ? "600" : "500");
-      label.setAttribute("letter-spacing", "0");
-      label.style.pointerEvents = "none";
-      label.dataset.en = c.name;
-      label.dataset.ar = c.name_ar;
-      label.textContent = c.name;
-      markersGroup.appendChild(label);
+      // Labels removed as per request
 
       // Hit area
       const hit = document.createElementNS(ns, "circle");
@@ -748,21 +737,31 @@
 
     const hits = svg.querySelectorAll(".map-hit");
     hits.forEach((m) => {
-      m.addEventListener("mouseenter", () => {
-        const cx = parseFloat(m.dataset.cx);
-        const cy = parseFloat(m.dataset.cy);
+      const showPopup = (e) => {
         const wrapRect = wrap.getBoundingClientRect();
-        const svgRect = svg.getBoundingClientRect();
-        const xPct = cx / 1000;
-        const yPct = cy / 500;
-        const px = svgRect.left - wrapRect.left + svgRect.width * xPct;
-        const py = svgRect.top - wrapRect.top + svgRect.height * yPct;
+        const hitRect = m.getBoundingClientRect();
+        let px = hitRect.left + hitRect.width / 2 - wrapRect.left;
+        let py = hitRect.top - wrapRect.top;
+        
+        // Force Australia's popup left and up so it points inwards
+        if (m.dataset.name === "Australia") {
+            px = px - 120;
+            py = py - 30;
+        } else if (px > wrapRect.width - 100) {
+            px = px - 100;
+        }
+        
         popup.querySelector(".flag").textContent = m.dataset.flag;
         popup.querySelector(".name").textContent = m.dataset.name;
         popup.style.left = px + "px";
         popup.style.top = py + "px";
         popup.classList.add("show");
-      });
+      };
+
+      m.addEventListener("mouseenter", showPopup);
+      m.addEventListener("mousemove", showPopup);
+      m.addEventListener("click", showPopup);
+      m.addEventListener("touchstart", showPopup);
       m.addEventListener("mouseleave", () => popup.classList.remove("show"));
     });
   }

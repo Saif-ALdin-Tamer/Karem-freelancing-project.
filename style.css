@@ -247,8 +247,8 @@ html[lang="ar"] body {
   padding: 10px 18px;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--muted);
   font-size: 12px;
@@ -275,8 +275,8 @@ html[lang="ar"] body {
   gap: 10px;
   padding: 14px 26px;
   background: linear-gradient(135deg, #4489d8 0%, #2b70c0 100%) !important;
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 100px;
   color: #fff;
@@ -375,19 +375,23 @@ html[dir="rtl"] .progress-rail {
   right: 40px;
 }
 .rail-track {
-  width: 1px;
+  width: 3px;
   height: 200px;
-  background: rgba(255, 255, 255, 0.08);
+  /* Feathered horizontal gradient for the track */
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
   position: relative;
   border-radius: 100px;
   overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
 }
 .rail-fill {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(to bottom, var(--blue4), var(--blue3));
+  /* Feathered horizontal gradient for the active fill */
+  background: linear-gradient(to right, transparent, var(--blue3), transparent);
   height: 0%;
   transition: height 0.15s linear;
   box-shadow: 0 0 12px var(--blue4);
@@ -567,8 +571,8 @@ html[dir="rtl"] .chapter-counter {
   display: inline-flex;
   padding: 6px 18px;
   background: rgba(58, 127, 199, 0.12);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
   font-size: 12px;
@@ -1153,8 +1157,8 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 /* Universal glass utility class */
 .glass {
   background: var(--glass-bg) !important;
-  backdrop-filter: var(--glass-blur) !important;
-  -webkit-backdrop-filter: var(--glass-blur) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: var(--glass-border) !important;
   border-radius: var(--glass-radius);
   box-shadow: var(--glass-shadow);
@@ -1166,8 +1170,8 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 }
 .glass-strong {
   background: var(--glass-bg-strong) !important;
-  backdrop-filter: var(--glass-blur) !important;
-  -webkit-backdrop-filter: var(--glass-blur) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: var(--glass-border-strong) !important;
   border-radius: var(--glass-radius-lg);
   box-shadow: var(--glass-shadow-lg);
@@ -1412,11 +1416,7 @@ html[dir="rtl"] .hero-content {
 html[dir="rtl"] .hero-name {
   letter-spacing: 0;
 }
-/* Keep hero name on a single block in Arabic - no separate spans */
-html[dir="rtl"] .hero-name span {
-  display: inline-block !important;
-  margin-left: 12px;
-}
+/* Allowed hero name to wrap into two lines like English */
 
 /* Headings: remove trailing period in Arabic since it looks weird */
 html[dir="rtl"] .heading::after {
@@ -1657,8 +1657,8 @@ nav {
   gap: 8px;
   padding: 6px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   box-shadow:
@@ -1861,8 +1861,8 @@ html[dir="rtl"] .nav-cta svg {
     max-width: 80vw;
     height: 100vh;
     background: rgba(10, 15, 25, 0.95);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    /* backdrop-filter disabled for perf */
+    /* -webkit-backdrop-filter disabled */
     border-left: 1px solid rgba(255, 255, 255, 0.08);
     flex-direction: column;
     padding: 80px 24px 32px;
@@ -1929,7 +1929,7 @@ html[dir="rtl"] .nav-cta svg {
     inset: 0;
     z-index: 98;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px) saturate(160%);
+    /* backdrop-filter disabled for perf */
     animation: fadeIn 0.3s ease forwards;
   }
   @keyframes fadeIn {
@@ -2115,8 +2115,8 @@ html[dir="rtl"] .cta-primary:hover svg {
 
 .cta-secondary {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--white);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
@@ -2186,8 +2186,8 @@ html[dir="rtl"] .cta-primary:hover svg {
     rgba(20, 50, 100, 0.1) 0%,
     rgba(10, 20, 40, 0.05) 100%
   );
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 32px;
@@ -2286,8 +2286,8 @@ html[dir="rtl"] .cta-primary:hover svg {
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
 }
 .skill-cell {
   display: flex;
@@ -2337,8 +2337,8 @@ section {
   display: inline-block;
   padding: 10px 19px 10px 22px; /* Compensate right padding for 3px letter-spacing */
   background: rgba(58, 127, 199, 0.12);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
   font-size: 16px;
@@ -2477,7 +2477,7 @@ section {
 .consult-btn-wrap {
   margin-top: 40px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 .consult-btn {
   display: inline-flex;
@@ -2530,8 +2530,8 @@ html[dir="rtl"] .consult-btn:hover::after {
   aspect-ratio: 4/5;
   border-radius: 28px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow:
     0 16px 48px rgba(0, 0, 0, 0.4),
@@ -2591,8 +2591,8 @@ html[dir="rtl"] .consult-btn:hover::after {
   font-size: 12px;
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   color: var(--text);
@@ -2628,8 +2628,8 @@ html[dir="rtl"] .consult-btn:hover::after {
   margin-top: 18px;
   padding: 12px 22px;
   background: rgba(58, 127, 199, 0.12);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
   color: var(--blue4);
@@ -2673,8 +2673,8 @@ html[dir="rtl"] .mentorship-link:hover::after {
   width: fit-content;
   max-width: 100%;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   box-shadow:
@@ -2718,11 +2718,11 @@ html[dir="rtl"] .mentorship-link:hover::after {
     rgba(10, 24, 48, 0.5) 50%,
     rgba(6, 18, 36, 0.6) 100%
   );
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(127, 196, 255, 0.15);
   border-radius: 28px;
-  padding: 32px;
+  padding: 32px 32px 0 32px;
   position: relative;
   overflow: hidden;
   box-shadow:
@@ -2756,13 +2756,19 @@ html[dir="rtl"] .mentorship-link:hover::after {
   width: 100% !important;
   height: 100% !important;
   background: transparent !important;
+  animation: mapFloat 8s ease-in-out infinite;
+}
+
+@keyframes mapFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
 }
 #map-container .jvm-zoom-btn {
   display: none !important;
 }
 .jvm-tooltip {
   background: rgba(20, 24, 34, 0.92) !important;
-  backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: #fff !important;
   font-family: "Inter", sans-serif !important;
@@ -2782,8 +2788,8 @@ html[dir="rtl"] .mentorship-link:hover::after {
   gap: 10px;
   padding: 10px 16px;
   background: rgba(20, 24, 34, 0.92);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   font-size: 13px;
@@ -2838,8 +2844,8 @@ html[dir="rtl"] .mentorship-link:hover::after {
   padding: 8px 18px;
   letter-spacing: 0;
   background: rgba(58, 127, 199, 0.12);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(58, 127, 199, 0.25);
   color: #ffffff;
   border-radius: 100px;
@@ -2945,8 +2951,8 @@ html[dir="rtl"] .svc-rword {
     rgba(20, 50, 100, 0.1) 0%,
     rgba(10, 20, 40, 0.05) 100%
   );
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 36px 44px;
@@ -3084,7 +3090,7 @@ html[dir="rtl"] .svc-card:hover {
   border-radius: 100px;
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(255,255,255,0.04);
-  backdrop-filter: blur(8px);
+  /* backdrop-filter disabled for perf */
   transition: all 0.3s ease;
   cursor: default;
 }
@@ -3207,8 +3213,8 @@ html[dir="rtl"] .services-showcase-marquee {
   position: fixed;
   inset: 0;
   background: rgba(4, 6, 10, 0.85);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -3224,8 +3230,8 @@ html[dir="rtl"] .services-showcase-marquee {
 }
 .modal {
   background: linear-gradient(135deg, rgba(20, 35, 60, 0.9) 0%, rgba(10, 15, 30, 0.95) 100%);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 28px;
   padding: 48px;
@@ -3289,8 +3295,8 @@ html[dir="rtl"] .services-showcase-marquee {
   aspect-ratio: 16/10;
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(24px) saturate(200%);
-  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
   position: relative;
@@ -3351,8 +3357,8 @@ html[dir="rtl"] .services-showcase-marquee {
   aspect-ratio: 16/10;
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
@@ -3427,8 +3433,8 @@ html[dir="rtl"] .services-showcase-marquee {
   letter-spacing: 2px;
   text-transform: uppercase;
   background: rgba(58, 127, 199, 0.18);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   color: var(--blue4);
   padding: 6px 12px;
   border-radius: 100px;
@@ -3464,7 +3470,7 @@ html[dir="rtl"] .services-showcase-marquee {
   display: none !important; /* Hidden as per user request */
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  /* backdrop-filter disabled for perf */
   transition: all 0.3s;
 }
 .slider-btn:hover {
@@ -3545,8 +3551,8 @@ html[dir="rtl"] .services-showcase-marquee {
     rgba(16, 33, 54, 0.3) 0%,
     rgba(10, 21, 38, 0.2) 100%
   );
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 32px;
@@ -3684,8 +3690,8 @@ html[dir="rtl"] .services-showcase-marquee {
 /* TRAINING */
 .training-card {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 28px;
   padding: 56px;
@@ -3742,8 +3748,8 @@ html[dir="rtl"] .services-showcase-marquee {
 }
 .ts {
   background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   padding: 24px;
@@ -3892,8 +3898,8 @@ html[dir="rtl"] .services-showcase-marquee {
   height: 64px;
   border-radius: 50%;
   background: rgba(58, 127, 199, 0.4);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
@@ -4027,8 +4033,8 @@ html[dir="rtl"] .contact-cta-secondary {
 
 .contact-cta-secondary {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--white);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -4145,8 +4151,8 @@ html[dir="rtl"] .contact-faq {
   height: 46px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
@@ -4610,8 +4616,8 @@ body.in-portfolio .skip-btn-floating {
   text-align: center;
   padding: 32px 20px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   transition: all 0.35s;
@@ -4660,8 +4666,8 @@ body.in-portfolio .skip-btn-floating {
   padding: 14px 28px;
   border-radius: 100px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--white);
   text-decoration: none;
@@ -4710,8 +4716,8 @@ html[dir="rtl"] .ghost-link:hover svg {
 }
 .home-svc-card {
   background: linear-gradient(135deg, rgba(20, 50, 100, 0.1) 0%, rgba(10, 20, 40, 0.05) 100%);
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 36px 32px;
@@ -4739,12 +4745,12 @@ html[dir="rtl"] .ghost-link:hover svg {
   height: 56px;
   border-radius: 14px;
   background: rgba(30, 60, 140, 0.15);
-  border: 1px solid rgba(50, 100, 200, 0.25);
+  border: 1px solid rgba(72, 103, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 24px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 10px rgba(72, 103, 255, 0.15);
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .home-svc-icon svg {
@@ -4756,7 +4762,8 @@ html[dir="rtl"] .ghost-link:hover svg {
 }
 .home-svc-card:hover .home-svc-icon {
   background: rgba(40, 80, 180, 0.25);
-  border-color: rgba(60, 120, 220, 0.4);
+  border-color: rgba(72, 103, 255, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 15px rgba(72, 103, 255, 0.3);
   transform: scale(1.1) rotate(-5deg);
 }
 .home-svc-title {
@@ -4786,8 +4793,8 @@ html[dir="rtl"] .ghost-link:hover svg {
   margin: 0 auto;
   padding: 56px 56px;
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 28px;
   position: relative;
@@ -4880,8 +4887,8 @@ html[dir="rtl"] .ghost-link:hover svg {
     rgba(35, 70, 160, 0.08) 0%,
     rgba(110, 40, 180, 0.02) 100%
   );
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   /* Glowing Blue Borders - Softer */
   border: 1px solid rgba(72, 103, 255, 0.05); /* Faint overall border */
   border-top: 1px solid rgba(72, 103, 255, 0.25); /* Softer top blue edge */
@@ -5287,8 +5294,8 @@ body.in-portfolio .social-rail {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   cursor: pointer;
   text-decoration: none;
   color: rgba(240, 243, 248, 0.9);
@@ -5604,8 +5611,8 @@ section#process {
   display: inline-block;
   padding: 6px 18px;
   background: rgba(58, 127, 199, 0.12);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(58, 127, 199, 0.3);
   border-radius: 100px;
   font-size: 12px;
@@ -5802,8 +5809,8 @@ html[dir="rtl"] .story-year {
   left: 24px;
   padding: 10px 16px;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   font-size: 11px;
@@ -5942,8 +5949,8 @@ html[dir="rtl"] .story-photo-badge {
   position: absolute;
   inset: 0;
   background: rgba(2, 6, 14, 0.85);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
 }
 
 .qb-modal-container {
@@ -6110,8 +6117,8 @@ html[dir="rtl"] .qb-close {
   width: 100%;
   padding: 14px 18px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 14px;
@@ -6198,8 +6205,8 @@ html[dir="rtl"] .qb-close {
 .qb-send-option {
   padding: 18px 12px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 14px;
@@ -6506,8 +6513,8 @@ html[dir="rtl"] .coming-soon-cta svg {
   justify-content: center;
   padding: 12px 33px 12px 36px; /* Matching 12px 36px but mathematically centered for 3px letter-spacing */
   background: rgba(30, 58, 138, 0.15);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(59, 130, 246, 0.3);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
   border-radius: 100px;
@@ -6625,8 +6632,8 @@ html[dir="rtl"] .coming-soon-cta svg {
   justify-content: center;
   gap: 18px;
   background: rgba(2, 8, 18, 0.6);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border-radius: 24px;
   transition:
     opacity 0.6s ease,
@@ -6775,8 +6782,8 @@ body.in-portfolio footer {
   justify-content: center;
   padding: 20px;
   background: rgba(2, 8, 18, 0.3);
-  backdrop-filter: blur(12px) saturate(120%);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -6795,8 +6802,8 @@ body.in-portfolio footer {
   max-width: 560px;
   max-height: 90vh;
   background: rgba(20, 28, 42, 0.2);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(95, 163, 224, 0.2);
   border-radius: 28px;
   padding: 40px;
@@ -6934,8 +6941,8 @@ html[dir="rtl"] .qb-close {
   width: 100%;
   padding: 16px 18px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 14px;
@@ -6970,8 +6977,8 @@ html[dir="rtl"] .qb-close {
 .qb-option {
   padding: 14px 16px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.05), 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 14px;
@@ -7341,8 +7348,8 @@ body,
 /* 5. Nav Bar specifically */
 .portfolio-nav {
   background: rgba(10, 15, 25, 0.6) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-radius: 100px !important;
 }
@@ -7460,8 +7467,8 @@ body,
 .home-svc-card,
 .qb-card {
   background: rgba(10, 15, 30, 0.4) !important; /* Slightly darker glass */
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-radius: 24px !important;
   box-shadow:
@@ -7573,8 +7580,8 @@ body,
 .home-svc-card,
 .qb-card {
   background: rgba(10, 20, 40, 0.3) !important; /* Deep dark blue background */
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(59, 130, 246, 0.15) !important; /* Faint blue border */
   border-radius: 16px !important;
   box-shadow: none !important;
@@ -7658,8 +7665,8 @@ body,
     rgba(35, 70, 160, 0.08) 0%,
     rgba(110, 40, 180, 0.02) 100%
   ) !important;
-  backdrop-filter: blur(80px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(80px) saturate(200%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(72, 103, 255, 0.05) !important;
   border-top: 1px solid rgba(72, 103, 255, 0.25) !important;
   border-right: 1px solid rgba(72, 103, 255, 0.2) !important;
@@ -8013,8 +8020,8 @@ p,
 /* 5. Nav Bar (Floating Glassy Pill) */
 .portfolio-nav {
   background: rgba(17, 24, 39, 0.6) !important; /* Matches slate theme */
-  backdrop-filter: blur(16px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5) !important;
 }
@@ -8057,8 +8064,8 @@ p,
     rgba(30, 58, 138, 0.15) 0%,
     rgba(15, 23, 42, 0.6) 100%
   ) !important;
-  backdrop-filter: blur(20px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
 
   /* Bright blue border to match the screenshot */
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
@@ -8147,8 +8154,8 @@ p,
   color: #60a5fa !important; /* Vibrant blue text */
 
   /* Glass Effect */
-  backdrop-filter: blur(20px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.15),
     inset 0 -1px 0 rgba(0, 0, 0, 0.2) !important;
@@ -8290,8 +8297,8 @@ p,
     width: max-content !important;
 
     background: rgba(17, 24, 39, 0.75) !important; /* Slate grey translucent */
-    backdrop-filter: blur(16px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    /* backdrop-filter disabled for perf */
+    /* -webkit-backdrop-filter disabled */
 
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 100px !important;
@@ -8470,9 +8477,9 @@ p,
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  color: #94a3b8 !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
+  color: var(--muted) !important;
   padding: 0 !important;
   border-radius: 0 !important;
   text-transform: none !important;
@@ -8502,11 +8509,11 @@ p,
 .contact-cta-secondary {
   background: linear-gradient(
     135deg,
-    rgba(35, 70, 160, 0.08) 0%,
-    rgba(110, 40, 180, 0.02) 100%
+    rgba(20, 45, 100, 0.3) 0%,
+    rgba(10, 20, 50, 0.15) 100%
   ) !important;
-  backdrop-filter: blur(80px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(80px) saturate(200%) !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   border: 1px solid rgba(72, 103, 255, 0.05) !important;
   border-top: 1px solid rgba(72, 103, 255, 0.25) !important;
   border-right: 1px solid rgba(72, 103, 255, 0.2) !important;
@@ -8538,8 +8545,8 @@ p,
   transform: translateY(-6px) !important;
   background: linear-gradient(
     135deg,
-    rgba(35, 70, 160, 0.12) 0%,
-    rgba(110, 40, 180, 0.04) 100%
+    rgba(20, 45, 100, 0.4) 0%,
+    rgba(10, 20, 50, 0.25) 100%
   ) !important;
   border-color: rgba(72, 103, 255, 0.1) !important;
   border-top-color: rgba(72, 103, 255, 0.35) !important;
@@ -8628,8 +8635,8 @@ footer,
 html body .in-portfolio footer {
     /* تأثير الزجاج الشفاف */
     background: rgba(11, 17, 33, 0.4) !important;
-    backdrop-filter: blur(30px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    /* backdrop-filter disabled for perf */
+    /* -webkit-backdrop-filter disabled */
     
     /* إلغاء الخطوط والحدود تماماً */
     border: none !important;
@@ -8711,7 +8718,7 @@ section[id="testimonials"] {
 /* 2.5. Match student reviews background perfectly with client reviews (overriding the training cyan glow) */
 .student-reviews .testi-card {
     background: linear-gradient(135deg, #11223c 0%, #080c17 100%) !important;
-    backdrop-filter: none !important;
+    /* backdrop-filter disabled for perf */
 }
 
 /* 3. سحب الفوتر برمجياً 15 بكسل لفوق عشان "يغطي" على حافة السيكشن تماماً ويحصل الـ Mixing */
@@ -8737,8 +8744,8 @@ section[id="testimonials"] + footer {
     background-color: #0b1121 !important;
     
     /* 2. إلغاء أي تأثير زجاجي أو بلور عشان ميعملش خطوط أو يغير الدرجة */
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    /* backdrop-filter disabled for perf */
+    /* -webkit-backdrop-filter disabled */
     box-shadow: none !important;
     
     /* 3. تنظيف كامل للحدود والفواصل */
@@ -8771,8 +8778,8 @@ html body .in-portfolio footer {
     background: transparent !important; 
     
     /* 2. مسح أي تأثيرات زجاجية أو ضباب كانت بتغير درجة اللون وتعمل خطوط */
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+    /* backdrop-filter disabled for perf */
+    /* -webkit-backdrop-filter disabled */
     
     /* 3. تدمير أي حدود أو انعكاسات (Shadows) تماماً */
     border: none !important;
@@ -8876,8 +8883,8 @@ html body .in-portfolio footer {
   /* إلغاء ستايل الزرار القديم */
   background: transparent !important;
   border: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+  /* backdrop-filter disabled for perf */
+  /* -webkit-backdrop-filter disabled */
   box-shadow: none !important;
   
   /* تظبيط النص واللون */

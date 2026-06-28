@@ -2164,7 +2164,7 @@ html[dir="rtl"] .cta-primary:hover svg {
   inset: 0;
   background: radial-gradient(
     ellipse 60% 40% at 50% 50%,
-    rgba(58, 127, 199, 0.08) 0%,
+    rgba(58, 127, 199, 0.03) 0%,
     transparent 70%
   );
   pointer-events: none;
@@ -2756,7 +2756,6 @@ html[dir="rtl"] .mentorship-link:hover::after {
   width: 100% !important;
   height: 100% !important;
   background: transparent !important;
-  animation: mapFloat 8s ease-in-out infinite;
 }
 
 @keyframes mapFloat {
@@ -2829,7 +2828,8 @@ html[dir="rtl"] .mentorship-link:hover::after {
   line-height: 1;
 }
 .map-countries {
-  margin-top: 24px;
+  margin-top: 96px;
+  margin-bottom: 48px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
@@ -2899,17 +2899,13 @@ html[dir="rtl"] .mentorship-link:hover::after {
   top: 0;
   left: 0;
   width: 100%;
-  color: var(--white);
+  color: #8bbff2;
   font-weight: 500;
   opacity: 0;
   transform: translateY(20px);
   transition:
     opacity 0.6s ease,
     transform 0.6s ease;
-  background: linear-gradient(90deg, #fff 0%, #5fa3e0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 html[dir="rtl"] .svc-rword {
   left: auto;
@@ -2987,8 +2983,9 @@ html[dir="rtl"] .svc-card:hover {
   transform: translateY(-6px);
 }
 .svc-card:hover .svc-icon {
-  background: rgba(40, 80, 180, 0.25);
-  border-color: rgba(60, 120, 220, 0.4);
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(95, 163, 224, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 15px rgba(96, 165, 250, 0.3);
   transform: scale(1.1) rotate(-5deg);
 }
 .svc-card .svc-icon {
@@ -3006,21 +3003,21 @@ html[dir="rtl"] .svc-card:hover {
   width: 48px;
   height: 48px;
   border-radius: 14px;
-  background: rgba(30, 60, 140, 0.15);
-  border: 1px solid rgba(50, 100, 200, 0.25);
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(95, 163, 224, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 10px rgba(96, 165, 250, 0.15);
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .svc-icon svg {
   width: 22px;
   height: 22px;
-  stroke: var(--blue4);
+  stroke: #5fa3e0;
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
 .svc-title {
   font-family: 'Montserrat', sans-serif;
@@ -3738,7 +3735,7 @@ html[dir="rtl"] .services-showcase-marquee {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--blue4);
+  background: #5c99d6;
   flex-shrink: 0;
 }
 .training-stats {
@@ -4744,26 +4741,26 @@ html[dir="rtl"] .ghost-link:hover svg {
   width: 56px;
   height: 56px;
   border-radius: 14px;
-  background: rgba(30, 60, 140, 0.15);
-  border: 1px solid rgba(72, 103, 255, 0.6);
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(95, 163, 224, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 24px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 10px rgba(72, 103, 255, 0.15);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 10px rgba(96, 165, 250, 0.15);
   transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .home-svc-icon svg {
   width: 26px;
   height: 26px;
-  stroke: var(--blue4);
+  stroke: #5fa3e0;
   fill: none;
-  stroke-width: 1.5;
+  stroke-width: 2;
 }
 .home-svc-card:hover .home-svc-icon {
-  background: rgba(40, 80, 180, 0.25);
-  border-color: rgba(72, 103, 255, 0.9);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 15px rgba(72, 103, 255, 0.3);
+  background: rgba(59, 130, 246, 0.25);
+  border-color: rgba(95, 163, 224, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 0 15px rgba(96, 165, 250, 0.3);
   transform: scale(1.1) rotate(-5deg);
 }
 .home-svc-title {
@@ -5374,25 +5371,35 @@ html[dir="rtl"] .social-rail-dot:hover .social-rail-tooltip {
   pointer-events: none;
   z-index: 3;
 }
+.journey-line-glow-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px; /* Wide enough to contain the glowing box-shadow */
+  pointer-events: none;
+  /* Smoothly fade the top and bottom of the entire line and its glow */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0px, black 150px, black calc(100% - 150px), transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0px, black 150px, black calc(100% - 150px), transparent 100%);
+}
 /* Background track — set dynamically via JS to span first→last node */
 .journey-line-track {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
   height: 0; /* set by JS */
-  background: linear-gradient(
-    to bottom,
-    rgba(95, 163, 224, 0.08) 0%,
-    rgba(95, 163, 224, 0.08) 100%
-  );
+  background: rgba(95, 163, 224, 0.08);
 }
 /* Growing progress line — fills as user scrolls */
 .journey-line-progress {
   position: absolute;
   top: 0; /* set by JS to match track top */
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
   height: 0%;
   background: linear-gradient(
     to bottom,
@@ -5414,6 +5421,7 @@ html[dir="rtl"] .social-rail-dot:hover .social-rail-tooltip {
   width: 14px;
   height: 14px;
   transition: top 0.15s linear;
+  z-index: 10;
 }
 .journey-tip-core {
   position: absolute;
@@ -5618,7 +5626,7 @@ section#process {
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--blue4);
+  color: #6ba5e6;
   margin-bottom: 28px;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -7296,6 +7304,9 @@ body,
   justify-content: center;
   box-shadow: none !important;
 }
+.ghost-link {
+  border-color: rgba(96, 165, 250, 0.6) !important;
+}
 .cta-secondary {
   padding: 14px 28px !important;
   color: #fff !important;
@@ -8494,6 +8505,8 @@ p,
 
 /* Override home-svc-card to match the "Ready to make something real?" inner glassy box */
 .home-svc-card,
+.svc-card,
+.home-cta-wrap,
 .process-card,
 .qb-card,
 .contact-card,
@@ -8514,20 +8527,20 @@ p,
   ) !important;
   /* backdrop-filter disabled for perf */
   /* -webkit-backdrop-filter disabled */
-  border: 1px solid rgba(72, 103, 255, 0.05) !important;
-  border-top: 1px solid rgba(72, 103, 255, 0.25) !important;
-  border-right: 1px solid rgba(72, 103, 255, 0.2) !important;
+  border: 1px solid rgba(95, 163, 224, 0.25) !important;
   border-radius: 24px !important;
   box-shadow:
     0 40px 80px -20px rgba(0, 0, 10, 0.8),
-    0 0 40px rgba(72, 103, 255, 0.1),
-    inset 0 1px 1px rgba(72, 103, 255, 0.1),
-    inset -1px 0 1px rgba(72, 103, 255, 0.05) !important;
+    0 0 20px rgba(72, 103, 255, 0.03),
+    inset 0 1px 1px rgba(72, 103, 255, 0.05),
+    inset -1px 0 1px rgba(72, 103, 255, 0.02) !important;
   position: relative !important;
   overflow: hidden !important;
 }
 
 .home-svc-card:hover,
+.svc-card:hover,
+.home-cta-wrap:hover,
 .testi-card:hover,
 .process-card:hover,
 .qb-card:hover,
@@ -8548,14 +8561,12 @@ p,
     rgba(20, 45, 100, 0.4) 0%,
     rgba(10, 20, 50, 0.25) 100%
   ) !important;
-  border-color: rgba(72, 103, 255, 0.1) !important;
-  border-top-color: rgba(72, 103, 255, 0.35) !important;
-  border-right-color: rgba(72, 103, 255, 0.3) !important;
+  border-color: rgba(95, 163, 224, 0.6) !important;
   box-shadow:
     0 40px 80px -20px rgba(0, 0, 10, 0.9),
-    0 0 50px rgba(72, 103, 255, 0.15),
-    inset 0 1px 1px rgba(72, 103, 255, 0.15),
-    inset -1px 0 1px rgba(72, 103, 255, 0.1) !important;
+    0 0 30px rgba(72, 103, 255, 0.08),
+    inset 0 1px 1px rgba(72, 103, 255, 0.05),
+    inset -1px 0 1px rgba(72, 103, 255, 0.03) !important;
 }
 
 .home-svc-card::before,

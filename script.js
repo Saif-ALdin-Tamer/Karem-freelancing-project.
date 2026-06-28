@@ -547,7 +547,7 @@
       // Set up D3 projection that matches our viewBox 1000x500
       const projection = (d3.geoNaturalEarth1 || d3.geoEquirectangular)()
         .scale(215) // Zoomed in another 0.5 degree
-        .translate([495, 290]); // Moved map down (increased Y) to reveal top of the map
+        .translate([495, 262.5]); // Centered map (moved down slightly from 250)
 
       const pathGen = d3.geoPath().projection(projection);
 
@@ -555,16 +555,7 @@
       const continentsGroup = svg.querySelector("#continents-paths");
       continentsGroup.innerHTML = "";
 
-      // Draw spherical graticule (mesh network look)
-      if (typeof d3.geoGraticule === "function") {
-        const graticule = d3.geoGraticule();
-        const gratPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        gratPath.setAttribute("d", pathGen(graticule()));
-        gratPath.setAttribute("fill", "none");
-        gratPath.setAttribute("stroke", "rgba(0,170,255,0.15)");
-        gratPath.setAttribute("stroke-width", "0.6");
-        continentsGroup.appendChild(gratPath);
-      }
+      // Spherical graticule (mesh network) removed per user request
 
       land.features.forEach((country) => {
         // Exclude Antarctica ("010") to remove the south area
@@ -578,7 +569,7 @@
         );
         path.setAttribute("d", d);
         path.setAttribute("fill", "rgba(10,24,48,0.4)");
-        path.setAttribute("stroke", "rgba(0,170,255,0.7)");
+        path.setAttribute("stroke", "rgba(0,170,255,0.35)");
         path.setAttribute("stroke-width", "0.8");
         // Removed filter="url(#continentGlow)" to fix severe performance/lag issues
         continentsGroup.appendChild(path);
@@ -650,7 +641,7 @@
       line.setAttribute("fill", "none");
       line.setAttribute("stroke", "#00aaff");
       line.setAttribute("stroke-width", "1.2");
-      line.setAttribute("stroke-opacity", "0.5");
+      line.setAttribute("stroke-opacity", "0.25");
       line.setAttribute("stroke-linecap", "round");
       line.setAttribute("stroke-dasharray", "4 8");
       line.setAttribute("filter", "url(#lineGlow)");

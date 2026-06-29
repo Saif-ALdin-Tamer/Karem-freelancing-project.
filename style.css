@@ -4359,6 +4359,9 @@ footer {
 }
 
 @media (max-width: 1024px) {
+  html, body {
+    overflow-x: hidden !important;
+  }
   nav {
     top: 16px;
     padding: 5px;

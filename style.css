@@ -49,6 +49,7 @@
 html {
   scroll-behavior: auto;
   zoom: -1.30; /* Scale site layout to 125% */
+  background: var(--bg);
 }
 body {
   background: var(--bg);

@@ -8761,10 +8761,10 @@ p,
   margin-bottom: 32px !important;
 }
 
-/* Cut free space above "And Today" */
+/* Restore space above "And Today" */
 .story-chapter-final {
   padding-top: 0 !important;
-  margin-top: -80px !important;
+  margin-top: -24px !important;
 }
 
 /* Smoothly blend the background layers into the adjacent sections */

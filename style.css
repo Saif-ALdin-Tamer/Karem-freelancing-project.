@@ -8930,11 +8930,10 @@ section[id="testimonials"] {
    FINAL FIX: MATCH OUTER BACKGROUND (ZERO LINES)
    ═══════════════════════════════════════════════════════════ */
 
-/* 1. إجبار الفوتر إنه ياخد نفس خلفية الموقع الأساسية بشكل صريح */
+/* 1. إجبار الفوتر إنه ياخد نفس خلفية الموقع الأساسية (شفاف عشان يعكس اللي وراه) */
 footer, 
 html body .in-portfolio footer {
-    background: #04060a !important; 
-    background-color: #04060a !important;
+    background: transparent !important; 
     
     /* 2. مسح أي تأثيرات زجاجية أو ضباب كانت بتغير درجة اللون وتعمل خطوط */
     /* backdrop-filter disabled for perf */
@@ -8980,8 +8979,6 @@ html body .in-portfolio footer {
 
 .footer-bottom {
     /* تقليل المسافة تحت النص مباشرة + دعم الـ Safe Area في الآيفون/أندرويد */
-    background: #04060a !important;
-    background-color: #04060a !important;
     padding-bottom: calc(15px + env(safe-area-inset-bottom)) !important; 
     margin-bottom: 0 !important;
 }

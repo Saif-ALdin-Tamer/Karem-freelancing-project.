@@ -2052,6 +2052,7 @@ html[dir="rtl"] .nav-cta svg {
   line-height: 1.6;
   letter-spacing: 0.3px;
   animation: fadeSlide 1s ease-out 0.3s both;
+  font-family: 'Montserrat', sans-serif;
 }
 @keyframes fadeSlide {
   from {
@@ -4784,11 +4785,12 @@ body.in-portfolio .skip-btn-floating {
 
 /* HOME: Section sub-text & shared */
 .home-section-sub {
-  font-size: 17px;
+  font-size: 14px;
   color: var(--muted);
-  line-height: 1.7;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
   max-width: 640px;
-  margin: 20px auto 56px;
+  margin: 12px auto 40px;
   text-align: center;
 }
 .home-section-cta {
@@ -5847,7 +5849,7 @@ section#process {
   font-size: clamp(17px, 1.5vw, 20px);
   font-weight: 300;
   line-height: 1.7;
-  letter-spacing: 0.2px;
+  letter-spacing: -0.8px;
   color: rgba(240, 243, 248, 0.7);
   max-width: 520px;
   margin-bottom: 40px;
@@ -5857,7 +5859,7 @@ section#process {
   font-size: clamp(19px, 1.8vw, 24px);
   font-weight: 300;
   line-height: 1.7;
-  letter-spacing: 0.2px;
+  letter-spacing: -0.8px;
   color: rgba(240, 243, 248, 0.75);
   max-width: 680px;
   margin: 0 auto 48px;
@@ -8002,6 +8004,7 @@ html {
   line-height: 1.6 !important;
   max-width: 480px !important;
   margin-bottom: 32px !important;
+  font-family: 'Montserrat', sans-serif !important;
 }
 
 .hero-tagline em {
@@ -9074,5 +9077,51 @@ html body .in-portfolio footer {
 }
 
 
-
-
+/* Font updates for CTA, Trust area, and Section Headers */
+.cta-primary,
+.cta-secondary,
+.trust-item,
+.home-brands-label,
+.eyebrow,
+.heading,
+.home-section-sub,
+.ghost-link,
+.home-cta-eyebrow,
+.home-cta-title,
+.home-cta-sub,
+#testimonials p,
+.testi-card,
+.testi-text,
+.testi-name,
+.testi-role,
+.testi-avatar,
+.ctry,
+.world-stats-bar,
+.ws-num,
+.ws-lbl,
+.count,
+.process-card,
+.process-card-title,
+.process-card-desc,
+.process-expectations,
+.exp-eyebrow,
+.exp-title,
+.exp-sub,
+.exp-item,
+.exp-item-title,
+.exp-item-desc,
+.training-card,
+.training-list,
+.training-stats,
+.ts,
+.ts-n,
+.ts-l,
+.consult-btn,
+.video-reviews-header h3,
+.video-reviews-header p,
+.video-card,
+.video-card-text,
+.video-card-name,
+.video-card-role {
+  font-family: 'Montserrat', sans-serif !important;
+}

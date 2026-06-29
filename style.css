@@ -8060,11 +8060,7 @@ html {
   height: 14px !important;
 }
 
-/* Make the overall background noticeably lighter than the previous pitch-dark navy */
-body,
-html {
-  background-color: #111827 !important; /* Lighter slate/navy blue */
-}
+/* Removed #111827 background override on html/body */
 
 /* Update hero gradient mask to match the lighter background */
 .hero-image::before {
@@ -8116,12 +8112,7 @@ html {
   background-color: transparent !important;
 }
 
-/* Ensure body retains the lighter navy on all pages */
-body,
-html,
-main {
-  background-color: #111827 !important;
-}
+/* Removed #111827 background override on body, html, main */
 
 /* =========================================================
    GLOBAL THEME SYNC: Match the rest of the homepage to the new Hero theme

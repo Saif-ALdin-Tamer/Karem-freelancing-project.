@@ -79,6 +79,15 @@
       const oldChapter = lastChapter;
       lastChapter = chapterIndex;
       currentChapter = chapterIndex;
+      
+      const skipBtn = document.getElementById("welcomeSkipBtn");
+      if (skipBtn) {
+        if (chapterIndex === 6) {
+          skipBtn.classList.add("hidden-on-mobile");
+        } else {
+          skipBtn.classList.remove("hidden-on-mobile");
+        }
+      }
 
       // Hide all chapters, then activate target
       document.querySelectorAll(".chapter").forEach((c, i) => {
@@ -941,6 +950,25 @@ window.enterSite = function () {
     }
   } catch (e) {}
 })();
+
+// ═══════════ MOBILE HAMBURGER MENU ═══════════
+window.addEventListener("DOMContentLoaded", function() {
+  const hamburger = document.getElementById("navHamburger");
+  const navLinks = document.getElementById("navLinks");
+  if (hamburger && navLinks) {
+    hamburger.addEventListener("click", function() {
+      hamburger.classList.toggle("open");
+      navLinks.classList.toggle("mobile-open");
+    });
+    // Close menu when clicking a link
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("open");
+        navLinks.classList.remove("mobile-open");
+      });
+    });
+  }
+});
 
 // ═══════════ SPA MULTI-PAGE NAVIGATION ═══════════
 window.spaGo = function (page, skipScroll) {

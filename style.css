@@ -329,19 +329,24 @@ html[dir="rtl"] .skip-btn-floating:hover svg {
   .skip-btn-floating {
     top: auto;
     bottom: 24px;
-    right: 50%;
-    left: auto;
-    transform: translateX(50%);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     padding: 14px 32px;
     font-size: 14px;
   }
   html[dir="rtl"] .skip-btn-floating {
-    right: 50%;
-    left: auto;
-    transform: translateX(50%);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
   .skip-btn-floating:hover {
-    transform: translateX(50%) translateY(-2px) scale(1.03);
+    transform: translateX(-50%) translateY(-2px) scale(1.03);
+  }
+  .skip-btn-floating.hidden-on-mobile {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) translateY(20px) !important;
   }
 }
 .skip-btn {
@@ -967,7 +972,7 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 
   /* Scroll hint — move higher above counter, center */
   .scroll-hint {
-    bottom: 60px;
+    bottom: 90px;
     font-size: 10px;
     letter-spacing: 2px;
   }
@@ -978,13 +983,14 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 
   /* Chapter content — center everything */
   .chapter {
-    padding: 60px 24px 100px;
+    padding: 60px 48px 100px;
     align-items: center;
     justify-content: center;
   }
   .chapter-inner {
     width: 100%;
     max-width: 100%;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1488,11 +1494,17 @@ html[dir="rtl"] .testi-corner.br {
 html[dir="rtl"] .testi-row.row-1 {
   animation: marqueeMoveRTL 60s linear infinite;
 }
+@keyframes marqueeMoveRTLReverse {
+  from {
+    transform: translateX(calc(50% + 10px));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 html[dir="rtl"] .testi-row.row-2 {
-  /* Row 2 should move the opposite way. In LTR it moves left-to-right (reverse).
-     In RTL, native reverse will translate from positive to 0, which leaves a gap!
-     Instead, we just use the LTR keyframe (0 to negative) to move it left seamlessly! */
-  animation: marqueeMove 60s linear infinite;
+  animation: marqueeMoveRTLReverse 60s linear infinite;
 }
 html[dir="rtl"] .student-reviews-row {
   animation: marqueeMoveRTL 50s linear infinite;
@@ -1859,8 +1871,8 @@ html[dir="rtl"] .nav-cta svg {
     padding: 80px 24px 32px;
     gap: 6px;
     transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.4);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s;
+    box-shadow: none;
     z-index: 99;
   }
   html[dir="rtl"] .nav-links {
@@ -1869,10 +1881,15 @@ html[dir="rtl"] .nav-cta svg {
     border-left: none;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateX(-100%);
-    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.4);
+    box-shadow: none;
   }
   .nav-links.mobile-open {
     transform: translateX(0);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.4);
+  }
+  html[dir="rtl"] .nav-links.mobile-open {
+    transform: translateX(0);
+    box-shadow: 20px 0 60px rgba(0, 0, 0, 0.4);
   }
   .nav-links li {
     width: 100%;
@@ -2252,6 +2269,8 @@ html[dir="rtl"] .cta-primary:hover svg {
 @media (max-width: 640px) {
   .process-grid-new {
     grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 32px;
   }
   .process-card.top-row,
   .process-card.bottom-row {
@@ -2260,8 +2279,39 @@ html[dir="rtl"] .cta-primary:hover svg {
   .process-card:last-child {
     grid-column: span 1;
   }
+  .process-card {
+    padding: 16px;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 16px;
+  }
+  html[dir="rtl"] .process-card {
+    text-align: right;
+  }
   .process-icon-wrap {
-    min-height: 160px;
+    min-height: auto;
+    margin-bottom: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+  }
+  .process-icon-wrap svg {
+    width: 64px;
+    height: 64px;
+  }
+  .process-card > div:not(.process-icon-wrap) {
+    flex: 1;
+  }
+  .process-card-title {
+    font-size: 16px;
+    margin-bottom: 4px;
+    margin-top: 0;
+  }
+  .process-card-desc {
+    font-size: 13px;
+    line-height: 1.4;
   }
 }
 
@@ -2381,6 +2431,13 @@ section {
   margin: 0 auto;
   font-weight: 300;
   font-family: 'Montserrat', sans-serif;
+}
+@media (max-width: 768px) {
+  .lead {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    padding: 0 16px;
+  }
 }
 
 /* BRANDS STRIP — Marquee animation */
@@ -2824,14 +2881,14 @@ html[dir="rtl"] .mentorship-link:hover::after {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 6px;
   justify-content: center;
   position: relative;
   z-index: 2;
 }
 .ctry {
-  font-size: 14px;
-  padding: 8px 18px;
+  font-size: 13px;
+  padding: 6px 12px;
   letter-spacing: 0;
   background: rgba(58, 127, 199, 0.12);
   /* backdrop-filter disabled for perf */
@@ -2842,7 +2899,7 @@ html[dir="rtl"] .mentorship-link:hover::after {
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 .ctry-flag {
   font-family:
@@ -3088,6 +3145,17 @@ html[dir="rtl"] .svc-card:hover {
   color: #fff;
 }
 
+@media (max-width: 640px) {
+  .svc-marquee-tags {
+    gap: 6px;
+  }
+  .svc-marquee-tags span {
+    padding: 8px 14px;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+}
+
 /* ==========================================================================
    SERVICES SHOWCASE MARQUEE
    ========================================================================== */
@@ -3188,11 +3256,11 @@ html[dir="rtl"] .services-showcase-marquee {
     margin-top: 40px;
   }
   .sm-portrait {
-    height: 200px;
+    height: 260px;
     aspect-ratio: 1080 / 1920;
   }
   .sm-landscape {
-    height: 200px;
+    height: 260px;
     aspect-ratio: 1920 / 1080;
   }
 }
@@ -4257,7 +4325,8 @@ footer {
 }
 @media (max-width: 480px) {
   .footer-content {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 16px;
   }
 }
 .reveal {
@@ -4329,13 +4398,29 @@ footer {
     position: static;
   }
   .services-grid {
-    gap: 14px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 32px;
   }
   .svc-card {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 28px 24px;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 24px 20px;
+  }
+  .svc-card .svc-icon {
+    margin-bottom: 8px;
+    width: 44px;
+    height: 44px;
+  }
+  .svc-card .svc-title {
+    font-size: 17px;
+    margin-bottom: 8px;
+  }
+  .svc-card .svc-desc {
+    font-size: 14px;
+    line-height: 1.5;
   }
   .svc-card:hover {
     transform: translateY(-4px);
@@ -4355,8 +4440,21 @@ footer {
   }
   .training-card {
     grid-template-columns: 1fr;
-    padding: 36px;
-    gap: 32px;
+    padding: 24px 20px;
+    gap: 24px;
+    margin: 0 32px;
+  }
+  .training-card h3 {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+  .training-card p {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .training-list li {
+    font-size: 13px;
+    padding: 8px 0;
   }
   .map-wrap {
     height: 360px;
@@ -4394,13 +4492,11 @@ footer {
 }
 @media (max-width: 640px) {
   nav {
-    flex-wrap: wrap;
-    max-width: calc(100vw - 32px);
+    max-width: calc(100vw - 20px); /* Slightly more room */
+    padding: 6px 10px;
   }
   .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: center;
+    order: unset; /* Don't mess with order, it's a fixed side menu anyway */
   }
   .skill-strip {
     grid-template-columns: 1fr;
@@ -4418,14 +4514,34 @@ footer {
   .photo-hint {
     display: none;
   }
+  .world-stats-bar {
+    gap: 10px;
+    padding: 12px 16px;
+    flex-wrap: nowrap;
+  }
+  .ws-item {
+    gap: 4px;
+  }
+  .ws-num {
+    font-size: 15px;
+  }
+  .ws-lbl {
+    font-size: 11px;
+  }
   .ws-divider {
-    display: none;
+    display: block; /* Show divider again so they look separated nicely */
+    height: 12px;
+    margin: 0 2px;
   }
   section {
     padding: 80px 20px;
   }
   .map-wrap {
-    height: 280px;
+    height: 340px;
+  }
+  #map-container svg {
+    transform: scale(1.25);
+    transform-origin: 50% 50%;
   }
   .country-flag-label {
     font-size: 9px;
@@ -4468,10 +4584,37 @@ footer {
   }
   .contact-actions {
     grid-template-columns: 1fr;
+    margin: 0 32px 40px;
+  }
+  .contact-actions .contact-cta-primary,
+  .contact-actions .contact-cta-secondary {
+    padding: 16px;
+    gap: 16px;
+  }
+  .contact-actions svg {
+    width: 24px;
+    height: 24px;
+  }
+  .contact-cta-action {
+    font-size: 16px;
+  }
+  .contact-cta-label {
+    font-size: 10px;
   }
   .contact-faq {
     grid-template-columns: 1fr;
     gap: 12px;
+    margin: 0 32px;
+  }
+  .faq-item {
+    padding: 16px 20px;
+  }
+  .faq-q {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .faq-a {
+    font-size: 13px;
   }
   #contact {
     padding: 100px 28px;
@@ -5349,6 +5492,16 @@ html[dir="rtl"] .social-rail-dot:hover .social-rail-tooltip {
   transform: translateY(-50%) translateX(0);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM OVERRIDES FOR SPACING
+   ═══════════════════════════════════════════════════════════ */
+#map {
+  padding-bottom: 0 !important;
+}
+.story-chapter[data-story-chapter="1"] {
+  padding-top: 20px !important;
+}
+
 /* Hide on mobile */
 @media (max-width: 900px) {
   .social-rail {
@@ -5887,9 +6040,14 @@ html[dir="rtl"] .story-photo-badge {
   }
   .story-chapter {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 55px 24px;
+    gap: 24px;
+    padding: 32px 24px;
     min-height: auto;
+  }
+  .story-glyph,
+  .story-globe {
+    max-width: 180px;
+    margin: 0 auto;
   }
   .story-chapter-reverse .story-content {
     order: 1;
@@ -5906,11 +6064,16 @@ html[dir="rtl"] .story-photo-badge {
   .story-year {
     font-size: 80px;
     bottom: 40px;
-    left: 24px;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: max-content;
+    text-align: center;
   }
   html[dir="rtl"] .story-year {
-    right: 24px;
-    left: auto;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
   }
   .story-stats {
     gap: 32px;
@@ -6153,17 +6316,18 @@ html[dir="rtl"] .qb-close {
 .qb-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px; /* Closer together */
   margin-top: 8px;
+  justify-content: center; /* Center them nicely */
 }
 .qb-chip {
-  padding: 12px 18px;
+  padding: 8px 14px; /* Smaller padding */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   color: rgba(240, 243, 248, 0.8);
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px; /* Smaller text */
   font-weight: 500;
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -6612,7 +6776,7 @@ html[dir="rtl"] .coming-soon-cta svg {
 @media (max-width: 768px) {
   .process-expectations {
     padding: 32px 24px;
-    margin-top: 60px;
+    margin: 60px 32px 0;
   }
   .exp-grid {
     grid-template-columns: 1fr;
@@ -7428,46 +7592,35 @@ body,
   font-weight: 500 !important;
 }
 
-/* Centering the eyebrow pills and cutting space above brands */
-#home-brands {
-  margin-top: -80px !important; /* Pulls it up into the free space of hero */
-  position: relative;
-  z-index: 20;
-}
-
+/* Centering the eyebrow pills */
 .eyebrow,
 .home-brands-label,
 .home-cta-eyebrow {
   margin: 0 auto !important;
   display: flex !important;
   width: fit-content !important;
-}
-
-/* Space under eyebrow pills */
-.eyebrow,
-.home-brands-label,
-.home-cta-eyebrow {
   margin-bottom: 32px !important;
 }
 
-/* Reduce space above What I Do */
+/* Space above What I Do */
 #home-services {
   padding-top: 20px !important;
 }
 
-/* Keep space above Trusted by teams at reduced, but maybe slightly adjust */
+/* Adjust space above Trusted by teams at */
 #home-brands {
-  margin-top: -60px !important;
+  position: relative;
+  z-index: 20;
 }
-
-/* Adjust top space for Trusted by teams at (reduce a little, not entirely) */
-#home-brands {
-  margin-top: -25px !important;
+@media (min-width: 901px) {
+  #home-brands {
+    margin-top: -140px !important; /* Pulls it up into the free space of hero on desktop */
+  }
 }
-
-/* Significantly reduce the empty space above Trusted by teams at */
-#home-brands {
-  margin-top: -140px !important;
+@media (max-width: 900px) {
+  #home-brands {
+    margin-top: 24px !important; /* Add proper spacing on mobile */
+  }
 }
 
 /* Override: Remove corner brackets and make cards smooth/glassy */
@@ -8368,7 +8521,7 @@ p,
 #nav .nav-actions {
   display: flex !important;
   align-items: center !important;
-  gap: 8px !important;
+  gap: 4px !important; /* Reduced gap for mobile */
 }
 
 /* Language Button */
@@ -8376,9 +8529,9 @@ p,
   background: transparent !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   border-radius: 100px !important;
-  padding: 8px 16px !important;
+  padding: 6px 12px !important; /* Reduced padding for mobile */
   color: #fff !important;
-  font-size: 13px !important;
+  font-size: 12px !important; /* Slightly smaller text for mobile */
   font-weight: 500 !important;
   cursor: pointer !important;
 }
@@ -8389,13 +8542,13 @@ p,
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   color: #ffffff !important;
   border-radius: 100px !important;
-  padding: 10px 24px !important;
+  padding: 8px 16px !important; /* Reduced padding for mobile */
   font-weight: 600 !important;
-  font-size: 14px !important;
+  font-size: 13px !important; /* Slightly smaller text */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 6px !important;
+  gap: 4px !important;
   box-shadow:
     0 8px 24px rgba(58, 127, 199, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
@@ -8605,7 +8758,7 @@ p,
 
 /* Increase space between all chapters in the timeline */
 .story-chapter:not(.story-chapter-final) {
-  margin-bottom: 160px !important;
+  margin-bottom: 32px !important;
 }
 
 /* Cut free space above "And Today" */

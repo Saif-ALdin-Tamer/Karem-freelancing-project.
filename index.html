@@ -40,7 +40,72 @@
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
 
 
-<link rel="stylesheet" href="style.css?v=13">
+<link rel="stylesheet" href="style.css?v=62">
+<style>
+  @media (max-width: 1024px) {
+    .story-year {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: none !important;
+      width: 100% !important;
+      text-align: center !important;
+      margin: 20px 0 !important;
+      z-index: 1 !important;
+    }
+    html[dir="rtl"] .story-year {
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+    }
+    /* Drastic Box size fix (Horizontal Grid Layout) */
+    .process-card {
+      padding: 16px !important;
+      display: grid !important;
+      grid-template-columns: 90px 1fr !important;
+      grid-template-rows: auto auto !important;
+      column-gap: 16px !important;
+      row-gap: 6px !important;
+      align-items: center !important;
+    }
+    .process-icon-wrap {
+      grid-column: 1 !important;
+      grid-row: 1 / span 2 !important;
+      min-height: auto !important; 
+      margin: 0 !important;
+    }
+    .process-icon-wrap svg {
+      width: 90px !important;
+      height: 90px !important;
+    }
+    .process-card-title {
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      font-size: 16px !important;
+      margin: 0 !important;
+      text-align: left !important;
+      align-self: end !important;
+    }
+    .process-card-desc {
+      grid-column: 2 !important;
+      grid-row: 2 !important;
+      font-size: 13px !important;
+      line-height: 1.4 !important;
+      margin: 0 !important;
+      text-align: left !important;
+      align-self: start !important;
+    }
+    html[dir="rtl"] .process-card-title,
+    html[dir="rtl"] .process-card-desc {
+      text-align: right !important;
+    }
+    .process-grid-new {
+      gap: 12px !important;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -1262,9 +1327,6 @@
       <a href="#about" onclick="spaGo('about');return false;" data-en="About" data-ar="عني">About</a>
       <a href="#services" onclick="spaGo('services');return false;" data-en="Services" data-ar="خدماتي">Services</a>
       <a href="#contact" onclick="spaGo('contact');return false;" data-en="Contact" data-ar="تواصل">Contact</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title" data-en="For Editors" data-ar="للمونتيرين">For Editors</div>
       <a href="#training" onclick="spaGo('training');return false;" data-en="Mentorship & Training" data-ar="التدريب والمنتورنج">Mentorship &amp; Training</a>
       <a href="#training" onclick="spaGo('training');return false;" data-en="Student Reviews" data-ar="آراء الطلاب">Student Reviews</a>
     </div>

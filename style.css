@@ -3257,11 +3257,11 @@ html[dir="rtl"] .services-showcase-marquee {
     margin-top: 40px;
   }
   .sm-portrait {
-    height: 260px;
+    height: 150px;
     aspect-ratio: 1080 / 1920;
   }
   .sm-landscape {
-    height: 260px;
+    height: 150px;
     aspect-ratio: 1920 / 1080;
   }
 }

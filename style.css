@@ -3181,8 +3181,9 @@ html[dir="rtl"] .svc-card:hover {
   width: 100vw;
   max-width: 100vw;
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
+  /* Use negative margins to break out of container safely instead of left/transform which bugs out RTL */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
   margin-top: 60px;
   overflow: hidden;
   padding: 20px 0;
@@ -4376,7 +4377,7 @@ footer {
 }
 
 @media (max-width: 1024px) {
-  body {
+  html, body {
     overflow-x: hidden !important;
   }
   nav {

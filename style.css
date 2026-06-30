@@ -69,7 +69,8 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  bottom: -100px;
+  height: 100dvh;
+  width: 100vw;
   z-index: -2;
   transform: translateZ(0);
   will-change: transform;
@@ -90,7 +91,8 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
-  bottom: -100px;
+  height: 100dvh;
+  width: 100vw;
   z-index: -1;
   transform: translateZ(0);
   will-change: transform;

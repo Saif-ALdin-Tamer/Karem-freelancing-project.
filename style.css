@@ -9130,3 +9130,16 @@ html body .in-portfolio footer {
 .video-card-role {
   font-family: 'Montserrat', sans-serif !important;
 }
+
+/* ═══════════════════════════════════════════════════════════
+   FIX: REMOVE DARK NAVY BAND ABOVE MOBILE BROWSER TOOLBAR
+   The body::before and body::after gradient overlays create a
+   visible dark blue band in the gap between sections and the
+   Safari/Chrome bottom bar. Hide them entirely on mobile.
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  body::before,
+  body::after {
+    display: none !important;
+  }
+}

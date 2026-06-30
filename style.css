@@ -68,7 +68,10 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: -100px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120vh;
   z-index: -2;
   transform: translateZ(0);
   will-change: transform;
@@ -88,7 +91,10 @@ body::before {
 body::after {
   content: "";
   position: fixed;
-  inset: -100px;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120vh;
   z-index: -1;
   transform: translateZ(0);
   will-change: transform;
@@ -9129,17 +9135,4 @@ html body .in-portfolio footer {
 .video-card-name,
 .video-card-role {
   font-family: 'Montserrat', sans-serif !important;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   FIX: REMOVE DARK NAVY BAND ABOVE MOBILE BROWSER TOOLBAR
-   The body::before and body::after gradient overlays create a
-   visible dark blue band in the gap between sections and the
-   Safari/Chrome bottom bar. Hide them entirely on mobile.
-   ═══════════════════════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  body::before,
-  body::after {
-    display: none !important;
-  }
 }

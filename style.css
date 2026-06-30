@@ -45,6 +45,8 @@
 html {
   scroll-behavior: auto;
   background-color: #04060a !important;
+  height: 100%;
+  min-height: 100dvh;
 }
 
 @media (min-width: 1024px) {
@@ -60,12 +62,14 @@ body {
   -webkit-font-smoothing: antialiased;
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
+  bottom: -100px;
   z-index: -2;
   transform: translateZ(0);
   will-change: transform;
@@ -86,6 +90,7 @@ body::after {
   content: "";
   position: fixed;
   inset: 0;
+  bottom: -100px;
   z-index: -1;
   transform: translateZ(0);
   will-change: transform;

@@ -6,11 +6,7 @@
 
    /*  Zoom section  */
 
-@media (min-width: 1024px) {
-    html {
-        zoom: 1.25;
-    }
-}
+/* Moved desktop zoom to after base html */
 
 /* 3. باقي أكوادك العادية تبدأ من هنا (root, *, body) */
 :root {
@@ -48,8 +44,13 @@
 }
 html {
   scroll-behavior: auto;
-  zoom: -1.30; /* Scale site layout to 125% */
   background-color: #04060a !important;
+}
+
+@media (min-width: 1024px) {
+    html {
+        zoom: 1.10;
+    }
 }
 body {
   background-color: #04060a !important;

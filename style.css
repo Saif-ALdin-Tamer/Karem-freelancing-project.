@@ -68,9 +68,7 @@ body {
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
-  height: 100dvh;
-  width: 100vw;
+  inset: -100px;
   z-index: -2;
   transform: translateZ(0);
   will-change: transform;
@@ -90,9 +88,7 @@ body::before {
 body::after {
   content: "";
   position: fixed;
-  inset: 0;
-  height: 100dvh;
-  width: 100vw;
+  inset: -100px;
   z-index: -1;
   transform: translateZ(0);
   will-change: transform;
@@ -4374,7 +4370,7 @@ footer {
 }
 
 @media (max-width: 1024px) {
-  html, body {
+  body {
     overflow-x: hidden !important;
   }
   nav {

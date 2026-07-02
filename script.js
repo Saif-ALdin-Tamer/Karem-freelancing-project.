@@ -81,11 +81,14 @@
       currentChapter = chapterIndex;
       
       const skipBtn = document.getElementById("welcomeSkipBtn");
+      const floatingLangBtn = document.getElementById("floatingLangBtn");
       if (skipBtn) {
         if (chapterIndex === 6) {
           skipBtn.classList.add("hidden-on-mobile");
+          if (floatingLangBtn) floatingLangBtn.classList.add("hidden-on-mobile");
         } else {
           skipBtn.classList.remove("hidden-on-mobile");
+          if (floatingLangBtn) floatingLangBtn.classList.remove("hidden-on-mobile");
         }
       }
 
@@ -160,19 +163,35 @@
 
   // Language toggle
   const langBtn = document.getElementById("langBtn");
+  const floatingLangBtn = document.getElementById("floatingLangBtn");
   let currentLang = "en";
-  langBtn.addEventListener("click", () => {
+  
+  const toggleLanguage = () => {
     currentLang = currentLang === "en" ? "ar" : "en";
     document.documentElement.lang = currentLang;
     document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
-    langBtn.textContent = currentLang === "en" ? "العربية" : "English";
+    
+    const nextLangText = currentLang === "en" ? "العربية" : "English";
+    if (langBtn) langBtn.textContent = nextLangText;
+    if (floatingLangBtn) floatingLangBtn.textContent = nextLangText;
+    
     document.querySelectorAll("[data-en]").forEach((el) => {
       const txt = el.getAttribute("data-" + currentLang);
       if (!txt) return;
       if (txt.includes("<")) el.innerHTML = txt;
       else el.textContent = txt;
     });
-  });
+
+    document.querySelectorAll("[data-en-placeholder]").forEach((el) => {
+      const txt = el.getAttribute("data-" + currentLang + "-placeholder");
+      if (txt) {
+        el.placeholder = txt;
+      }
+    });
+  };
+
+  if (langBtn) langBtn.addEventListener("click", toggleLanguage);
+  if (floatingLangBtn) floatingLangBtn.addEventListener("click", toggleLanguage);
 
   // Init
   update();
@@ -857,6 +876,10 @@
     document.querySelectorAll("[data-en-role]").forEach((el) => {
       const txt = el.getAttribute(`data-${currentLang}-role`);
       if (txt) el.textContent = txt;
+    });
+    document.querySelectorAll("[data-en-placeholder]").forEach((el) => {
+      const txt = el.getAttribute(`data-${currentLang}-placeholder`);
+      if (txt) el.placeholder = txt;
     });
   });
 

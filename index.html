@@ -40,7 +40,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
 
 
-<link rel="stylesheet" href="style.css?v=82">
+<link rel="stylesheet" href="style.css?v=83">
 <style>
   @media (max-width: 1024px) {
     .story-year {
@@ -60,49 +60,68 @@
       right: auto !important;
       transform: none !important;
     }
-    /* Drastic Box size fix (Horizontal Grid Layout) */
+    /* Drastic Box size fix (Vertical Layout for Mobile) */
     .process-card {
-      padding: 16px !important;
-      display: grid !important;
-      grid-template-columns: 90px 1fr !important;
-      grid-template-rows: auto auto !important;
-      column-gap: 16px !important;
-      row-gap: 6px !important;
+      padding: 32px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
       align-items: center !important;
+      text-align: center !important;
+      gap: 16px !important;
     }
     .process-icon-wrap {
-      grid-column: 1 !important;
-      grid-row: 1 / span 2 !important;
       min-height: auto !important; 
       margin: 0 !important;
     }
     .process-icon-wrap svg {
-      width: 90px !important;
-      height: 90px !important;
+      width: 200px !important;
+      height: 200px !important;
     }
     .process-card-title {
-      grid-column: 2 !important;
-      grid-row: 1 !important;
-      font-size: 16px !important;
+      font-size: 22px !important;
       margin: 0 !important;
-      text-align: left !important;
-      align-self: end !important;
+      text-align: center !important;
     }
     .process-card-desc {
-      grid-column: 2 !important;
-      grid-row: 2 !important;
-      font-size: 13px !important;
-      line-height: 1.4 !important;
+      font-size: 15px !important;
+      line-height: 1.5 !important;
       margin: 0 !important;
-      text-align: left !important;
-      align-self: start !important;
+      text-align: center !important;
     }
     html[dir="rtl"] .process-card-title,
     html[dir="rtl"] .process-card-desc {
-      text-align: right !important;
+      text-align: center !important;
     }
     .process-grid-new {
       gap: 12px !important;
+    }
+    /* ── Service cards bigger on mobile ── */
+    .services-grid {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+      padding: 0 16px !important;
+    }
+    .svc-card {
+      padding: 56px 36px !important;
+      min-height: 280px !important;
+      gap: 24px !important;
+    }
+    .svc-card .svc-icon {
+      width: 60px !important;
+      height: 60px !important;
+      margin-bottom: 12px !important;
+    }
+    .svc-card .svc-icon svg {
+      width: 28px !important;
+      height: 28px !important;
+    }
+    .svc-card .svc-title {
+      font-size: 20px !important;
+      margin-bottom: 10px !important;
+    }
+    .svc-card .svc-desc {
+      font-size: 15px !important;
+      line-height: 1.65 !important;
     }
   }
 </style>
@@ -267,15 +286,17 @@
     <span data-en="Karim Abdelaziz" data-ar="كريم عبدالعزيز">Karim Abdelaziz</span>
   </div>
   <div class="top-actions">
-    <button class="lang-btn" id="langBtn">العربية</button>
   </div>
 </div>
 
-<!-- Large floating skip button (always visible during welcome) -->
-<button class="skip-btn-floating" onclick="enterSite()" id="welcomeSkipBtn">
-  <span data-en="Skip to Portfolio" data-ar="تخطي للمعرض">Skip to Portfolio</span>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-</button>
+<!-- Floating actions (always visible during welcome) -->
+<div class="floating-actions-container" id="floatingActionsContainer">
+  <button class="lang-btn-floating" id="floatingLangBtn">العربية</button>
+  <button class="skip-btn-floating" onclick="enterSite()" id="welcomeSkipBtn">
+    <span data-en="Skip to Portfolio" data-ar="تخطي للمعرض">Skip to Portfolio</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
 
 <!-- Progress Rail (vertical line on left) -->
 <div class="progress-rail">
@@ -315,6 +336,11 @@
 <nav id="nav">
   <a href="#" class="nav-logo" onclick="spaGo('home');return false;">KA</a>
   <ul class="nav-links" id="navLinks">
+    <li class="mobile-nav-close" style="display: none;">
+      <a href="#" class="nav-cta" onclick="document.getElementById('navLinks').classList.remove('mobile-open'); document.body.style.overflow = ''; return false;" style="width: 100%; justify-content: center;">
+        <span data-en="Back to page" data-ar="العودة للصفحة">Back to page</span>
+      </a>
+    </li>
     <li><a href="#home" onclick="spaGo('home');return false;" data-spa="home" data-en="Home" data-ar="الرئيسية">Home</a></li>
     <li><a href="#about" onclick="spaGo('about');return false;" data-spa="about" data-en="About" data-ar="عني">About</a></li>
     <li><a href="#services" onclick="spaGo('services');return false;" data-spa="services" data-en="Services" data-ar="خدماتي">Services</a></li>
@@ -611,14 +637,14 @@
           </div>
         </div>
         <div class="map-countries">
-          <span class="ctry home"><span class="ctry-flag">🇪🇬</span> Egypt</span>
-          <span class="ctry"><span class="ctry-flag">🇸🇦</span> Saudi Arabia</span><span class="ctry"><span class="ctry-flag">🇦🇪</span> UAE</span>
-          <span class="ctry"><span class="ctry-flag">🇰🇼</span> Kuwait</span><span class="ctry"><span class="ctry-flag">🇱🇧</span> Lebanon</span>
-          <span class="ctry"><span class="ctry-flag">🇸🇾</span> Syria</span><span class="ctry"><span class="ctry-flag">🇯🇴</span> Jordan</span>
-          <span class="ctry"><span class="ctry-flag">🇮🇶</span> Iraq</span><span class="ctry"><span class="ctry-flag">🇹🇷</span> Turkey</span>
-          <span class="ctry"><span class="ctry-flag">🇳🇴</span> Norway</span><span class="ctry"><span class="ctry-flag">🇬🇧</span> UK</span>
-          <span class="ctry"><span class="ctry-flag">🇺🇸</span> USA</span><span class="ctry"><span class="ctry-flag">🇨🇦</span> Canada</span>
-          <span class="ctry"><span class="ctry-flag">🇦🇺</span> Australia</span>
+          <span class="ctry home"><span class="ctry-flag">🇪🇬</span> <span data-en="Egypt" data-ar="مصر">Egypt</span></span>
+          <span class="ctry"><span class="ctry-flag">🇸🇦</span> <span data-en="Saudi Arabia" data-ar="السعودية">Saudi Arabia</span></span><span class="ctry"><span class="ctry-flag">🇦🇪</span> <span data-en="UAE" data-ar="الإمارات">UAE</span></span>
+          <span class="ctry"><span class="ctry-flag">🇰🇼</span> <span data-en="Kuwait" data-ar="الكويت">Kuwait</span></span><span class="ctry"><span class="ctry-flag">🇱🇧</span> <span data-en="Lebanon" data-ar="لبنان">Lebanon</span></span>
+          <span class="ctry"><span class="ctry-flag">🇸🇾</span> <span data-en="Syria" data-ar="سوريا">Syria</span></span><span class="ctry"><span class="ctry-flag">🇯🇴</span> <span data-en="Jordan" data-ar="الأردن">Jordan</span></span>
+          <span class="ctry"><span class="ctry-flag">🇮🇶</span> <span data-en="Iraq" data-ar="العراق">Iraq</span></span><span class="ctry"><span class="ctry-flag">🇹🇷</span> <span data-en="Turkey" data-ar="تركيا">Turkey</span></span>
+          <span class="ctry"><span class="ctry-flag">🇳🇴</span> <span data-en="Norway" data-ar="النرويج">Norway</span></span><span class="ctry"><span class="ctry-flag">🇬🇧</span> <span data-en="UK" data-ar="المملكة المتحدة">UK</span></span>
+          <span class="ctry"><span class="ctry-flag">🇺🇸</span> <span data-en="USA" data-ar="الولايات المتحدة">USA</span></span><span class="ctry"><span class="ctry-flag">🇨🇦</span> <span data-en="Canada" data-ar="كندا">Canada</span></span>
+          <span class="ctry"><span class="ctry-flag">🇦🇺</span> <span data-en="Australia" data-ar="أستراليا">Australia</span></span>
         </div>
       </div>
       <div class="world-stats-bar" style="margin-top: 32px; position: relative; z-index: 10;">
@@ -760,7 +786,7 @@
     <div class="story-chapter story-chapter-final" data-story-chapter="5">
       <div class="story-content story-content-centered">
         <div class="story-eyebrow reveal-story"><span data-en="And Today" data-ar="واليوم">And Today</span></div>
-        <h2 class="story-title-big reveal-story" style="width: fit-content; margin: 0 auto 32px; text-align: start;" data-en='The story<br><em>continues.</em>' data-ar='القصة<br><em>مستمرة.</em>'>The story<br><em>continues.</em></h2>
+        <h2 class="story-title-big reveal-story" style="width: fit-content; margin-inline: auto; text-align: center;" data-en='The story<br><em>continues.</em>' data-ar='القصة<br><em>مستمرة.</em>'>The story<br><em>continues.</em></h2>
         <p class="story-text-big reveal-story" data-en="Still chasing that perfect cut. Still up at 3am refining a sequence. Still believing every brand has a story worth telling — and that I'm here to tell it." data-ar="لسه ببحث عن المونتاج المثالي. لسه صاحي الساعة ٣ الفجر بحسّن سكوينس. لسه مؤمن إن كل براند عنده قصة تستاهل تتحكي — وإني هنا عشان أحكيها.">Still chasing that perfect cut. Still up at 3am refining a sequence. Still believing every brand has a story worth telling — and that I'm here to tell it.</p>
         <div class="story-cta-wrap reveal-story">
           <a href="#contact" class="cta-primary">
@@ -780,7 +806,7 @@
   <div class="container">
     <div style="text-align:center;margin-bottom:64px;">
       <div class="eyebrow" data-en="The Process" data-ar="رحلة العمل">The Process</div>
-      <h2 class="heading" data-en="Simple. Transparent. Fast." data-ar="بسيط. واضح. سريع.">Simple. Transparent. Fast.</h2>
+      <h2 class="heading" style="line-height: 1.1;" data-en="Simple.<br>Transparent.<br>Fast." data-ar="بسيط.<br>واضح.<br>سريع.">Simple.<br>Transparent.<br>Fast.</h2>
       <p class="lead" data-en="From the first message to final delivery — here's exactly how we'll work together." data-ar="من أول رسالة لحد التسليم النهائي — اعرف بالظبط هنشتغل مع بعض إزاي.">From the first message to final delivery — here's exactly how we'll work together.</p>
     </div>
 
@@ -847,13 +873,13 @@
               <circle cx="100" cy="70" r="8" fill="rgba(255,255,255,0.1)"/>
               <circle cx="100" cy="68" r="3" fill="#7fa6e3" stroke="none"/>
               <path d="M96 74 Q 100 70 104 74" stroke="#7fa6e3" stroke-width="1.5" stroke-linecap="round"/>
-              <rect x="130" y="110" width="20" height="40" rx="3" fill="rgba(255,255,255,0.1)"/>
-              <rect x="165" y="90" width="20" height="60" rx="3" fill="rgba(255,255,255,0.2)"/>
-              <rect x="200" y="60" width="20" height="90" rx="3" fill="#7fa6e3"/>
-              <rect x="235" y="100" width="20" height="50" rx="3" fill="rgba(255,255,255,0.15)"/>
-              <rect x="30" y="130" width="10" height="20" rx="2" fill="rgba(255,255,255,0.03)"/>
-              <rect x="45" y="120" width="10" height="30" rx="2" fill="rgba(255,255,255,0.03)"/>
-              <rect x="345" y="110" width="10" height="40" rx="2" fill="rgba(255,255,255,0.03)"/>
+              <rect x="110" y="80" width="40" height="70" rx="4" fill="rgba(255,255,255,0.1)"/>
+              <rect x="160" y="60" width="40" height="90" rx="4" fill="rgba(255,255,255,0.2)"/>
+              <rect x="210" y="30" width="40" height="120" rx="4" fill="#7fa6e3"/>
+              <rect x="260" y="70" width="40" height="80" rx="4" fill="rgba(255,255,255,0.15)"/>
+              <rect x="20" y="110" width="20" height="40" rx="2" fill="rgba(255,255,255,0.03)"/>
+              <rect x="50" y="90" width="20" height="60" rx="2" fill="rgba(255,255,255,0.03)"/>
+              <rect x="340" y="80" width="20" height="70" rx="2" fill="rgba(255,255,255,0.03)"/>
             </g>
           </svg>
         </div>
@@ -991,7 +1017,7 @@
         </span>
       </div>
     </div>
-    <div class="services-grid">
+    <div class="services-grid" id="svcGrid">
       <div class="svc-card reveal" data-service="editing">
         <div class="svc-icon"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
         <div class="svc-card-body">
@@ -1369,7 +1395,7 @@
       <div class="qb-step qb-step-active" data-step="1">
         <div class="qb-step-num"><span data-en="Step 1 of 5" data-ar="خطوة ١ من ٥">Step 1 of 5</span></div>
         <label class="qb-label" data-en="What's your name?" data-ar="ما اسمك؟">What's your name?</label>
-        <input type="text" class="qb-input" id="qbName" placeholder="Your name" autocomplete="name"/>
+        <input type="text" class="qb-input" id="qbName" placeholder="Your name" autocomplete="name" data-en-placeholder="Your name" data-ar-placeholder="ما اسمك؟"/>
       </div>
 
       <!-- STEP 2: Project Type -->
@@ -1488,7 +1514,7 @@
     <!-- STEP 1: Name -->
     <div class="qb-step active" data-step="1">
       <div class="qb-step-label" data-en="What's your name?" data-ar="اسمك إيه؟">What's your name?</div>
-      <input type="text" class="qb-input" id="qbName" placeholder="Your name" data-en-placeholder="Your name" data-ar-placeholder="اسمك">
+      <input type="text" class="qb-input" id="qbName" placeholder="Your name" data-en-placeholder="Your name" data-ar-placeholder="ما اسمك؟">
       <div class="qb-actions">
         <button class="qb-btn qb-btn-primary" onclick="qbNext()">
           <span data-en="Next" data-ar="التالي">Next</span>
@@ -1683,6 +1709,9 @@
 
 
 
+<script>
+/* Removed inline style injection to allow CSS to control sizing */
+</script>
 <script src="script.js?v=5"></script>
 </body>
 </html>

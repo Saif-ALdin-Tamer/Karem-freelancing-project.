@@ -1,2 +1,2 @@
-userOfDashboard: Kareem 
-pass: karem portfolio webProj
+userOfDashboard: kareem 
+pass: 123456

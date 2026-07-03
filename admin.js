@@ -11,7 +11,8 @@
     MAP_COUNTRIES: 'ka_admin_map_countries',
     GLOBAL_STATS: 'ka_admin_global_stats',
     ANALYTICS: 'ka_admin_analytics',
-    SETTINGS: 'ka_admin_settings'
+    SETTINGS: 'ka_admin_settings',
+    INTRO_PAGES: 'ka_admin_intro_pages'
   };
 
   const DEFAULT_CREDS = {
@@ -253,6 +254,16 @@
     loadData(); // apply to DOM
   }
 
+  function loadIntroPages() {
+    return safeJSONParse(localStorage.getItem(STORAGE_KEYS.INTRO_PAGES), window.INTRO_PAGES || []);
+  }
+
+  function saveIntroPages(pages) {
+    localStorage.setItem(STORAGE_KEYS.INTRO_PAGES, JSON.stringify(pages));
+    window.INTRO_PAGES = pages;
+    if(typeof window.renderFrontendIntroPages === 'function') window.renderFrontendIntroPages();
+  }
+
   function exportAllData() {
     const data = {
       clientReviews: window.clientReviews,
@@ -307,7 +318,8 @@
         provided: 'Provided Services',
         map: 'Map & Stats',
         analytics: 'Analytics',
-        settings: 'Settings'
+        settings: 'Settings',
+        'intro-pages': 'Intro Pages'
       };
       titleEl.innerText = pageTitles[page] || page.charAt(0).toUpperCase() + page.slice(1);
     }
@@ -319,6 +331,7 @@
 
     // Render corresponding page
     if (page === 'overview') renderOverview();
+    else if (page === 'intro-pages') renderIntroPagesList();
     else if (page === 'feedback') renderFeedbackPage();
     else if (page === 'works') renderWorksPage();
     else if (page === 'provided') renderProvidedPage();
@@ -508,6 +521,97 @@
     renderReviews(type);
     getEl('adminReviewModal').classList.remove('active');
     showToast(`Review ${index > -1 ? 'updated' : 'added'} successfully`);
+  }
+
+  function renderIntroPagesList() {
+    const container = getEl('adminIntroList');
+    if(!container) return;
+    
+    const pages = loadIntroPages();
+    if (!pages || pages.length === 0) {
+       container.innerHTML = '<p class="admin-empty-state">No intro pages found.</p>';
+       return;
+    }
+
+    container.innerHTML = pages.map((p, index) => `
+      <div class="admin-review-card" style="display:flex; flex-direction:column; gap:10px;">
+        <div class="admin-review-header">
+          <div class="admin-review-initials" style="width:40px;height:40px;border-radius:20px;background:#3e3e3e;display:flex;align-items:center;justify-content:center;color:#fff;">${index}</div>
+          <div class="admin-review-info">
+            <div class="admin-review-name">${p.labelEn}</div>
+            <div class="admin-review-role">Type: ${p.type}</div>
+          </div>
+        </div>
+        <div class="admin-review-actions">
+          <button class="admin-edit-btn" onclick="window.adminApp.editIntro(${index})">Edit</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openIntroModal(index) {
+    const modal = getEl('adminIntroModal');
+    if(!modal) return;
+    
+    const pages = loadIntroPages();
+    const p = pages[index];
+    if(!p) return;
+
+    getEl('adminIntroId').value = index;
+    getEl('adminIntroLabelEn').value = p.labelEn || '';
+    getEl('adminIntroLabelAr').value = p.labelAr || '';
+    
+    if (getEl('adminIntroNumber')) getEl('adminIntroNumber').value = p.number || '';
+    if (getEl('adminIntroSuffixEn')) getEl('adminIntroSuffixEn').value = p.suffixEn || '';
+    if (getEl('adminIntroSuffixAr')) getEl('adminIntroSuffixAr').value = p.suffixAr || '';
+    if (getEl('adminIntroPhraseEn')) getEl('adminIntroPhraseEn').value = p.phraseEn || '';
+    if (getEl('adminIntroPhraseAr')) getEl('adminIntroPhraseAr').value = p.phraseAr || '';
+    if (getEl('adminIntroSubEn')) getEl('adminIntroSubEn').value = p.subEn || '';
+    if (getEl('adminIntroSubAr')) getEl('adminIntroSubAr').value = p.subAr || '';
+    
+    const ctaGroup = getEl('adminIntroCtaGroup');
+    if (p.type === 'final') {
+       if(ctaGroup) ctaGroup.style.display = 'block';
+       if(getEl('adminIntroCtaEn')) getEl('adminIntroCtaEn').value = p.ctaEn || '';
+       if(getEl('adminIntroCtaAr')) getEl('adminIntroCtaAr').value = p.ctaAr || '';
+    } else {
+       if(ctaGroup) ctaGroup.style.display = 'none';
+    }
+
+    modal.classList.add('active');
+  }
+
+  function saveIntro() {
+    const index = parseInt(getEl('adminIntroId').value);
+    const pages = loadIntroPages();
+    const p = pages[index];
+    if(!p) return;
+
+    p.labelEn = getEl('adminIntroLabelEn').value;
+    p.labelAr = getEl('adminIntroLabelAr').value;
+    
+    if (getEl('adminIntroNumber') && getEl('adminIntroNumber').value !== '') {
+       p.number = parseInt(getEl('adminIntroNumber').value);
+    }
+    
+    if (getEl('adminIntroSuffixEn')) p.suffixEn = getEl('adminIntroSuffixEn').value;
+    if (getEl('adminIntroSuffixAr')) p.suffixAr = getEl('adminIntroSuffixAr').value;
+    
+    if (getEl('adminIntroPhraseEn')) p.phraseEn = getEl('adminIntroPhraseEn').value;
+    if (getEl('adminIntroPhraseAr')) p.phraseAr = getEl('adminIntroPhraseAr').value;
+    
+    if (getEl('adminIntroSubEn')) p.subEn = getEl('adminIntroSubEn').value;
+    if (getEl('adminIntroSubAr')) p.subAr = getEl('adminIntroSubAr').value;
+    
+    if (p.type === 'final') {
+       if (getEl('adminIntroCtaEn')) p.ctaEn = getEl('adminIntroCtaEn').value;
+       if (getEl('adminIntroCtaAr')) p.ctaAr = getEl('adminIntroCtaAr').value;
+    }
+    
+    saveIntroPages(pages);
+    renderIntroPagesList();
+    getEl('adminIntroModal').classList.remove('active');
+    showToast('Chapter updated successfully');
   }
 
   async function deleteReview(type, index) {
@@ -1285,6 +1389,9 @@
     if(getEl('adminAddProvided')) getEl('adminAddProvided').addEventListener('click', addProvidedService);
     
     // Map & Stats Listeners
+    if(getEl('adminSaveReview')) getEl('adminSaveReview').addEventListener('click', saveReview);
+    if(getEl('adminSaveIntro')) getEl('adminSaveIntro').addEventListener('click', saveIntro);
+    if(getEl('adminProvidedSave')) getEl('adminProvidedSave').addEventListener('click', saveProvidedService);
     if(getEl('adminAddCountry')) getEl('adminAddCountry').addEventListener('click', addCountry);
     if(getEl('adminSaveProjects')) getEl('adminSaveProjects').addEventListener('click', () => saveStats('projects'));
     if(getEl('adminSaveCountries')) getEl('adminSaveCountries').addEventListener('click', () => saveStats('countries'));
@@ -1350,6 +1457,7 @@
     
     // Expose needed functions globally for inline handlers
     window.adminApp = {
+      editIntro: (idx) => openIntroModal(idx),
       editReview: (type, idx) => openReviewModal(type, idx),
       deleteReview,
       deleteWork,

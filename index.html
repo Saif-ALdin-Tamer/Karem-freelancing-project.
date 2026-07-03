@@ -34,10 +34,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"/>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/js/jsvectormap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" defer></script>
 
 
 <link rel="stylesheet" href="style.css?v=84">
@@ -176,106 +176,7 @@
   <!-- Stage -->
   <div class="stage" id="stage">
 
-    <!-- Chapter 0 — INTRO -->
-    <div class="chapter chapter-intro active" data-chapter="0">
-      <div class="chapter-inner">
-        <div class="intro-logo">KA</div>
-        <h1 class="intro-title" data-en='<strong>Karim</strong> Abdelaziz' data-ar='<strong>كريم</strong> عبدالعزيز'><strong>Karim</strong> Abdelaziz</h1>
-        <p class="intro-sub" data-en="A story told in numbers" data-ar="قصة تُروى بالأرقام">A story told in numbers</p>
-      </div>
-    </div>
-
-    <!-- Chapter 1 — 8 YEARS -->
-    <div class="chapter" data-chapter="1">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="Chapter 01 · The Beginning" data-ar="الفصل ٠١ · البداية">Chapter 01 · The Beginning</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <div class="chap-number"><span class="num-counter" data-target="8">0</span><span class="num-suffix" data-en="years" data-ar="سنوات">years</span></div>
-        <p class="chap-phrase" data-en='It started with a <em>borrowed camera</em> and a story to tell.' data-ar='بدأت بـ<em>كاميرا مستعارة</em> وقصة لأرويها.'>It started with a <em>borrowed camera</em> and a story to tell.</p>
-        <div class="chap-sub" data-en="2017 — Cairo" data-ar="٢٠١٧ — القاهرة">2017 — Cairo</div>
-      </div>
-    </div>
-
-    <!-- Chapter 2 — 1,318 PROJECTS -->
-    <div class="chapter" data-chapter="2">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="Chapter 02 · The Craft" data-ar="الفصل ٠٢ · الحرفة">Chapter 02 · The Craft</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <div class="chap-number"><span class="num-counter" data-target="1318">0</span><span class="num-suffix">+</span></div>
-        <p class="chap-phrase" data-en='Projects shipped. <em>Each one a chance to get a little sharper.</em>' data-ar='مشروع منجز. <em>كل واحد فرصة لأصبح أكثر دقة.</em>'>Projects shipped. <em>Each one a chance to get a little sharper.</em></p>
-        <div class="chap-sub" data-en="From reels to feature films" data-ar="من الريلز للأفلام الطويلة">From reels to feature films</div>
-      </div>
-    </div>
-
-    <!-- Chapter 3 — 470 CLIENTS -->
-    <div class="chapter" data-chapter="3">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="Chapter 03 · The Trust" data-ar="الفصل ٠٣ · الثقة">Chapter 03 · The Trust</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <div class="chap-number"><span class="num-counter" data-target="470">0</span><span class="num-suffix">+</span></div>
-        <p class="chap-phrase" data-en='Clients who came back. <em>Trust is earned frame by frame.</em>' data-ar='عميل رجعوا تاني. <em>الثقة تُكتسب لقطة بلقطة.</em>'>Clients who came back. <em>Trust is earned frame by frame.</em></p>
-        <div class="chap-sub" data-en="Samsung · CUPRA · 9GAG · Artlist · Asus" data-ar="Samsung · CUPRA · 9GAG · Artlist · Asus">Samsung · CUPRA · 9GAG · Artlist · Asus</div>
-      </div>
-    </div>
-
-    <!-- Chapter 4 — 14 COUNTRIES -->
-    <div class="chapter" data-chapter="4">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="Chapter 04 · The Reach" data-ar="الفصل ٠٤ · المدى">Chapter 04 · The Reach</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <div class="chap-number"><span class="num-counter" data-target="14">0</span><span class="num-suffix" data-en="countries" data-ar="دولة">countries</span></div>
-        <p class="chap-phrase" data-en='From Cairo, the work travels. <em>Egypt, the Gulf, Europe — and beyond.</em>' data-ar='من القاهرة، الشغل بيسافر. <em>مصر، الخليج، أوروبا — وأبعد.</em>'>From Cairo, the work travels. <em>Egypt, the Gulf, Europe — and beyond.</em></p>
-        <div class="chap-sub" data-en="One studio · Global reach" data-ar="استوديو واحد · انتشار عالمي">One studio · Global reach</div>
-      </div>
-    </div>
-
-    <!-- Chapter 5 — 200+ STUDENTS -->
-    <div class="chapter" data-chapter="5">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="Chapter 05 · The Giveback" data-ar="الفصل ٠٥ · العطاء">Chapter 05 · The Giveback</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <div class="chap-number"><span class="num-counter" data-target="200">0</span><span class="num-suffix">+</span></div>
-        <p class="chap-phrase" data-en='<strong>Editors mentored.</strong> The craft only grows when you <span style="color: #6ea8e5; font-weight: 500;">pass it on.</span>' data-ar='<strong>مونتير اتدرّب.</strong> الحرفة بتكبر لما <span style="color: #6ea8e5; font-weight: 500;">تنقلها لغيرك.</span>'><strong>Editors mentored.</strong> The craft only grows when you <span style="color: #6ea8e5; font-weight: 500;">pass it on.</span></p>
-        <div class="chap-sub" data-en="Cairo · Riyadh · Online — worldwide" data-ar="القاهرة · الرياض · أونلاين — عالمياً">Cairo · Riyadh · Online — worldwide</div>
-      </div>
-    </div>
-
-    <!-- Chapter 6 — FINAL CTA -->
-    <div class="chapter chapter-final" data-chapter="6">
-      <div class="chap-glow"></div>
-      <div class="chapter-inner">
-        <div class="chap-label">
-          <div class="chap-label-line"></div>
-          <span data-en="One More Number" data-ar="رقم أخير">One More Number</span>
-          <div class="chap-label-line"></div>
-        </div>
-        <h2 class="final-title" data-en='The next one is <span style="color: #7fc4ff;">yours.</span>' data-ar='الرقم القادم <span style="color: #7fc4ff;">ليك.</span>'>The next one is <span style="color: #7fc4ff;">yours.</span></h2>
-        <button class="final-cta" onclick="enterSite()">
-          <span data-en="Enter the work" data-ar="ادخل للأعمال">Enter the work</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
+    <!-- Chapters will be injected dynamically here by script.js -->
 
   </div>
 </div>
@@ -1634,6 +1535,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         Overview
       </a>
+      <a data-admin-page="intro-pages">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        Intro Pages
+      </a>
       <a data-admin-page="feedback">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Feedback
@@ -1682,6 +1587,18 @@
     </header>
 
     <div class="admin-content">
+
+      <!-- ═══ INTRO PAGES PAGE ═══ -->
+      <div class="admin-page" data-admin-content="intro-pages">
+        <div class="admin-controls">
+          <div class="admin-controls-left">
+            <h2>Intro Pages (7 Chapters)</h2>
+          </div>
+        </div>
+        <div class="admin-list" id="adminIntroList">
+          <!-- Intro pages will be rendered here -->
+        </div>
+      </div>
 
       <!-- ═══ OVERVIEW PAGE ═══ -->
       <div class="admin-page active" data-admin-content="overview">
@@ -2127,6 +2044,65 @@
 </section>
 
 <!-- ═══ REVIEW MODAL ═══ -->
+<!-- ═══ MODAL: INTRO PAGE EDIT ═══ -->
+<div class="admin-modal-overlay" id="adminIntroModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h3 id="adminIntroModalTitle">Edit Chapter</h3>
+      <button class="admin-modal-close">&times;</button>
+    </div>
+    <div class="admin-modal-body">
+      <input type="hidden" id="adminIntroId" />
+      <div class="admin-form-group">
+        <label>Label (EN) / Title</label>
+        <input type="text" id="adminIntroLabelEn" placeholder="e.g. Chapter 01 · The Beginning">
+      </div>
+      <div class="admin-form-group">
+        <label>Label (AR) / Title</label>
+        <input type="text" id="adminIntroLabelAr" placeholder="e.g. الفصل ٠١ · البداية">
+      </div>
+      <div class="admin-form-group">
+        <label>Number Target (Optional)</label>
+        <input type="number" id="adminIntroNumber" placeholder="e.g. 8">
+      </div>
+      <div class="admin-form-group">
+        <label>Number Suffix (EN)</label>
+        <input type="text" id="adminIntroSuffixEn" placeholder="e.g. years">
+      </div>
+      <div class="admin-form-group">
+        <label>Number Suffix (AR)</label>
+        <input type="text" id="adminIntroSuffixAr" placeholder="e.g. سنوات">
+      </div>
+      <div class="admin-form-group">
+        <label>Phrase (EN)</label>
+        <textarea id="adminIntroPhraseEn" rows="3" placeholder="HTML allowed"></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label>Phrase (AR)</label>
+        <textarea id="adminIntroPhraseAr" rows="3" placeholder="HTML allowed"></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label>Sub-text (EN)</label>
+        <input type="text" id="adminIntroSubEn" placeholder="e.g. 2017 — Cairo">
+      </div>
+      <div class="admin-form-group">
+        <label>Sub-text (AR)</label>
+        <input type="text" id="adminIntroSubAr" placeholder="e.g. ٢٠١٧ — القاهرة">
+      </div>
+      <!-- For CTA Button on Chapter 6 -->
+      <div class="admin-form-group" id="adminIntroCtaGroup" style="display:none;">
+        <label>CTA Button Text (EN)</label>
+        <input type="text" id="adminIntroCtaEn" placeholder="e.g. Enter the work">
+        <label style="margin-top:10px;">CTA Button Text (AR)</label>
+        <input type="text" id="adminIntroCtaAr" placeholder="e.g. ادخل للأعمال">
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-primary" id="adminSaveIntro">Save Chapter</button>
+    </div>
+  </div>
+</div>
+
 <div class="admin-modal-overlay" id="adminReviewModal">
   <div class="admin-modal">
     <div class="admin-modal-header">

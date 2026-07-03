@@ -1886,12 +1886,43 @@ Looking forward to chatting!`;
 
 /* ═══ Script Block 11: Dynamic Map and Stats Data ═══ */
 window.updateFrontendStats = function(stats) {
-  if (!stats) return;
+  // 1. Calculate Real Works
+  let realWorksCount = 0;
+  try {
+    const works = JSON.parse(localStorage.getItem('ka_admin_works')) || window.serviceWorks || {};
+    for (let key in works) {
+      if (works[key] && works[key].works) {
+        realWorksCount += works[key].works.length;
+      }
+    }
+  } catch(e) {}
+
+  // 2. Calculate Real Reviews
+  let realReviewsCount = 0;
+  try {
+    const clientR = JSON.parse(localStorage.getItem('ka_admin_reviews_client')) || window.clientReviews || [];
+    const studentR = JSON.parse(localStorage.getItem('ka_admin_reviews_student')) || window.studentReviews || [];
+    realReviewsCount = clientR.length + studentR.length;
+  } catch(e) {}
+
   const wsItems = document.querySelectorAll('.ws-item .count');
   if (wsItems.length >= 3) {
-    wsItems[0].dataset.target = stats.projects;
-    wsItems[1].dataset.target = stats.countries;
-    wsItems[2].dataset.target = stats.clients;
+    // Projects -> Real Works
+    wsItems[0].dataset.target = realWorksCount;
+    wsItems[0].dataset.suffix = ""; // Remove '+' suffix for exact numbers
+
+    // Countries -> Keep from admin stats
+    if (stats) wsItems[1].dataset.target = stats.countries;
+
+    // Clients -> Change to Reviews
+    wsItems[2].dataset.target = realReviewsCount;
+    wsItems[2].dataset.suffix = ""; // Remove '+' suffix
+    const reviewsLabel = wsItems[2].closest('.ws-item').querySelector('.ws-lbl');
+    if (reviewsLabel) {
+      reviewsLabel.dataset.en = "Total Reviews";
+      reviewsLabel.dataset.ar = "إجمالي المراجعات";
+      reviewsLabel.textContent = document.documentElement.lang === 'ar' ? "إجمالي المراجعات" : "Total Reviews";
+    }
     
     // Update texts with animation if already counted
     wsItems.forEach(el => {
@@ -1905,6 +1936,17 @@ window.updateFrontendStats = function(stats) {
         }
       }
     });
+  }
+
+  // Update "projects shipped" story stat
+  const storyStats = document.querySelectorAll('.story-stat-num');
+  if (storyStats.length > 0) {
+    storyStats[0].dataset.countTarget = realWorksCount;
+    if (storyStats[0].dataset.counted) {
+      const target = parseInt(realWorksCount);
+      if (window.animateCount) window.animateCount(storyStats[0], target, "");
+      else storyStats[0].textContent = target.toLocaleString('en-US');
+    }
   }
 };
 
@@ -1922,11 +1964,11 @@ window.updateFrontendCountries = function(countriesData) {
 
 // Initialize with any saved stats on page load
 try {
-  const savedStats = JSON.parse(localStorage.getItem('ka_admin_global_stats'));
-  if (savedStats) {
-    window.updateFrontendStats(savedStats);
-  }
-} catch(e) {}
+  const savedStats = JSON.parse(localStorage.getItem('ka_admin_global_stats')) || {};
+  window.updateFrontendStats(savedStats);
+} catch(e) {
+  window.updateFrontendStats({});
+}
 
 // ═══════ AUTOMATIC ANALYTICS TRACKING ═══════
 (function() {

@@ -16,8 +16,8 @@
 
   const DEFAULT_CREDS = {
     username: 'kareem',
-    // SHA-256 hash of 'karem portfolio webProj'
-    passwordHash: '329e29fba94bdeccd3196c427a5896856ed491db0423419d48a53d27d36581ba' 
+    // SHA-256 hash of '123456'
+    passwordHash: '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92' 
   };
 
   const DEFAULT_ANALYTICS = {
@@ -129,7 +129,7 @@
       // Patch for anyone who loaded the old incorrect hash locally
       try {
         const creds = JSON.parse(credsStr);
-        if (creds.passwordHash === '8b78cf3f5a0928b5de984e88db257c79e60cb549edfc254ce56ce30b02008fb5') {
+        if (creds.passwordHash === '8b78cf3f5a0928b5de984e88db257c79e60cb549edfc254ce56ce30b02008fb5' || creds.passwordHash === '329e29fba94bdeccd3196c427a5896856ed491db0423419d48a53d27d36581ba') {
           localStorage.setItem(STORAGE_KEYS.CREDS, JSON.stringify(DEFAULT_CREDS));
         }
       } catch(e) {}

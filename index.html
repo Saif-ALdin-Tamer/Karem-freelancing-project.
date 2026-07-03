@@ -40,7 +40,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js"></script>
 
 
-<link rel="stylesheet" href="style.css?v=83">
+<link rel="stylesheet" href="style.css?v=84">
+<link rel="stylesheet" href="admin.css?v=6">
 <style>
   @media (max-width: 1024px) {
     .story-year {
@@ -378,7 +379,7 @@
       <span style="display:block;">Abdelaziz</span>
     </h1>
     <h1 class="hero-name" data-ar-only="true" style="display:none;">
-      <span style="display:block;">كريم</span>
+      <span style="display:block; margin-bottom: 0.25em;">كريم</span>
       <span style="display:block;">عبدالعزيز</span>
     </h1>
     <p class="hero-tagline" data-en="I edit branded videos that turn <em>viewers into customers.</em> Cinematic craft for brands that need their content to <em>perform</em> — not just look pretty." data-ar="بعمل فيديوهات براند بتحوّل <em>المشاهدين لعملاء.</em> حرفة سينمائية للبراندات اللي محتاجة محتواها <em>يحقق نتائج</em> — مش بس يبقى جميل.">I edit branded videos that turn <em>viewers into customers.</em> Cinematic craft for brands that need their content to <em>perform</em> — not just look pretty.</p>
@@ -806,7 +807,7 @@
   <div class="container">
     <div style="text-align:center;margin-bottom:64px;">
       <div class="eyebrow" data-en="The Process" data-ar="رحلة العمل">The Process</div>
-      <h2 class="heading" style="line-height: 1.1;" data-en="Simple.<br>Transparent.<br>Fast." data-ar="بسيط.<br>واضح.<br>سريع.">Simple.<br>Transparent.<br>Fast.</h2>
+      <h2 class="heading" style="line-height: 1.1;" data-en="Simple.<br>Transparent.<br>Fast." data-ar="بســيط.<br>واضــح.<br>ســريع.">Simple.<br>Transparent.<br>Fast.</h2>
       <p class="lead" data-en="From the first message to final delivery — here's exactly how we'll work together." data-ar="من أول رسالة لحد التسليم النهائي — اعرف بالظبط هنشتغل مع بعض إزاي.">From the first message to final delivery — here's exactly how we'll work together.</p>
     </div>
 
@@ -1073,93 +1074,18 @@
   <div class="container" style="text-align: center; margin-top: 100px; margin-bottom: 20px;">
     <h2 class="home-cta-title" data-en="Provided Services" data-ar="الخدمات المقدمة">Provided Services</h2>
     <div class="svc-marquee-tags">
-      <span data-en="Video Editing" data-ar="مونتاج الفيديو">Video Editing</span>
-      <span data-en="Cinematography" data-ar="التصوير السينمائي">Cinematography</span>
-      <span data-en="Social Content" data-ar="محتوى السوشيال">Social Content</span>
-      <span data-en="Documentary & Brand" data-ar="وثائقي وبراند">Documentary & Brand</span>
-      <span data-en="Training & Mentorship" data-ar="تدريب وإرشاد">Training & Mentorship</span>
-      <span data-en="Motion & Graphics" data-ar="موشن جرافيكس">Motion & Graphics</span>
+      <span class="active" data-category="editing" data-en="Video Editing" data-ar="مونتاج الفيديو">Video Editing</span>
+      <span data-category="cinematography" data-en="Cinematography" data-ar="التصوير السينمائي">Cinematography</span>
+      <span data-category="social" data-en="Social Content" data-ar="محتوى السوشيال">Social Content</span>
+      <span data-category="documentary" data-en="Documentary & Brand" data-ar="وثائقي وبراند">Documentary & Brand</span>
+      <span data-category="mentorship" data-en="Training & Mentorship" data-ar="تدريب وإرشاد">Training & Mentorship</span>
+      <span data-category="motion" data-en="Motion & Graphics" data-ar="موشن جرافيكس">Motion & Graphics</span>
     </div>
   </div>
 
   <!-- SERVICES SHOWCASE MARQUEE -->
-  <div class="services-showcase-marquee-wrap">
-    <div class="services-showcase-marquee">
-      <!-- Group 1 -->
-      <div class="sm-group">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 2 (Duplicate) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 3 (Duplicate for ultra-wide screens) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 4 (Duplicate for ultra-wide screens) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-    </div>
-    <div class="services-showcase-marquee" style="animation-direction: reverse;">
-      <!-- Group 1 -->
-      <div class="sm-group">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 2 (Duplicate) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 3 (Duplicate for ultra-wide screens) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-      <!-- Group 4 (Duplicate for ultra-wide screens) -->
-      <div class="sm-group" aria-hidden="true">
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-portrait"></div>
-        <div class="sm-item sm-landscape"></div>
-        <div class="sm-item sm-portrait"></div>
-      </div>
-    </div>
+  <div class="services-showcase-marquee-wrap" id="servicesShowcaseWrap">
+    <!-- Content will be rendered dynamically by JS -->
   </div>
 </section>
 
@@ -1667,6 +1593,611 @@
 
 
 
+<!-- ══════════════════ ADMIN LOGIN ══════════════════ -->
+<section data-page="admin-login" class="admin-login-section">
+  <div class="admin-login-card">
+    <div class="admin-login-logo">KA</div>
+    <h2 class="admin-login-title">Admin Dashboard</h2>
+    <p class="admin-login-subtitle">Sign in to manage your portfolio</p>
+    <form id="adminLoginForm" autocomplete="off">
+      <div class="admin-input-group">
+        <label for="adminUsername">Username</label>
+        <div class="admin-input-wrapper">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <input type="text" id="adminUsername" class="admin-input" placeholder="Enter username" required>
+        </div>
+      </div>
+      <div class="admin-input-group">
+        <label for="adminPassword">Password</label>
+        <div class="admin-input-wrapper">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input type="password" id="adminPassword" class="admin-input" placeholder="Enter password" required>
+        </div>
+      </div>
+      <p id="adminLoginError" class="admin-error"></p>
+      <button type="submit" class="admin-login-btn">Sign In</button>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════════ ADMIN DASHBOARD ══════════════════ -->
+<section data-page="admin" class="admin-dashboard">
+  <!-- Sidebar -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-header">
+      <div class="admin-sidebar-logo">KA</div>
+      <span>Dashboard</span>
+      <button class="admin-sidebar-close" id="adminSidebarClose">&times;</button>
+    </div>
+    <div class="admin-nav">
+      <a data-admin-page="overview" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Overview
+      </a>
+      <a data-admin-page="feedback">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Feedback
+      </a>
+      <a data-admin-page="works">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Works
+      </a>
+      <a data-admin-page="provided">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8l-4 4v14a2 2 0 0 0 2 2z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10.5 14.5L14 11l-3.5-3.5"/></svg>
+        Provided Services
+      </a>
+      <a data-admin-page="map">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Map & Stats
+      </a>
+      <a data-admin-page="analytics">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        Analytics
+      </a>
+      <a data-admin-page="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Settings
+      </a>
+    </div>
+    <button class="admin-logout-btn" id="adminLogout">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="admin-main">
+    <header class="admin-topbar">
+      <button class="admin-menu-toggle" id="adminMenuToggle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1 class="admin-page-title" id="adminPageTitle">Overview</h1>
+      <div class="admin-topbar-right">
+        <span class="admin-user-display">Welcome, <strong id="adminUserDisplay">kareem</strong></span>
+        <a href="#home" class="admin-back-link" onclick="document.body.classList.remove('admin-mode')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to Site
+        </a>
+      </div>
+    </header>
+
+    <div class="admin-content">
+
+      <!-- ═══ OVERVIEW PAGE ═══ -->
+      <div class="admin-page active" data-admin-content="overview">
+        <div class="admin-welcome-card">
+          <h2>Welcome back! 👋</h2>
+          <p>Here's what's happening with your portfolio.</p>
+        </div>
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card purple">
+            <div class="admin-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="admin-stat-value" id="statReviews">0</div>
+            <div class="admin-stat-label">Total Reviews</div>
+          </div>
+          <div class="admin-stat-card blue">
+            <div class="admin-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <div class="admin-stat-value" id="statWorks">0</div>
+            <div class="admin-stat-label">Total Works</div>
+          </div>
+          <div class="admin-stat-card green">
+            <div class="admin-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="admin-stat-value" id="statContacts">0</div>
+            <div class="admin-stat-label">Total Contacts</div>
+          </div>
+          <div class="admin-stat-card amber">
+            <div class="admin-stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="admin-stat-value" id="statViews">0</div>
+            <div class="admin-stat-label">Site Views</div>
+          </div>
+        </div>
+        <div class="admin-quick-actions">
+          <h3>Quick Actions</h3>
+          <div class="admin-quick-actions-grid">
+            <button class="admin-quick-btn" onclick="document.querySelector('[data-admin-page=feedback]').click()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Review
+            </button>
+            <button class="admin-quick-btn" onclick="document.querySelector('[data-admin-page=works]').click()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Work
+            </button>
+            <button class="admin-quick-btn" onclick="document.querySelector('[data-admin-page=analytics]').click()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+              View Analytics
+            </button>
+            <button class="admin-quick-btn" onclick="document.querySelector('[data-admin-page=settings]').click()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              Settings
+            </button>
+          </div>
+        </div>
+        <div class="admin-recent-activity">
+          <h3>Recent Activity</h3>
+          <div id="adminActivityList" class="admin-activity-list">
+            <p class="admin-empty-state">No recent activity</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ FEEDBACK PAGE ═══ -->
+      <div class="admin-page" data-admin-content="feedback">
+        <div class="admin-section-header">
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-feedback-tab="client">Client Reviews</button>
+            <button class="admin-tab" data-feedback-tab="student">Student Reviews</button>
+          </div>
+          <button class="admin-add-btn" id="adminAddReview">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Add Review
+          </button>
+        </div>
+        <div id="adminClientReviews" class="admin-reviews-list"></div>
+        <div id="adminStudentReviews" class="admin-reviews-list" style="display:none"></div>
+      </div>
+
+      <!-- ═══ WORKS PAGE ═══ -->
+      <div class="admin-page" data-admin-content="works">
+        <div class="admin-section-header">
+          <div class="admin-filter-bar">
+            <label for="adminWorksCategory">Category:</label>
+            <select id="adminWorksCategory" class="admin-select">
+              <option value="editing">Video Editing</option>
+              <option value="cinematography">Cinematography</option>
+              <option value="social">Social Content</option>
+              <option value="documentary">Documentary & Brand</option>
+              <option value="mentorship">Training & Mentorship</option>
+              <option value="motion">Motion & Graphics</option>
+            </select>
+          </div>
+          <div class="admin-add-work-form" id="adminAddWorkForm">
+            <select id="adminWorkMainCat" class="admin-input admin-select">
+              <option value="" disabled selected hidden>Categories</option>
+              <option value="editing">Video Editing</option>
+              <option value="cinematography">Cinematography</option>
+              <option value="social">Social Content</option>
+              <option value="documentary">Documentary & Brand</option>
+              <option value="mentorship">Training & Mentorship</option>
+              <option value="motion">Motion & Graphics</option>
+            </select>
+            <input type="text" id="adminWorkName" class="admin-input" placeholder="Work name">
+            <input type="text" id="adminWorkCat" class="admin-input" placeholder="Category tag (e.g. Brand)">
+            <button class="admin-add-btn" id="adminAddWork">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Work
+            </button>
+          </div>
+        </div>
+        <div id="adminWorksList" class="admin-works-grid"></div>
+      </div>
+
+      <!-- ═══ PROVIDED SERVICES PAGE ═══ -->
+      <div class="admin-page" data-admin-content="provided">
+        <div class="admin-section-header">
+          <div class="admin-filter-bar">
+            <label for="adminProvidedCategory">Category:</label>
+            <select id="adminProvidedCategory" class="admin-select">
+              <option value="editing">Video Editing</option>
+              <option value="cinematography">Cinematography</option>
+              <option value="social">Social Content</option>
+              <option value="documentary">Documentary & Brand</option>
+              <option value="mentorship">Training & Mentorship</option>
+              <option value="motion">Motion & Graphics</option>
+            </select>
+          </div>
+          <div class="admin-add-work-form" id="adminAddProvidedForm">
+            <select id="adminProvidedMainCat" class="admin-input admin-select">
+              <option value="" disabled selected hidden>Categories</option>
+              <option value="editing">Video Editing</option>
+              <option value="cinematography">Cinematography</option>
+              <option value="social">Social Content</option>
+              <option value="documentary">Documentary & Brand</option>
+              <option value="mentorship">Training & Mentorship</option>
+              <option value="motion">Motion & Graphics</option>
+            </select>
+            <select id="adminProvidedOrientation" class="admin-input admin-select">
+              <option value="portrait">Portrait</option>
+              <option value="landscape">Landscape</option>
+            </select>
+            <input type="text" id="adminProvidedUrl" class="admin-input" placeholder="Image URL (e.g., https://...)">
+            <button class="admin-add-btn" id="adminAddProvided">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              Add Item
+            </button>
+          </div>
+        </div>
+        <div id="adminProvidedList" class="admin-works-grid"></div>
+      </div>
+
+      <!-- ═══ MAP & STATS PAGE ═══ -->
+      <div class="admin-page" data-admin-content="map">
+        <!-- Stats Bar -->
+        <div class="admin-section-header" style="margin-bottom: 24px;">
+          <h3 style="color: var(--admin-text); margin: 0;">Global Stats</h3>
+        </div>
+        <div class="admin-stats-grid" style="margin-bottom: 32px;">
+          <div class="admin-stat-card purple">
+            <div class="admin-stat-label">Projects</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+              <input type="number" id="adminMapProjects" class="admin-input" style="padding:8px 10px;width:120px;" placeholder="1318">
+              <button class="admin-btn-primary" id="adminSaveProjects" style="padding:8px 16px;white-space:nowrap;">Save</button>
+            </div>
+          </div>
+          <div class="admin-stat-card blue">
+            <div class="admin-stat-label">Countries</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+              <input type="number" id="adminMapCountries" class="admin-input" style="padding:8px 10px;width:120px;" placeholder="14">
+              <button class="admin-btn-primary" id="adminSaveCountries" style="padding:8px 16px;white-space:nowrap;">Save</button>
+            </div>
+          </div>
+          <div class="admin-stat-card green">
+            <div class="admin-stat-label">Clients</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+              <input type="number" id="adminMapClients" class="admin-input" style="padding:8px 10px;width:120px;" placeholder="470">
+              <button class="admin-btn-primary" id="adminSaveClients" style="padding:8px 16px;white-space:nowrap;">Save</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add Country Form -->
+        <div class="admin-section-header">
+          <h3 style="color: var(--admin-text); margin: 0;">Countries</h3>
+        </div>
+        <div class="admin-add-work-form" id="adminAddCountryForm" style="margin-bottom: 20px;">
+          <input type="text" id="adminCountryName" class="admin-input" placeholder="Country name (e.g. Germany)">
+          <input type="text" id="adminCountryNameAr" class="admin-input" placeholder="Arabic name (e.g. ألمانيا)">
+          <input type="text" id="adminCountryFlag" class="admin-input" placeholder="Flag emoji (e.g. 🇩🇪)" style="width:80px;">
+          <input type="number" id="adminCountryLat" class="admin-input" placeholder="Latitude" step="0.1">
+          <input type="number" id="adminCountryLng" class="admin-input" placeholder="Longitude" step="0.1">
+          <label style="color:var(--admin-text-muted);display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;">
+            <input type="checkbox" id="adminCountryHome"> Home
+          </label>
+          <button class="admin-add-btn" id="adminAddCountry">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Add Country
+          </button>
+        </div>
+        <div id="adminCountriesList" class="admin-works-grid"></div>
+      </div>
+
+      <!-- ═══ ANALYTICS PAGE ═══ -->
+      <div class="admin-page" data-admin-content="analytics">
+        <div class="admin-analytics-tabs">
+          <button class="admin-analytics-tab active" data-analytics-tab="viewers">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            Viewers
+          </button>
+          <button class="admin-analytics-tab" data-analytics-tab="clicks">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+            Link Clicks
+          </button>
+          <button class="admin-analytics-tab" data-analytics-tab="contacts">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Contacts
+          </button>
+        </div>
+
+        <!-- Viewers Panel -->
+        <div class="admin-analytics-panel active" data-analytics-panel="viewers">
+          <div class="admin-summary-cards">
+            <div class="admin-summary-card"><div class="admin-summary-value" id="totalViews">0</div><div class="admin-summary-label">Total Views</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="monthViews">0</div><div class="admin-summary-label">This Month</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="weekViews">0</div><div class="admin-summary-label">This Week</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="avgViews">0</div><div class="admin-summary-label">Average</div></div>
+          </div>
+          <div class="admin-data-entry">
+            <h3>Add Viewer Data</h3>
+            <div class="admin-data-entry-row">
+              <input type="date" id="viewerDate" class="admin-input">
+              <input type="number" id="viewerCount" class="admin-input" placeholder="Count" min="0">
+              <select id="viewerPeriod" class="admin-select">
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+              <button class="admin-btn-primary" id="addViewerBtn">Add</button>
+            </div>
+          </div>
+          <div class="admin-chart-container">
+            <canvas id="viewersChart"></canvas>
+          </div>
+          <div class="admin-data-table-wrapper">
+            <table class="admin-data-table">
+              <thead><tr><th>Date</th><th>Count</th><th>Period</th><th>Action</th></tr></thead>
+              <tbody id="viewersTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Clicks Panel -->
+        <div class="admin-analytics-panel" data-analytics-panel="clicks">
+          <div class="admin-summary-cards">
+            <div class="admin-summary-card"><div class="admin-summary-value" id="totalClicks">0</div><div class="admin-summary-label">Total Clicks</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="topPlatform">—</div><div class="admin-summary-label">Top Platform</div></div>
+          </div>
+          <div class="admin-data-entry">
+            <h3>Add Click Data</h3>
+            <div class="admin-data-entry-row">
+              <input type="date" id="clickDate" class="admin-input">
+              <select id="clickPlatform" class="admin-select">
+                <option value="Instagram">Instagram</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="YouTube">YouTube</option>
+                <option value="Behance">Behance</option>
+                <option value="WhatsApp">WhatsApp</option>
+                <option value="Email">Email</option>
+                <option value="Other">Other</option>
+              </select>
+              <input type="number" id="clickCount" class="admin-input" placeholder="Count" min="0">
+              <button class="admin-btn-primary" id="addClickBtn">Add</button>
+            </div>
+          </div>
+          <div class="admin-chart-container">
+            <canvas id="clicksChart"></canvas>
+          </div>
+          <div class="admin-data-table-wrapper">
+            <table class="admin-data-table">
+              <thead><tr><th>Date</th><th>Platform</th><th>Count</th><th>Action</th></tr></thead>
+              <tbody id="clicksTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Contacts Panel -->
+        <div class="admin-analytics-panel" data-analytics-panel="contacts">
+          <div class="admin-summary-cards">
+            <div class="admin-summary-card"><div class="admin-summary-value" id="totalContacts">0</div><div class="admin-summary-label">Total Contacts</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="callCount">0</div><div class="admin-summary-label">Book a Call</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="emailCount">0</div><div class="admin-summary-label">Emails</div></div>
+            <div class="admin-summary-card"><div class="admin-summary-value" id="whatsappCount">0</div><div class="admin-summary-label">WhatsApp</div></div>
+          </div>
+          <div class="admin-data-entry">
+            <h3>Add Contact Data</h3>
+            <div class="admin-data-entry-row">
+              <input type="date" id="contactDate" class="admin-input">
+              <select id="contactChannel" class="admin-select">
+                <option value="Book a Call">Book a Call</option>
+                <option value="Email">Email</option>
+                <option value="WhatsApp">WhatsApp</option>
+              </select>
+              <input type="number" id="contactCount" class="admin-input" placeholder="Count" min="0">
+              <button class="admin-btn-primary" id="addContactBtn">Add</button>
+            </div>
+          </div>
+          <div class="admin-chart-container">
+            <canvas id="contactsChart"></canvas>
+          </div>
+          <div class="admin-data-table-wrapper">
+            <table class="admin-data-table">
+              <thead><tr><th>Date</th><th>Channel</th><th>Count</th><th>Action</th></tr></thead>
+              <tbody id="contactsTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ SETTINGS PAGE ═══ -->
+      <div class="admin-page" data-admin-content="settings">
+        <div class="admin-settings-grid">
+          <!-- Credentials -->
+          <div class="admin-settings-card admin-credential-section">
+            <h3 class="admin-settings-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Login Credentials
+            </h3>
+            <p class="admin-settings-card-desc">Update your username and password</p>
+            <div class="admin-form-group">
+              <label>Current Username</label>
+              <input type="text" id="settingsCurrentUser" class="admin-input" disabled>
+            </div>
+            <div class="admin-form-group">
+              <label>New Username</label>
+              <input type="text" id="settingsNewUsername" class="admin-input" placeholder="Leave empty to keep current">
+            </div>
+            <div class="admin-settings-divider"></div>
+            <div class="admin-form-group">
+              <label>Current Password (required to make changes)</label>
+              <input type="password" id="settingsCurrentPassword" class="admin-input" placeholder="Enter current password">
+            </div>
+            <div class="admin-form-group">
+              <label>New Password</label>
+              <input type="password" id="settingsNewPassword" class="admin-input" placeholder="Leave empty to keep current">
+            </div>
+            <div class="admin-form-group">
+              <label>Confirm New Password</label>
+              <input type="password" id="settingsConfirmPassword" class="admin-input" placeholder="Confirm new password">
+            </div>
+            <button class="admin-save-btn" id="settingsUpdateCreds">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Update Credentials
+            </button>
+          </div>
+
+          <!-- Contact Settings -->
+          <div class="admin-settings-card admin-contact-section">
+            <h3 class="admin-settings-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              Contact Settings
+            </h3>
+            <p class="admin-settings-card-desc">Manage your contact information</p>
+            <div class="admin-form-group">
+              <label>WhatsApp Number</label>
+              <input type="text" id="settingsWhatsapp" class="admin-input" placeholder="e.g. 201234567890">
+            </div>
+            <div class="admin-form-group">
+              <label>Email Address</label>
+              <input type="email" id="settingsEmail" class="admin-input" placeholder="hello@example.com">
+            </div>
+            <div class="admin-form-group">
+              <label>Calendly URL</label>
+              <input type="url" id="settingsCalendly" class="admin-input" placeholder="https://calendly.com/your-link">
+            </div>
+            <button class="admin-save-btn" id="settingsSaveContact">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save Contact Settings
+            </button>
+          </div>
+
+          <!-- Social Links -->
+          <div class="admin-settings-card admin-social-section">
+            <h3 class="admin-settings-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Social Links
+            </h3>
+            <p class="admin-settings-card-desc">Update your social media links</p>
+            <div class="admin-form-group">
+              <label>Instagram</label>
+              <input type="url" id="settingsInstagram" class="admin-input" placeholder="https://instagram.com/...">
+            </div>
+            <div class="admin-form-group">
+              <label>LinkedIn</label>
+              <input type="url" id="settingsLinkedin" class="admin-input" placeholder="https://linkedin.com/in/...">
+            </div>
+            <div class="admin-form-group">
+              <label>YouTube</label>
+              <input type="url" id="settingsYoutube" class="admin-input" placeholder="https://youtube.com/@...">
+            </div>
+            <div class="admin-form-group">
+              <label>Behance</label>
+              <input type="url" id="settingsBehance" class="admin-input" placeholder="https://behance.net/...">
+            </div>
+            <button class="admin-save-btn" id="settingsSaveSocial">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Save Social Links
+            </button>
+          </div>
+
+          <!-- Data Management -->
+          <div class="admin-settings-card admin-data-section">
+            <h3 class="admin-settings-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+              Data Management
+            </h3>
+            <p class="admin-settings-card-desc">Backup and restore your dashboard data</p>
+            <div class="admin-data-actions">
+              <button class="admin-export-btn" id="settingsExport">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export All Data
+              </button>
+              <div class="admin-import-group">
+                <input type="file" id="settingsImportFile" accept=".json" style="display:none">
+                <button class="admin-import-btn" id="settingsImport">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  Import Data
+                </button>
+              </div>
+              <button class="admin-btn-danger" id="settingsReset">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                Reset All Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end admin-content -->
+  </main>
+</section>
+
+<!-- ═══ REVIEW MODAL ═══ -->
+<div class="admin-modal-overlay" id="adminReviewModal">
+  <div class="admin-modal">
+    <div class="admin-modal-header">
+      <h3 class="admin-modal-title" id="reviewModalTitle">Add Review</h3>
+      <button class="admin-modal-close">&times;</button>
+    </div>
+    <div class="admin-modal-body">
+      <input type="hidden" id="reviewEditIndex" value="-1">
+      <input type="hidden" id="reviewEditType" value="client">
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label>Name (English)</label>
+          <input type="text" id="reviewName" class="admin-input" placeholder="Client name">
+        </div>
+        <div class="admin-form-group">
+          <label>Name (Arabic)</label>
+          <input type="text" id="reviewNameAr" class="admin-input" placeholder="اسم العميل" dir="rtl">
+        </div>
+      </div>
+      <div class="admin-form-row">
+        <div class="admin-form-group">
+          <label>Role (English)</label>
+          <input type="text" id="reviewRole" class="admin-input" placeholder="e.g. CEO, Brand Owner">
+        </div>
+        <div class="admin-form-group">
+          <label>Role (Arabic)</label>
+          <input type="text" id="reviewRoleAr" class="admin-input" placeholder="مثلا: مدير تنفيذي" dir="rtl">
+        </div>
+      </div>
+      <div class="admin-form-group">
+        <label>Stars (1-5)</label>
+        <select id="reviewStars" class="admin-select">
+          <option value="5">★★★★★ (5)</option>
+          <option value="4">★★★★☆ (4)</option>
+          <option value="3">★★★☆☆ (3)</option>
+          <option value="2">★★☆☆☆ (2)</option>
+          <option value="1">★☆☆☆☆ (1)</option>
+        </select>
+      </div>
+      <div class="admin-form-group">
+        <label>Review Text (English)</label>
+        <textarea id="reviewText" class="admin-input admin-textarea" rows="4" placeholder="Write the review text..."></textarea>
+      </div>
+      <div class="admin-form-group">
+        <label>Review Text (Arabic)</label>
+        <textarea id="reviewTextAr" class="admin-input admin-textarea" rows="4" placeholder="اكتب نص المراجعة..." dir="rtl"></textarea>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary admin-modal-close">Cancel</button>
+      <button class="admin-btn-primary" id="adminSaveReview">Save Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CONFIRM DIALOG ═══ -->
+<div class="admin-modal-overlay" id="adminConfirmDialog">
+  <div class="admin-modal admin-confirm-dialog">
+    <div class="admin-modal-header">
+      <h3 class="admin-modal-title" id="confirmTitle">Confirm</h3>
+    </div>
+    <div class="admin-modal-body">
+      <p id="confirmText">Are you sure?</p>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="admin-btn-secondary" id="confirmCancel">Cancel</button>
+      <button class="admin-btn-danger" id="confirmOk">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════════ GLOBAL SOCIAL RAIL ═══════════════════ -->
 <div class="social-rail" id="socialRail">
   <div class="social-rail-track"></div>
@@ -1712,6 +2243,7 @@
 <script>
 /* Removed inline style injection to allow CSS to control sizing */
 </script>
-<script src="script.js?v=5"></script>
+<script src="script.js?v=6"></script>
+<script src="admin.js?v=2"></script>
 </body>
 </html>

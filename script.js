@@ -200,7 +200,7 @@
 /* ═══ Script Block 6 ═══ */
 (function () {
   // ═══════ DATA ═══════
-  const serviceWorks = {
+  window.serviceWorks = {
     editing: {
       title: "Video Editing",
       works: [
@@ -257,7 +257,7 @@
     },
   };
 
-  const clientReviews = [
+  window.clientReviews = [
     {
       name: "Ahmed Metwaly",
       name_ar: "أحمد متولي",
@@ -349,7 +349,7 @@
   ];
 
   // Real student reviews (anonymized) — bilingual EN/AR
-  const studentReviews = [
+  window.studentReviews = [
     {
       name: "Student A",
       name_ar: "الطالب الأول",
@@ -416,7 +416,7 @@
   document.querySelectorAll(".svc-card").forEach((card) => {
     card.addEventListener("click", () => {
       const key = card.dataset.service;
-      const data = serviceWorks[key];
+      const data = window.serviceWorks[key];
       if (!data) return;
       modalTitle.textContent = data.title;
       modalWorks.innerHTML = data.works
@@ -482,30 +482,41 @@
 
   // Build two carousels — both rows show ALL clients duplicated for seamless marquee
   // row 2 is reversed for visual variety
-  const row1Cards = clientReviews;
-  const row2Cards = [...clientReviews].reverse();
+  window.initTestimonials = function() {
+    const row1Cards = window.clientReviews || [];
+    const row2Cards = [...row1Cards].reverse();
 
-  // Duplicate cards for seamless infinite scroll (animation moves -50%)
-  const carousel = document.getElementById("testiCarousel");
-  carousel.innerHTML = `
-  <div class="testi-row row-1">
-    ${row1Cards.map(makeCard).join("")}${row1Cards.map(makeCard).join("")}
-  </div>
-  <div class="testi-row row-2">
-    ${row2Cards.map(makeCard).join("")}${row2Cards.map(makeCard).join("")}
-  </div>
-`;
+    // Duplicate cards for seamless infinite scroll (animation moves -50%)
+    const carousel = document.getElementById("testiCarousel");
+    if (carousel) {
+      carousel.innerHTML = `
+      <div class="testi-row row-1">
+        ${row1Cards.map(makeCard).join("")}${row1Cards.map(makeCard).join("")}
+      </div>
+      <div class="testi-row row-2">
+        ${row2Cards.map(makeCard).join("")}${row2Cards.map(makeCard).join("")}
+      </div>
+      `;
+    }
+  };
+  window.initTestimonials();
 
   // ═══════ STUDENT REVIEWS CAROUSEL ═══════
-  const studentRow = document.getElementById("studentReviews");
-  studentRow.innerHTML =
-    studentReviews.map(makeCard).join("") +
-    studentReviews.map(makeCard).join("");
+  window.initStudentReviews = function() {
+    const studentRow = document.getElementById("studentReviews");
+    if (studentRow) {
+      const sReviews = window.studentReviews || [];
+      studentRow.innerHTML =
+        sReviews.map(makeCard).join("") +
+        sReviews.map(makeCard).join("");
+    }
+  };
+  window.initStudentReviews();
 
   // ═══════ WORLD MAP — D3 + TopoJSON ═══════
   // Real world map drawn from TopoJSON with stroke-only outlines + animated lines
 
-  const mapCountriesData = [
+  window.defaultMapCountries = [
     { name: "USA", name_ar: "أمريكا", flag: "🇺🇸", lat: 37.1, lng: -95.7 },
     { name: "Canada", name_ar: "كندا", flag: "🇨🇦", lat: 56.1, lng: -106.3 },
     {
@@ -551,12 +562,24 @@
     },
   ];
 
-  async function buildWorldMap() {
+  window.mapCountriesData = (() => {
+    try {
+      const saved = localStorage.getItem('ka_admin_map_countries');
+      return saved ? JSON.parse(saved) : window.defaultMapCountries;
+    } catch(e) {
+      return window.defaultMapCountries;
+    }
+  })();
+
+  window.buildWorldMap = async function buildWorldMap() {
     const svg = document.getElementById("world-svg");
     if (!svg || typeof d3 === "undefined" || typeof topojson === "undefined") {
       setTimeout(buildWorldMap, 200);
       return;
     }
+    // Update HTML country list first
+    if (window.updateFrontendCountries) window.updateFrontendCountries(window.mapCountriesData);
+
     // Don't rebuild if already built AND content is visible
     if (
       svg.dataset.built === "1" &&
@@ -604,8 +627,9 @@
       });
 
       // Now use the same projection to position our country markers
+      // Now use the same projection to position our country markers
       const positions = {};
-      mapCountriesData.forEach((c) => {
+      window.mapCountriesData.forEach((c) => {
         const [x, y] = projection([c.lng, c.lat]);
         positions[c.name] = { x, y };
       });
@@ -618,8 +642,9 @@
     } catch (e) {
       console.error("Map load failed:", e);
       // Fallback: simple equirectangular without continent paths
+      // Fallback: simple equirectangular without continent paths
       const positions = {};
-      mapCountriesData.forEach((c) => {
+      window.mapCountriesData.forEach((c) => {
         const x = ((c.lng + 180) / 360) * 1000;
         const y = ((90 - c.lat) / 180) * 500;
         positions[c.name] = { x, y };
@@ -643,13 +668,13 @@
     linesGroup.innerHTML = "";
     markersGroup.innerHTML = "";
 
-    const home = mapCountriesData.find((c) => c.home);
+    const home = window.mapCountriesData.find((c) => c.home);
     const homePos = positions[home.name];
 
     // Glows removed as per request
 
     // Lines + traveling dots
-    const targets = mapCountriesData.filter((c) => !c.home);
+    const targets = window.mapCountriesData.filter((c) => !c.home);
     targets.forEach((c, i) => {
       const target = positions[c.name];
       if (!target) return;
@@ -732,9 +757,11 @@
       hit.style.cursor = "pointer";
       hit.classList.add("map-hit");
       hit.dataset.name = c.name;
+      hit.dataset.name_ar = c.name_ar || c.name;
       hit.dataset.flag = c.flag;
       hit.dataset.cx = p.x;
       hit.dataset.cy = p.y;
+
       markersGroup.appendChild(hit);
     });
   }
@@ -770,8 +797,9 @@
             px = px - 100;
         }
         
+        const currentLang = document.documentElement.lang || 'en';
         popup.querySelector(".flag").textContent = m.dataset.flag;
-        popup.querySelector(".name").textContent = m.dataset.name;
+        popup.querySelector(".name").textContent = currentLang === 'ar' ? m.dataset.name_ar : m.dataset.name;
         popup.style.left = px + "px";
         popup.style.top = py + "px";
         popup.classList.add("show");
@@ -826,6 +854,28 @@
     requestAnimationFrame(step);
   }
 
+  window.animateCount = function animateCount(el, target, suffix) {
+    const duration = 2000;
+    const formatter = new Intl.NumberFormat("en-US");
+    // Extract current value to start from if available
+    const currentText = el.textContent.replace(/[^\d]/g, '');
+    let start = currentText ? parseInt(currentText, 10) : 0;
+    if (isNaN(start)) start = 0;
+    const startTime = performance.now();
+
+    function step(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = Math.floor(start + (target - start) * eased);
+      el.textContent = formatter.format(value) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = formatter.format(target) + suffix;
+    }
+    requestAnimationFrame(step);
+  };
+
   const countObs = new IntersectionObserver(
     (entries) => {
       entries.forEach((e) => {
@@ -833,7 +883,7 @@
           e.target.dataset.counted = "1";
           const target = parseInt(e.target.dataset.target);
           const suffix = e.target.dataset.suffix || "";
-          animateCount(e.target, target, suffix);
+          window.animateCount(e.target, target, suffix);
         }
       });
     },
@@ -852,7 +902,7 @@
     document.querySelectorAll("[data-en]").forEach((el) => {
       const txt = el.getAttribute(`data-${currentLang}`);
       if (txt) {
-        if (txt.includes("<em>") || txt.includes("<strong>"))
+        if (txt.includes("<"))
           el.innerHTML = txt;
         else el.textContent = txt;
       }
@@ -995,6 +1045,11 @@ window.addEventListener("DOMContentLoaded", function() {
 
 // ═══════════ SPA MULTI-PAGE NAVIGATION ═══════════
 window.spaGo = function (page, skipScroll) {
+  if (page !== "admin" && page !== "admin-login") {
+    document.body.classList.remove("admin-mode");
+    document.documentElement.classList.remove("admin-mode");
+  }
+
   // Hide all pages
   document.querySelectorAll("section[data-page]").forEach((s) => {
     s.classList.remove("spa-active");
@@ -1051,7 +1106,7 @@ window.addEventListener("DOMContentLoaded", function () {
 // Handle browser back/forward
 window.addEventListener("hashchange", function () {
   const hash = window.location.hash.replace("#", "");
-  const validPages = ["home", "about", "services", "training", "contact"];
+  const validPages = ["home", "about", "services", "training", "contact", "admin", "admin-login"];
   if (
     validPages.includes(hash) &&
     document.body.classList.contains("in-portfolio")
@@ -1748,3 +1803,123 @@ Looking forward to chatting!`;
   // Fallback — never let loader stick more than 4s
   setTimeout(hideLoader, 4000);
 })();
+
+/* ═══ Script Block 10: Provided Services Dynamic Marquee ═══ */
+(function() {
+  const STORAGE_KEY = 'ka_admin_provided_services';
+  const tagsWrap = document.querySelector('.svc-marquee-tags');
+  const showcaseWrap = document.getElementById('servicesShowcaseWrap');
+  
+  if (!tagsWrap || !showcaseWrap) return;
+  
+  const tags = tagsWrap.querySelectorAll('span');
+  
+  function getProvidedData() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch(e) {
+      return {};
+    }
+  }
+
+  function renderCategory(category) {
+    const data = getProvidedData();
+    const items = data[category] || [];
+    
+    // Clear active tags
+    tags.forEach(t => t.classList.remove('active'));
+    // Set active tag
+    const activeTag = Array.from(tags).find(t => t.getAttribute('data-category') === category);
+    if (activeTag) activeTag.classList.add('active');
+    
+    // Build items HTML
+    let groupHtml = '';
+    if (items.length > 0) {
+      items.forEach(item => {
+        const bg = item.url ? ` style="background-image: url('${item.url}'); background-size: cover; background-position: center;"` : '';
+        groupHtml += `<div class="sm-item sm-${item.orientation}"${bg}></div>`;
+      });
+    } else {
+      // Fallback empty placeholders
+      groupHtml = `
+        <div class="sm-item sm-portrait"></div>
+        <div class="sm-item sm-landscape"></div>
+        <div class="sm-item sm-portrait"></div>
+        <div class="sm-item sm-portrait"></div>
+        <div class="sm-item sm-landscape"></div>
+        <div class="sm-item sm-portrait"></div>
+      `;
+    }
+    
+    // Create marquee groups (duplicate for continuous scrolling)
+    const buildMarquee = (reverse = false) => {
+      const direction = reverse ? ' style="animation-direction: reverse;"' : '';
+      return `
+        <div class="services-showcase-marquee"${direction}>
+          <div class="sm-group">${groupHtml}</div>
+          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
+          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
+          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
+        </div>
+      `;
+    };
+    
+    showcaseWrap.innerHTML = buildMarquee(false) + buildMarquee(true);
+  }
+
+  // Setup click listeners
+  tags.forEach(tag => {
+    tag.addEventListener('click', () => {
+      const cat = tag.getAttribute('data-category');
+      if (cat) renderCategory(cat);
+    });
+  });
+
+  // Initial render (default to editing or the first available active tag)
+  renderCategory('editing');
+})();
+
+/* ═══ Script Block 11: Dynamic Map and Stats Data ═══ */
+window.updateFrontendStats = function(stats) {
+  if (!stats) return;
+  const wsItems = document.querySelectorAll('.ws-item .count');
+  if (wsItems.length >= 3) {
+    wsItems[0].dataset.target = stats.projects;
+    wsItems[1].dataset.target = stats.countries;
+    wsItems[2].dataset.target = stats.clients;
+    
+    // Update texts with animation if already counted
+    wsItems.forEach(el => {
+      if (el.dataset.counted) {
+        const target = parseInt(el.dataset.target);
+        const suffix = el.dataset.suffix || "";
+        if (window.animateCount) {
+          window.animateCount(el, target, suffix);
+        } else {
+          el.textContent = target.toLocaleString('en-US') + suffix;
+        }
+      }
+    });
+  }
+};
+
+window.updateFrontendCountries = function(countriesData) {
+  const container = document.querySelector('.map-countries');
+  if (!container) return;
+  
+  const currentLang = document.documentElement.lang || 'en';
+  
+  container.innerHTML = countriesData.map(c => {
+    const text = currentLang === 'ar' ? (c.name_ar || c.name) : c.name;
+    return `<span class="ctry${c.home ? ' home' : ''}"><span class="ctry-flag">${c.flag}</span> <span data-en="${c.name}" data-ar="${c.name_ar || c.name}">${text}</span></span>`;
+  }).join('');
+};
+
+// Initialize with any saved stats on page load
+try {
+  const savedStats = JSON.parse(localStorage.getItem('ka_admin_global_stats'));
+  if (savedStats) {
+    window.updateFrontendStats(savedStats);
+  }
+} catch(e) {}
+

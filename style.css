@@ -1450,8 +1450,10 @@ body {
   position: relative;
   min-height: 100vh;
 }
+html[lang="ar"] * {
+  font-family: "IBM Plex Sans Arabic", sans-serif !important;
+}
 html[lang="ar"] body {
-  font-family: "IBM Plex Sans Arabic", sans-serif;
   direction: rtl;
 }
 
@@ -1498,7 +1500,6 @@ html[dir="rtl"] .heading::after {
 }
 
 /* RTL text alignment for body text */
-html[dir="rtl"] .lead,
 html[dir="rtl"] .about-text p,
 html[dir="rtl"] .training-card p,
 html[dir="rtl"] .svc-desc,
@@ -2563,7 +2564,7 @@ section {
   padding: 8px 0;
 }
 .brands-marquee:hover .brands-row {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 @keyframes brandsScroll {
   from {
@@ -3221,10 +3222,11 @@ html[dir="rtl"] .svc-card:hover {
   background: rgba(255,255,255,0.04);
   /* backdrop-filter disabled for perf */
   transition: all 0.3s ease;
-  cursor: default;
+  cursor: pointer;
 }
 
-.svc-marquee-tags span:hover {
+.svc-marquee-tags span:hover,
+.svc-marquee-tags span.active {
   background: rgba(72, 103, 255, 0.15);
   border-color: rgba(72, 103, 255, 0.5);
   color: #fff;
@@ -3274,7 +3276,7 @@ html[dir="rtl"] .svc-card:hover {
 
 /* Pause independently on hover */
 .services-showcase-marquee:hover {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 
 /* RTL: native rtl animation (translates positive to pull from left) */
@@ -3674,7 +3676,7 @@ html[dir="rtl"] .services-showcase-marquee {
 }
 /* Pause on hover for accessibility */
 .testi-row:hover {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 @keyframes marqueeMove {
   from {
@@ -3941,7 +3943,7 @@ html[dir="rtl"] .services-showcase-marquee {
   background: transparent !important;
 }
 .student-reviews-row:hover {
-  animation-play-state: paused;
+  animation-play-state: paused !important;
 }
 .student-reviews .slider-nav-wrap {
   width: 100vw;

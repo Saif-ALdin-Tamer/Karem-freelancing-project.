@@ -1504,6 +1504,11 @@ window.addEventListener("hashchange", function () {
       window.open(url, "_blank");
     }
 
+    // Track the contact automatically
+    if (typeof window.trackContact === 'function') {
+      window.trackContact(method);
+    }
+
     closeQuickBrief();
   };
 
@@ -1923,3 +1928,65 @@ try {
   }
 } catch(e) {}
 
+// ═══════ AUTOMATIC ANALYTICS TRACKING ═══════
+(function() {
+  const ANALYTICS_KEY = 'ka_admin_analytics';
+  const VIEW_TRACKED_KEY = 'ka_view_tracked_today';
+
+  function loadAnalytics() {
+    try {
+      return JSON.parse(localStorage.getItem(ANALYTICS_KEY)) || { viewers: [], clicks: [], contacts: [] };
+    } catch(e) {
+      return { viewers: [], clicks: [], contacts: [] };
+    }
+  }
+
+  function saveAnalytics(data) {
+    localStorage.setItem(ANALYTICS_KEY, JSON.stringify(data));
+  }
+
+  function getTodayStr() {
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  // --- Track Site Views (1 per day per browser) ---
+  function trackView() {
+    const today = getTodayStr();
+    const lastTracked = localStorage.getItem(VIEW_TRACKED_KEY);
+    if (lastTracked === today) return; // Already tracked today
+
+    const data = loadAnalytics();
+    if (!data.viewers) data.viewers = [];
+
+    // Check if there's already an entry for today
+    const existing = data.viewers.find(v => v.date === today);
+    if (existing) {
+      existing.count = (parseInt(existing.count) || 0) + 1;
+    } else {
+      data.viewers.push({ date: today, count: 1, period: 'daily', id: Date.now() });
+    }
+
+    saveAnalytics(data);
+    localStorage.setItem(VIEW_TRACKED_KEY, today);
+  }
+
+  // --- Track Contact (called when quick brief is sent) ---
+  window.trackContact = function(channel) {
+    const today = getTodayStr();
+    const data = loadAnalytics();
+    if (!data.contacts) data.contacts = [];
+
+    const existing = data.contacts.find(c => c.date === today && c.channel === channel);
+    if (existing) {
+      existing.count = (parseInt(existing.count) || 0) + 1;
+    } else {
+      data.contacts.push({ date: today, channel: channel, count: 1, id: Date.now() });
+    }
+
+    saveAnalytics(data);
+  };
+
+  // Track this page view
+  trackView();
+})();

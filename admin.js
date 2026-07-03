@@ -330,26 +330,49 @@
   // ═══ CONTROLLERS ═══
 
   // --- Overview ---
+  function animateCount(el, target, duration = 800) {
+    if (!el) return;
+    const start = parseInt(el.innerText) || 0;
+    if (start === target) return;
+    const startTime = performance.now();
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+    function update(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easeOutQuart(progress);
+      const current = Math.round(start + (target - start) * easedProgress);
+      el.innerText = current;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
   function renderOverview() {
-    if(getEl('statReviews')) getEl('statReviews').innerText = (window.clientReviews?.length || 0) + (window.studentReviews?.length || 0);
+    // Total Reviews (client + student)
+    const totalReviews = (window.clientReviews?.length || 0) + (window.studentReviews?.length || 0);
+    animateCount(getEl('statReviews'), totalReviews);
     
+    // Total Works (all categories)
     let totalWorks = 0;
     if(window.serviceWorks) {
       for(let key in window.serviceWorks) {
         totalWorks += (window.serviceWorks[key].works?.length || 0);
       }
     }
-    if(getEl('statWorks')) getEl('statWorks').innerText = totalWorks;
+    animateCount(getEl('statWorks'), totalWorks);
 
+    // Analytics-based stats
     const analytics = loadAnalytics();
     
+    // Total Contacts
     let totalContacts = 0;
     (analytics.contacts || []).forEach(c => totalContacts += parseInt(c.count||0));
-    if(getEl('statContacts')) getEl('statContacts').innerText = totalContacts;
+    animateCount(getEl('statContacts'), totalContacts);
     
+    // Total Site Views
     let totalViews = 0;
     (analytics.viewers || []).forEach(v => totalViews += parseInt(v.count||0));
-    if(getEl('statViews')) getEl('statViews').innerText = totalViews;
+    animateCount(getEl('statViews'), totalViews);
 
     const activityList = getEl('adminActivityList');
     if (activityList) {

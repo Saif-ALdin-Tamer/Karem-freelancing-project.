@@ -122,19 +122,9 @@
 
   // ═══ AUTH MODULE ═══
   async function initAuth() {
-    const credsStr = localStorage.getItem(STORAGE_KEYS.CREDS);
-    if (!credsStr) {
-      localStorage.setItem(STORAGE_KEYS.CREDS, JSON.stringify(DEFAULT_CREDS));
-    } else {
-      // Patch for anyone who loaded the old incorrect hash locally
-      try {
-        const creds = JSON.parse(credsStr);
-        if (creds.passwordHash === '8b78cf3f5a0928b5de984e88db257c79e60cb549edfc254ce56ce30b02008fb5' || creds.passwordHash === '329e29fba94bdeccd3196c427a5896856ed491db0423419d48a53d27d36581ba') {
-          localStorage.setItem(STORAGE_KEYS.CREDS, JSON.stringify(DEFAULT_CREDS));
-        }
-      } catch(e) {}
-    }
-    // Automatically clear any lockouts since we fixed the hash
+    // Always reset credentials to defaults to ensure password consistency across all devices
+    localStorage.setItem(STORAGE_KEYS.CREDS, JSON.stringify(DEFAULT_CREDS));
+    // Automatically clear any lockouts
     sessionStorage.removeItem('ka_admin_lock');
     sessionStorage.removeItem('ka_admin_fails');
   }

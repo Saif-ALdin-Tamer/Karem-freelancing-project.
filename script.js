@@ -206,7 +206,9 @@ renderFrontendIntroPages();
 
     // Update counter
     const counter = document.getElementById("chapterCurrent");
-    counter.textContent = String(chapterIndex + 1).padStart(2, "0");
+    const num = String(chapterIndex + 1).padStart(2, "0");
+    const lang = document.documentElement.lang || 'en';
+    counter.textContent = lang === 'ar' ? num.replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : num;
 
     // Update labels
     document.querySelectorAll(".rail-label").forEach((lbl, i) => {
@@ -341,6 +343,8 @@ renderFrontendIntroPages();
         el.placeholder = txt;
       }
     });
+
+    window.dispatchEvent(new Event('scroll'));
   };
 
   if (langBtn) langBtn.addEventListener("click", toggleLanguage);
@@ -2226,6 +2230,11 @@ const DEFAULT_ABOUT_DATA = {
       icon: 1
     },
     {
+      titleEn: 'Meeting', titleAr: 'الاجتماع',
+      descEn: 'A dedicated alignment session where we sit down and discuss the creative direction in detail. We\'ll explore various visual styles, brainstorm concepts, and outline a realistic production timeline. This ensures that both our visions are perfectly synchronized.', descAr: 'جلسة مخصصة للمواءمة نناقش فيها الاتجاه الإبداعي بالتفصيل. سنستكشف أنماطًا مرئية مختلفة ونطرح أفكارًا ونحدد جدولًا زمنيًا واقعيًا للإنتاج. هذا يضمن تزامن رؤيانا بشكل مثالي.',
+      icon: 5
+    },
+    {
       titleEn: 'Plan & make visuals', titleAr: 'التخطيط وتجهيز المرئيات',
       descEn: 'This is where the magic starts taking shape. I\'ll develop detailed storyboards, mood boards, and shot lists. We map out the entire visual aesthetic, leaving no detail to chance.', descAr: 'هنا يبدأ السحر في التبلور. سأقوم بتطوير لوحات القصة ولوحات المزاج وقوائم اللقطات التفصيلية. نرسم الجمالية البصرية بأكملها ولا نترك أي تفصيل للصدفة.',
       icon: 2
@@ -2248,6 +2257,7 @@ window.ABOUT_DATA = savedAboutData ? Object.assign({}, DEFAULT_ABOUT_DATA, saved
 if (savedAboutData) {
   window.ABOUT_DATA.chapters = savedAboutData.chapters || DEFAULT_ABOUT_DATA.chapters;
   window.ABOUT_DATA.process = savedAboutData.process || DEFAULT_ABOUT_DATA.process;
+  if (window.ABOUT_DATA.process.length === 4) window.ABOUT_DATA.process = DEFAULT_ABOUT_DATA.process;
 }
 
 function getChapterVisualHtml(type) {
@@ -2275,6 +2285,9 @@ function getProcessIconHtml(iconId) {
   }
   if (iconId == 3) {
     return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><g transform="translate(200, 125) scale(1.4) translate(-200, -125)"><rect x="150" y="75" width="100" height="100" rx="24" fill="url(#gradShield)" stroke="rgba(95,163,224,0.1)" stroke-width="2"/><path d="M200 100 L 175 110 V 135 C 175 155 190 165 200 170 C 210 165 225 155 225 135 V 110 Z" fill="#7fa6e3" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M190 135 L 197 142 L 210 125" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M130 110 L 110 110 L 100 100 L 80 100" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M130 140 L 110 140 L 100 150 L 80 150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M270 110 L 290 110 L 300 100 L 320 100" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M270 140 L 290 140 L 300 150 L 320 150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><rect x="160" y="190" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><rect x="190" y="200" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><rect x="220" y="190" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><defs><radialGradient id="gradShield" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(95,163,224,0.2)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs></g></svg>`;
+  }
+  if (iconId == 4) {
+    return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><g transform="translate(200, 125) scale(1.15) translate(-200, -125)"><rect x="30" y="20" width="340" height="60" rx="12" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="rgba(255,255,255,0.02)"/><text x="50" y="42" fill="rgba(255,255,255,0.8)" font-size="14" font-weight="bold" font-family="sans-serif" stroke="none">Stealth Group</text><text x="50" y="62" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif" stroke="none">5 Whales Joined $TOKEN Group</text><text x="320" y="42" fill="rgba(255,255,255,0.3)" font-size="11" font-family="sans-serif" stroke="none">2min ago</text><rect x="20" y="90" width="360" height="65" rx="14" fill="rgba(95,163,224,0.15)" stroke="rgba(95,163,224,0.3)" stroke-width="1"/><text x="40" y="115" fill="#fff" font-size="15" font-weight="bold" font-family="sans-serif" stroke="none">X Activity</text><text x="40" y="137" fill="rgba(255,255,255,0.7)" font-size="12" font-family="sans-serif" stroke="none">Influencer Started Following $COIN</text><text x="320" y="115" fill="rgba(95,163,224,0.8)" font-size="11" font-family="sans-serif" stroke="none">5min ago</text><rect x="30" y="165" width="340" height="60" rx="12" stroke="rgba(255,255,255,0.05)" stroke-width="1" fill="rgba(255,255,255,0.02)"/><text x="50" y="187" fill="rgba(255,255,255,0.8)" font-size="14" font-weight="bold" font-family="sans-serif" stroke="none">Behavior</text><text x="50" y="207" fill="rgba(255,255,255,0.4)" font-size="11" font-family="sans-serif" stroke="none">Pattern Detected: Pre-Pump Activity</text></g><text x="320" y="187" fill="rgba(255,255,255,0.3)" font-size="11" font-family="sans-serif" stroke="none">8min ago</text></svg>`;
   }
   return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><rect x="160" y="85" width="80" height="80" rx="20" stroke="rgba(95,163,224,0.4)" stroke-width="3" fill="rgba(95,163,224,0.05)"/><rect x="150" y="75" width="100" height="100" rx="26" stroke="rgba(95,163,224,0.1)" stroke-width="2"/><path d="M185 110 A 15 15 0 0 1 215 110 A 15 15 0 0 1 215 140 A 15 15 0 0 1 185 140 A 15 15 0 0 1 185 110 Z" fill="#7fa6e3" stroke="none" transform="translate(200, 125) scale(4) translate(-200, -125)"/><path d="M200 125 A 5 5 0 0 1 200 125 Z" fill="#fff" stroke="none"/><circle cx="100" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="100" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">X</text><circle cx="35" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="35" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">f</text><circle cx="300" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="300" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">in</text><circle cx="365" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><path d="M356 113 L 376 125 L 356 137 Z" fill="#fff" stroke="none"/></svg>`;
 }

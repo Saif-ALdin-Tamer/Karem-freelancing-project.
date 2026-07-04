@@ -2412,3 +2412,24 @@ function renderFrontendAboutPage() {
 
 renderFrontendAboutPage();
 
+window.renderFrontendTrainingPage = function() {
+  const dStr = localStorage.getItem('ka_admin_training_data');
+  if (!dStr) return;
+  let d;
+  try {
+    d = JSON.parse(dStr);
+  } catch(e) {
+    return;
+  }
+  
+  if (d.bullets && Array.isArray(d.bullets)) {
+    const list = document.getElementById('frontendTrainingBullets');
+    if (list) {
+      // Escape function to prevent XSS
+      const esc = str => (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      const curLang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
+      list.innerHTML = d.bullets.map(b => `<li><span data-en="${esc(b.en)}" data-ar="${esc(b.ar)}">${esc(b[curLang] || b.en)}</span></li>`).join('');
+    }
+  }
+};
+window.renderFrontendTrainingPage();

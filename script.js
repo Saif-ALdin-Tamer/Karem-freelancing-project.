@@ -2567,3 +2567,14 @@ window.renderFrontendTrainingPage = function() {
 };
 window.renderFrontendTrainingPage();
 
+
+window.addEventListener('DOMContentLoaded', function() {
+  const savedHomePhoto = localStorage.getItem('ka_admin_home_photo');
+  if (savedHomePhoto) {
+    const photoBg = document.querySelector('.hero-image .photo-bg');
+    if (photoBg) {
+      photoBg.style.backgroundImage = 'url(' + savedHomePhoto + ')';
+    }
+  }
+});
+

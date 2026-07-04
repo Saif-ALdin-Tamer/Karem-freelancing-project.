@@ -1544,6 +1544,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
         Overview
       </a>
+      <a data-admin-page="home-page-picture">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Home Page Picture
+      </a>
       <a data-admin-page="intro-pages">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
         Intro Pages
@@ -1720,6 +1724,39 @@
         </div>
         <div class="admin-list" id="adminIntroList">
           <!-- Intro pages will be rendered here -->
+        </div>
+      </div>
+
+      <!-- ═══ HOME PAGE PICTURE PAGE ═══ -->
+      <div class="admin-page" data-admin-content="home-page-picture">
+        <div class="admin-section-header">
+          <div>
+            <h2 class="admin-section-title">Home Page Picture</h2>
+            <p class="admin-section-subtitle">Manage the photo that appears on the main home screen.</p>
+          </div>
+        </div>
+        <div class="admin-card">
+          <div class="admin-form-group">
+            <label class="admin-label">Current Photo</label>
+            <div id="adminHomePhotoPreviewContainer" style="margin-bottom: 1rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; text-align: center; background: rgba(0,0,0,0.2);">
+              <img id="adminHomePhotoPreview" src="hero-portrait.png" alt="Home Page Picture" style="max-height: 300px; max-width: 100%; border-radius: 4px; object-fit: contain;">
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <input type="file" id="adminHomePhotoInput" accept="image/png, image/jpeg, image/webp" style="display: none;">
+              <button class="admin-btn-secondary" onclick="document.getElementById('adminHomePhotoInput').click()">
+                Select New Photo
+              </button>
+              <button class="admin-btn-primary" id="adminHomePhotoSaveBtn">
+                Save Photo
+              </button>
+              <button class="admin-btn-danger" id="adminHomePhotoRemoveBtn">
+                Remove Photo
+              </button>
+            </div>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+              Recommended dimensions: 2752 x 1536 pixels, transparent background. Custom photos are stored directly in your browser.
+            </p>
+          </div>
         </div>
       </div>
 

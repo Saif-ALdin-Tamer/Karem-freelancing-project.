@@ -14,7 +14,8 @@
     SETTINGS: 'ka_admin_settings',
     INTRO_PAGES: 'ka_admin_intro_pages',
     TRAINING_DATA: 'ka_admin_training_data',
-    ABOUT_DATA: 'ka_admin_about_data'
+    ABOUT_DATA: 'ka_admin_about_data',
+    HOME_PHOTO: 'ka_admin_home_photo'
   };
 
   const DEFAULT_CREDS = {
@@ -1899,6 +1900,43 @@
       });
     }
 
+    // Home Page Picture Listeners
+    let tempHomePhoto = null;
+    if(getEl('adminHomePhotoInput')) {
+      getEl('adminHomePhotoInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(!file) return;
+        // Optionally resize image if needed, but for now simple FileReader
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          tempHomePhoto = ev.target.result;
+          getEl('adminHomePhotoPreview').src = tempHomePhoto;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    if(getEl('adminHomePhotoSaveBtn')) {
+      getEl('adminHomePhotoSaveBtn').addEventListener('click', () => {
+        if (tempHomePhoto) {
+          localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, tempHomePhoto);
+          showToast('Home photo saved successfully (Refresh main page to see)');
+        } else {
+          showToast('Please select a photo first');
+        }
+      });
+    }
+    if(getEl('adminHomePhotoRemoveBtn')) {
+      getEl('adminHomePhotoRemoveBtn').addEventListener('click', () => {
+        getEl('adminHomePhotoPreview').src = 'hero-portrait.png';
+        tempHomePhoto = null;
+        localStorage.removeItem(STORAGE_KEYS.HOME_PHOTO);
+        showToast('Home photo removed. Reverted to default.');
+      });
+    }
+    const savedHomePhoto = localStorage.getItem(STORAGE_KEYS.HOME_PHOTO);
+    if(savedHomePhoto && getEl('adminHomePhotoPreview')) {
+      getEl('adminHomePhotoPreview').src = savedHomePhoto;
+    }
     
     // Feedback Listeners
     if(getEl('adminAddReview')) getEl('adminAddReview').addEventListener('click', () => openReviewModal(currentFeedbackTab));

@@ -1128,6 +1128,10 @@
       cat: catInput.value.trim()
     });
     
+    // Fix: Update the current category state and UI dropdown so it matches what was just added
+    currentWorksCategory = category;
+    if(getEl('adminWorksCategory')) getEl('adminWorksCategory').value = category;
+    
     saveWorks(window.serviceWorks);
     logActivity(`Added work "${nameInput.value.trim()}" to ${category}`);
     renderWorks(category);
@@ -1152,11 +1156,16 @@
 
   // --- Provided Services ---
   function loadProvidedServices() {
-    return safeJSONParse(localStorage.getItem(STORAGE_KEYS.PROVIDED), {});
+    let data = safeJSONParse(localStorage.getItem(STORAGE_KEYS.PROVIDED), {});
+    if (Array.isArray(data)) data = {};
+    return data;
   }
   
-  function saveProvidedServices(data) {
+  function saveProvidedServices(data, updatedCategory) {
     localStorage.setItem(STORAGE_KEYS.PROVIDED, JSON.stringify(data));
+    if (typeof window.renderFrontendProvidedServices === 'function') {
+      window.renderFrontendProvidedServices(updatedCategory || currentProvidedCategory);
+    }
   }
 
   function renderProvidedPage() {
@@ -1197,17 +1206,33 @@
       showToast('Please select a main category', 'error');
       return;
     }
-    if(!url.trim()) {
+    
+    let safeUrl = url.trim();
+    if(!safeUrl) {
       showToast('Please enter an image URL', 'error');
+      return;
+    }
+    
+    if (safeUrl.includes('youtube.com') || safeUrl.includes('youtu.be')) {
+      showToast('YouTube links cannot be used here. Please provide a direct image URL.', 'error');
+      return;
+    }
+    
+    if (!safeUrl.startsWith('http') && !safeUrl.startsWith('/')) {
+      showToast('Please enter a valid image URL (must start with http:// or https://)', 'error');
       return;
     }
     
     const data = loadProvidedServices();
     if (!data[category]) data[category] = [];
     
-    data[category].unshift({ orientation, url: url.trim() });
+    data[category].unshift({ orientation, url: safeUrl });
     
-    saveProvidedServices(data);
+    // Fix: Update the current category state and UI dropdown so it matches what was just added
+    currentProvidedCategory = category;
+    if(getEl('adminProvidedCategory')) getEl('adminProvidedCategory').value = category;
+    
+    saveProvidedServices(data, category);
     logActivity(`Added image to Provided Services: ${category}`);
     renderProvidedServices(category);
     
@@ -1221,8 +1246,7 @@
     
     const data = loadProvidedServices();
     data[category].splice(index, 1);
-    saveProvidedServices(data);
-    
+    saveProvidedServices(data, category);
     logActivity(`Deleted image from Provided Services: ${category}`);
     renderProvidedServices(category);
     showToast('Item deleted');
@@ -1904,7 +1928,6 @@
     // Map & Stats Listeners
     if(getEl('adminSaveReview')) getEl('adminSaveReview').addEventListener('click', saveReview);
     if(getEl('adminSaveIntro')) getEl('adminSaveIntro').addEventListener('click', saveIntro);
-    if(getEl('adminProvidedSave')) getEl('adminProvidedSave').addEventListener('click', saveProvidedService);
     if(getEl('adminAddCountry')) getEl('adminAddCountry').addEventListener('click', addCountry);
     if(getEl('adminSaveProjects')) getEl('adminSaveProjects').addEventListener('click', () => saveStats('projects'));
     if(getEl('adminSaveCountries')) getEl('adminSaveCountries').addEventListener('click', () => saveStats('countries'));

@@ -1715,6 +1715,48 @@ window.addEventListener("hashchange", function () {
 
 /* ═══ Script Block 8 ═══ */
 (function () {
+window.TRAINING_DATA = {
+  mentorship: {
+    headingEn: 'Level Up',
+    headingAr: 'طور مهاراتك',
+    para1En: 'Editing mentorship.',
+    para1Ar: 'توجيه في المونتاج.',
+    bullets: [
+      { en: 'Advanced Techniques', ar: 'تقنيات متقدمة' },
+      { en: 'Workflow Optimization', ar: 'تحسين مسار العمل' },
+      { en: 'Industry Insights', ar: 'رؤى الصناعة' }
+    ],
+    para2En: 'Available in-person (Cairo) or online.',
+    para2Ar: 'متاح حضورياً (القاهرة) أو أونلاين.'
+  },
+  videos: [
+    {
+      name: "Student A",
+      roleEn: "Mentorship Graduate",
+      roleAr: "خريج برنامج التدريب",
+      textEn: "Video testimonial coming soon",
+      textAr: "شهادة فيديو قريباً",
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      name: "Student B",
+      roleEn: "Mentorship Graduate",
+      roleAr: "خريج برنامج التدريب",
+      textEn: "Video testimonial coming soon",
+      textAr: "شهادة فيديو قريباً",
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      name: "Student C",
+      roleEn: "Mentorship Graduate",
+      roleAr: "خريج برنامج التدريب",
+      textEn: "Video testimonial coming soon",
+      textAr: "شهادة فيديو قريباً",
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+  ]
+};
+
   // === CONFIGURATION (edit these) ===
   const QB_WHATSAPP_NUMBER = "201234567890"; // Replace with real number (country code, no +)
   const QB_EMAIL_TO = "hello@karimabdelaziz.com"; // Replace with real email
@@ -1985,7 +2027,9 @@ Looking forward to chatting!`;
   
   function getProvidedData() {
     try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      let data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      if (Array.isArray(data)) data = {};
+      return data;
     } catch(e) {
       return {};
     }
@@ -2004,8 +2048,13 @@ Looking forward to chatting!`;
     // Build items HTML
     let groupHtml = '';
     if (items.length > 0) {
-      items.forEach(item => {
-        const bg = item.url ? ` style="background-image: url('${item.url}'); background-size: cover; background-position: center;"` : '';
+      let displayItems = [...items];
+      while (displayItems.length < 6) {
+        displayItems = displayItems.concat(items);
+      }
+      displayItems.forEach(item => {
+        const safeUrl = item.url ? item.url.replace(/'/g, "%27").replace(/"/g, "%22") : '';
+        const bg = safeUrl ? ` style="background-image: url('${safeUrl}'); background-size: cover; background-position: center;"` : '';
         groupHtml += `<div class="sm-item sm-${item.orientation}"${bg}></div>`;
       });
     } else {
@@ -2044,8 +2093,14 @@ Looking forward to chatting!`;
     });
   });
 
-  // Initial render (default to editing or the first available active tag)
-  renderCategory('editing');
+  // Initial render (default to the first available active tag, or 'editing')
+  const initialTag = Array.from(tags).find(t => t.classList.contains('active'));
+  const initialCat = initialTag ? initialTag.getAttribute('data-category') : 'editing';
+  renderCategory(initialCat);
+  
+  window.renderFrontendProvidedServices = function(category) {
+    renderCategory(category || 'editing');
+  };
 })();
 
 /* ═══ Script Block 11: Dynamic Map and Stats Data ═══ */
@@ -2412,24 +2467,103 @@ function renderFrontendAboutPage() {
 
 renderFrontendAboutPage();
 
+window.openVideoModal = function(url) {
+  const modal = document.getElementById('globalVideoModal');
+  const iframe = document.getElementById('globalVideoIframe');
+  if (modal && iframe) {
+    let finalUrl = url;
+    if (url.includes('youtube.com/watch?v=')) {
+      finalUrl = url.replace('watch?v=', 'embed/');
+    } else if (url.includes('youtu.be/')) {
+      finalUrl = url.replace('youtu.be/', 'youtube.com/embed/');
+    }
+    iframe.src = finalUrl;
+    modal.classList.add('active');
+  }
+};
+
+window.closeVideoModal = function() {
+  const modal = document.getElementById('globalVideoModal');
+  const iframe = document.getElementById('globalVideoIframe');
+  if (modal && iframe) {
+    iframe.src = '';
+    modal.classList.remove('active');
+  }
+};
+
 window.renderFrontendTrainingPage = function() {
   const dStr = localStorage.getItem('ka_admin_training_data');
   if (!dStr) return;
   let d;
-  try {
-    d = JSON.parse(dStr);
-  } catch(e) {
-    return;
-  }
+  try { d = JSON.parse(dStr); } catch(e) { return; }
   
+  const section = document.getElementById('training');
+  if (!section) return;
+
+  const curLang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
+  const esc = str => (String(str || '')).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  const updateTxt = (el, enStr, arStr) => {
+    if (!el) return;
+    if (enStr) el.setAttribute('data-en', enStr);
+    if (arStr) el.setAttribute('data-ar', arStr);
+    el.innerHTML = esc(curLang === 'ar' ? (arStr || enStr) : (enStr || arStr));
+  };
+
+  updateTxt(section.querySelector('.eyebrow'), d.eyebrowEn, d.eyebrowAr);
+  updateTxt(section.querySelector('.heading'), d.headingEn, d.headingAr);
+  
+  const card = section.querySelector('.training-card > div');
+  if (card) {
+    updateTxt(card.querySelector('h3'), d.cardTitleEn, d.cardTitleAr);
+    const paras = card.querySelectorAll('p');
+    if (paras[0]) updateTxt(paras[0], d.para1En, d.para1Ar);
+    if (paras[1]) updateTxt(paras[1], d.para2En, d.para2Ar);
+  }
+
   if (d.bullets && Array.isArray(d.bullets)) {
     const list = document.getElementById('frontendTrainingBullets');
     if (list) {
-      // Escape function to prevent XSS
-      const esc = str => (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      const curLang = document.documentElement.lang === 'ar' ? 'ar' : 'en';
       list.innerHTML = d.bullets.map(b => `<li><span data-en="${esc(b.en)}" data-ar="${esc(b.ar)}">${esc(b[curLang] || b.en)}</span></li>`).join('');
+    }
+  }
+
+  if (d.stats && Array.isArray(d.stats)) {
+    const statsCont = section.querySelector('.training-stats');
+    if (statsCont) {
+      statsCont.innerHTML = d.stats.map(s => {
+        const valHtml = s.target !== undefined && s.target !== ''
+          ? `<span class="count" data-target="${esc(s.target)}" data-suffix="${esc(s.suffix||'')}">${esc(s.target)}${esc(s.suffix||'')}</span>`
+          : esc(s.value||'');
+        return `<div class="ts"><div class="ts-n fade-pulse">${valHtml}</div><div class="ts-l fade-pulse" data-en="${esc(s.labelEn)}" data-ar="${esc(s.labelAr)}">${esc(curLang === 'ar' ? s.labelAr : s.labelEn)}</div></div>`;
+      }).join('');
+    }
+  }
+
+  const vHead = section.querySelector('.video-reviews-header');
+  if (vHead) {
+    updateTxt(vHead.querySelector('h3'), d.videoHeadingEn, d.videoHeadingAr);
+    updateTxt(vHead.querySelector('p'), d.videoSubEn, d.videoSubAr);
+  }
+
+  if (d.videos && Array.isArray(d.videos) && d.videos.length > 0) {
+    const vGrid = section.querySelector('.video-reviews-grid');
+    if (vGrid) {
+      vGrid.innerHTML = d.videos.map(v => `
+        <div class="video-card" onclick="window.openVideoModal('${esc(v.url)}')">
+          <div class="video-card-glow"></div>
+          <div class="video-card-bg"></div>
+          <div class="video-card-quote">"</div>
+          <div class="video-card-play"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
+          <div class="video-card-info">
+            <div class="video-card-text" data-en="${esc(v.textEn)}" data-ar="${esc(v.textAr)}">${esc(curLang === 'ar' ? v.textAr : v.textEn)}</div>
+            <div class="video-card-name">${esc(v.name)}</div>
+            <div class="video-card-role" data-en="${esc(v.roleEn)}" data-ar="${esc(v.roleAr)}">${esc(curLang === 'ar' ? v.roleAr : v.roleEn)}</div>
+          </div>
+        </div>
+      `).join('');
     }
   }
 };
 window.renderFrontendTrainingPage();
+

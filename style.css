@@ -9250,3 +9250,9 @@ html body .in-portfolio footer {
   backdrop-filter: blur(4px); transition: background 0.3s ease;
 }
 .video-modal-close:hover { background: rgba(255,255,255,0.4); }
+
+@media (min-width: 769px) {
+  .mobile-break {
+    display: none;
+  }
+}

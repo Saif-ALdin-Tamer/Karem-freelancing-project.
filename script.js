@@ -2052,11 +2052,15 @@ Looking forward to chatting!`;
 window.updateFrontendStats = function(stats) {
   if (!stats) return;
 
+  const projects = stats.projects !== undefined ? stats.projects : 1318;
+  const countries = stats.countries !== undefined ? stats.countries : 14;
+  const clients = stats.clients !== undefined ? stats.clients : 470;
+
   const wsItems = document.querySelectorAll('.ws-item .count');
   if (wsItems.length >= 3) {
-    wsItems[0].dataset.target = stats.projects;
-    wsItems[1].dataset.target = stats.countries;
-    wsItems[2].dataset.target = stats.clients;
+    wsItems[0].dataset.target = projects;
+    wsItems[1].dataset.target = countries;
+    wsItems[2].dataset.target = clients;
 
     // Reset suffixes to +
     wsItems[0].dataset.suffix = "+";
@@ -2085,15 +2089,22 @@ window.updateFrontendStats = function(stats) {
     });
   }
 
-  // Update "projects shipped" story stat
+  // Update "projects shipped", "countries", and "clients" story stats
   const storyStats = document.querySelectorAll('.story-stat-num');
-  if (storyStats.length > 0) {
-    storyStats[0].dataset.countTarget = stats.projects;
-    if (storyStats[0].dataset.counted) {
-      const target = parseInt(stats.projects);
-      if (window.animateCount) window.animateCount(storyStats[0], target, "");
-      else storyStats[0].textContent = target.toLocaleString('en-US');
-    }
+  if (storyStats.length > 4) {
+    const updates = [
+      { el: storyStats[1], val: projects }, // index 1: projects shipped
+      { el: storyStats[3], val: countries }, // index 3: countries
+      { el: storyStats[4], val: clients }    // index 4: clients
+    ];
+    updates.forEach(u => {
+      u.el.dataset.countTarget = u.val;
+      if (u.el.dataset.counted) {
+        const target = parseInt(u.val);
+        if (window.animateCount) window.animateCount(u.el, target, "");
+        else u.el.textContent = target.toLocaleString('en-US');
+      }
+    });
   }
 };
 

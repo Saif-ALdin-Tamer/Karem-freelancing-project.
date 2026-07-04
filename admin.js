@@ -12,7 +12,9 @@
     GLOBAL_STATS: 'ka_admin_global_stats',
     ANALYTICS: 'ka_admin_analytics',
     SETTINGS: 'ka_admin_settings',
-    INTRO_PAGES: 'ka_admin_intro_pages'
+    INTRO_PAGES: 'ka_admin_intro_pages',
+    TRAINING_DATA: 'ka_admin_training_data',
+    ABOUT_DATA: 'ka_admin_about_data'
   };
 
   const DEFAULT_CREDS = {
@@ -56,10 +58,15 @@
 
   function safeJSONParse(str, defaultVal) {
     try {
-      return JSON.parse(str) || defaultVal;
-    } catch (e) {
+      return str ? JSON.parse(str) : defaultVal;
+    } catch(e) {
       return defaultVal;
     }
+  }
+
+  function esc(str) {
+    if (typeof str !== 'string') return '';
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   // ═══ TOAST & DIALOG ═══
@@ -264,6 +271,36 @@
     if(typeof window.renderFrontendIntroPages === 'function') window.renderFrontendIntroPages();
   }
 
+  function loadTrainingData() {
+    const saved = safeJSONParse(localStorage.getItem(STORAGE_KEYS.TRAINING_DATA), null);
+    if (!saved) return JSON.parse(JSON.stringify(window.TRAINING_DATA || {}));
+    
+    // Ensure arrays exist
+    saved.bullets = saved.bullets || (window.TRAINING_DATA ? window.TRAINING_DATA.bullets : []);
+    saved.stats = saved.stats || (window.TRAINING_DATA ? window.TRAINING_DATA.stats : []);
+    saved.videos = saved.videos || (window.TRAINING_DATA ? window.TRAINING_DATA.videos : []);
+    
+    return saved;
+  }
+
+  function saveTrainingData(data) {
+    localStorage.setItem(STORAGE_KEYS.TRAINING_DATA, JSON.stringify(data));
+    window.TRAINING_DATA = data;
+    if(typeof window.renderFrontendTrainingPage === 'function') window.renderFrontendTrainingPage();
+  }
+
+  function loadAboutData() {
+    const saved = safeJSONParse(localStorage.getItem(STORAGE_KEYS.ABOUT_DATA), null);
+    if (!saved) return JSON.parse(JSON.stringify(window.ABOUT_DATA || { chapters: [], process: [] }));
+    saved.chapters = saved.chapters || (window.ABOUT_DATA ? window.ABOUT_DATA.chapters : []);
+    saved.process = saved.process || (window.ABOUT_DATA ? window.ABOUT_DATA.process : []);
+    return saved;
+  }
+
+  function saveAboutData(data) {
+    localStorage.setItem(STORAGE_KEYS.ABOUT_DATA, JSON.stringify(data));
+  }
+
   function exportAllData() {
     const data = {
       clientReviews: window.clientReviews,
@@ -319,7 +356,8 @@
         map: 'Map & Stats',
         analytics: 'Analytics',
         settings: 'Settings',
-        'intro-pages': 'Intro Pages'
+        'intro-pages': 'Intro Pages',
+        'training-pages': 'Training Pages'
       };
       titleEl.innerText = pageTitles[page] || page.charAt(0).toUpperCase() + page.slice(1);
     }
@@ -338,9 +376,214 @@
     else if (page === 'map') renderMapPage();
     else if (page === 'analytics') renderAnalyticsPage();
     else if (page === 'settings') renderSettingsPage();
+    else if (page === 'training-pages') renderTrainingPageAdmin();
+    else if (page === 'about') renderAboutPage();
   }
 
   // ═══ CONTROLLERS ═══
+
+  // --- About Page Admin ---
+  let currentAboutTab = 'chapters';
+
+  function renderAboutPage() {
+    getEl('adminPageTitle').innerText = 'About Page';
+    document.querySelectorAll('[data-about-tab]').forEach(b => b.classList.remove('active'));
+    const activeTabBtn = document.querySelector(`[data-about-tab="${currentAboutTab}"]`);
+    if(activeTabBtn) activeTabBtn.classList.add('active');
+    
+    if (currentAboutTab === 'chapters') {
+      getEl('adminAboutChaptersPanel').style.display = 'block';
+      getEl('adminAboutProcessPanel').style.display = 'none';
+      renderAboutChapters();
+    } else {
+      getEl('adminAboutChaptersPanel').style.display = 'none';
+      getEl('adminAboutProcessPanel').style.display = 'block';
+      renderAboutProcess();
+    }
+  }
+
+  function renderAboutChapters() {
+    const list = getEl('adminAboutChaptersList');
+    if (!list) return;
+    const d = loadAboutData();
+    if (!d.chapters || d.chapters.length === 0) {
+      list.innerHTML = '<p class="admin-empty-state">No chapters found</p>';
+      return;
+    }
+    list.innerHTML = d.chapters.map((c, i) => `
+      <div class="admin-activity-item">
+        <div>
+          <strong>${esc(c.titleEn)}</strong><br>
+          <span style="font-size:12px;color:var(--muted);">${esc(c.eyebrowEn)} - ${c.visualType}</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="admin-edit-btn" onclick="adminApp.editAboutChapter(${i})">Edit</button>
+          <button class="admin-delete-btn" onclick="adminApp.deleteAboutChapter(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderAboutProcess() {
+    const list = getEl('adminAboutProcessList');
+    if (!list) return;
+    const d = loadAboutData();
+    if (!d.process || d.process.length === 0) {
+      list.innerHTML = '<p class="admin-empty-state">No process steps found</p>';
+      return;
+    }
+    list.innerHTML = d.process.map((p, i) => `
+      <div class="admin-activity-item">
+        <div>
+          <strong>${esc(p.titleEn)}</strong><br>
+          <span style="font-size:12px;color:var(--muted);">Icon: Style ${p.icon}</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="admin-edit-btn" onclick="adminApp.editAboutProcess(${i})">Edit</button>
+          <button class="admin-delete-btn" onclick="adminApp.deleteAboutProcess(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Hook up tabs
+  document.querySelectorAll('[data-about-tab]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      currentAboutTab = e.target.getAttribute('data-about-tab');
+      renderAboutPage();
+    });
+  });
+
+  // Open modals
+  function openAboutChapterModal(index = -1) {
+    const modal = getEl('adminAboutChapterModal');
+    if(!modal) return;
+    const d = loadAboutData();
+    
+    getEl('aboutChapterEditIndex').value = index;
+    getEl('aboutChapterModalTitle').innerText = index >= 0 ? 'Edit Chapter' : 'Add Chapter';
+    
+    if (index >= 0 && d.chapters[index]) {
+      const c = d.chapters[index];
+      getEl('acEyebrowEn').value = c.eyebrowEn || '';
+      getEl('acEyebrowAr').value = c.eyebrowAr || '';
+      getEl('acTitleEn').value = c.titleEn || '';
+      getEl('acTitleAr').value = c.titleAr || '';
+      getEl('acTextEn').value = c.textEn || '';
+      getEl('acTextAr').value = c.textAr || '';
+      getEl('acYearEn').value = c.yearEn || '';
+      getEl('acYearAr').value = c.yearAr || '';
+      getEl('acVisualType').value = c.visualType || 'photo1';
+    } else {
+      ['acEyebrowEn','acEyebrowAr','acTitleEn','acTitleAr','acTextEn','acTextAr','acYearEn','acYearAr'].forEach(id => getEl(id).value = '');
+      getEl('acVisualType').value = 'photo1';
+    }
+    modal.classList.add('active');
+  }
+
+  function openAboutProcessModal(index = -1) {
+    const modal = getEl('adminAboutProcessModal');
+    if(!modal) return;
+    const d = loadAboutData();
+    
+    getEl('aboutProcessEditIndex').value = index;
+    getEl('aboutProcessModalTitle').innerText = index >= 0 ? 'Edit Process Step' : 'Add Process Step';
+    
+    if (index >= 0 && d.process[index]) {
+      const p = d.process[index];
+      getEl('apTitleEn').value = p.titleEn || '';
+      getEl('apTitleAr').value = p.titleAr || '';
+      getEl('apDescEn').value = p.descEn || '';
+      getEl('apDescAr').value = p.descAr || '';
+      getEl('apIcon').value = p.icon || '1';
+    } else {
+      ['apTitleEn','apTitleAr','apDescEn','apDescAr'].forEach(id => getEl(id).value = '');
+      getEl('apIcon').value = '1';
+    }
+    modal.classList.add('active');
+  }
+
+  // Add new
+  getEl('adminAddAboutItem')?.addEventListener('click', () => {
+    if (currentAboutTab === 'chapters') openAboutChapterModal(-1);
+    else openAboutProcessModal(-1);
+  });
+
+  // Save actions
+  getEl('adminSaveAboutChapter')?.addEventListener('click', () => {
+    const index = parseInt(getEl('aboutChapterEditIndex').value);
+    const d = loadAboutData();
+    
+    const c = {
+      eyebrowEn: getEl('acEyebrowEn').value,
+      eyebrowAr: getEl('acEyebrowAr').value,
+      titleEn: getEl('acTitleEn').value,
+      titleAr: getEl('acTitleAr').value,
+      textEn: getEl('acTextEn').value,
+      textAr: getEl('acTextAr').value,
+      yearEn: getEl('acYearEn').value,
+      yearAr: getEl('acYearAr').value,
+      visualType: getEl('acVisualType').value,
+      stats: index >= 0 && d.chapters[index] ? d.chapters[index].stats : null
+    };
+    
+    if (index >= 0) d.chapters[index] = c;
+    else d.chapters.push(c);
+    
+    saveAboutData(d);
+    renderAboutChapters();
+    getEl('adminAboutChapterModal').classList.remove('active');
+    showToast(index >= 0 ? 'Chapter updated' : 'Chapter added');
+    if(typeof window.renderFrontendAboutPage === 'function') window.renderFrontendAboutPage();
+  });
+
+  getEl('adminSaveAboutProcess')?.addEventListener('click', () => {
+    const index = parseInt(getEl('aboutProcessEditIndex').value);
+    const d = loadAboutData();
+    
+    const p = {
+      titleEn: getEl('apTitleEn').value,
+      titleAr: getEl('apTitleAr').value,
+      descEn: getEl('apDescEn').value,
+      descAr: getEl('apDescAr').value,
+      icon: parseInt(getEl('apIcon').value) || 1
+    };
+    
+    if (index >= 0) d.process[index] = p;
+    else d.process.push(p);
+    
+    saveAboutData(d);
+    renderAboutProcess();
+    getEl('adminAboutProcessModal').classList.remove('active');
+    showToast(index >= 0 ? 'Process step updated' : 'Process step added');
+    if(typeof window.renderFrontendAboutPage === 'function') window.renderFrontendAboutPage();
+  });
+
+  window.adminApp = window.adminApp || {};
+  window.adminApp.editAboutChapter = openAboutChapterModal;
+  window.adminApp.editAboutProcess = openAboutProcessModal;
+  
+  window.adminApp.deleteAboutChapter = async function(index) {
+    const ok = await showConfirm('Delete Chapter', 'Are you sure you want to delete this chapter?');
+    if(!ok) return;
+    const d = loadAboutData();
+    d.chapters.splice(index, 1);
+    saveAboutData(d);
+    renderAboutChapters();
+    showToast('Chapter deleted');
+    if(typeof window.renderFrontendAboutPage === 'function') window.renderFrontendAboutPage();
+  };
+
+  window.adminApp.deleteAboutProcess = async function(index) {
+    const ok = await showConfirm('Delete Step', 'Are you sure you want to delete this process step?');
+    if(!ok) return;
+    const d = loadAboutData();
+    d.process.splice(index, 1);
+    saveAboutData(d);
+    renderAboutProcess();
+    showToast('Step deleted');
+    if(typeof window.renderFrontendAboutPage === 'function') window.renderFrontendAboutPage();
+  };
 
   // --- Overview ---
   function animateCount(el, target, duration = 800) {
@@ -613,6 +856,208 @@
     getEl('adminIntroModal').classList.remove('active');
     showToast('Chapter updated successfully');
   }
+
+  // ═══════ TRAINING PAGES UI ═══════
+
+  function renderTrainingPageAdmin() {
+    const d = loadTrainingData();
+    if (!d || !d.bullets) return;
+
+    if(getEl('adminTrainingEyebrowEn')) getEl('adminTrainingEyebrowEn').value = d.eyebrowEn || '';
+    if(getEl('adminTrainingEyebrowAr')) getEl('adminTrainingEyebrowAr').value = d.eyebrowAr || '';
+    if(getEl('adminTrainingHeadingEn')) getEl('adminTrainingHeadingEn').value = d.headingEn || '';
+    if(getEl('adminTrainingHeadingAr')) getEl('adminTrainingHeadingAr').value = d.headingAr || '';
+    if(getEl('adminTrainingCardTitleEn')) getEl('adminTrainingCardTitleEn').value = d.cardTitleEn || '';
+    if(getEl('adminTrainingCardTitleAr')) getEl('adminTrainingCardTitleAr').value = d.cardTitleAr || '';
+    if(getEl('adminTrainingPara1En')) getEl('adminTrainingPara1En').value = d.para1En || '';
+    if(getEl('adminTrainingPara1Ar')) getEl('adminTrainingPara1Ar').value = d.para1Ar || '';
+    if(getEl('adminTrainingPara2En')) getEl('adminTrainingPara2En').value = d.para2En || '';
+    if(getEl('adminTrainingPara2Ar')) getEl('adminTrainingPara2Ar').value = d.para2Ar || '';
+    if(getEl('adminTrainingVideoHeadingEn')) getEl('adminTrainingVideoHeadingEn').value = d.videoHeadingEn || '';
+    if(getEl('adminTrainingVideoHeadingAr')) getEl('adminTrainingVideoHeadingAr').value = d.videoHeadingAr || '';
+    if(getEl('adminTrainingVideoSubEn')) getEl('adminTrainingVideoSubEn').value = d.videoSubEn || '';
+    if(getEl('adminTrainingVideoSubAr')) getEl('adminTrainingVideoSubAr').value = d.videoSubAr || '';
+
+    renderTrainingBullets();
+    renderTrainingStats();
+    renderTrainingVideos();
+  }
+
+  function renderTrainingBullets() {
+    const d = loadTrainingData();
+    const list = getEl('adminTrainingBulletsList');
+    if(!list) return;
+    list.innerHTML = (d.bullets || []).map((b, i) => `
+      <div class="admin-list-item">
+        <div style="flex:1; min-width:0; padding-right:16px;">
+          <div style="margin-bottom:6px; font-size:15px; overflow:hidden; text-overflow:ellipsis;"><strong>EN:</strong> ${b.en}</div>
+          <div dir="rtl" style="font-size:15px; color:var(--admin-text-muted); overflow:hidden; text-overflow:ellipsis;"><strong>AR:</strong> ${b.ar}</div>
+        </div>
+        <div style="display:flex; align-items:center; flex-shrink:0;">
+          <button class="admin-edit-btn" style="margin-right:8px;" onclick="window.adminApp.editTrainingBullet(${i})">Edit</button>
+          <button class="admin-btn-secondary" style="color:#ff4444;border-color:#ff4444;" onclick="window.adminApp.deleteTrainingBullet(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderTrainingStats() {
+    const d = loadTrainingData();
+    const list = getEl('adminTrainingStatsList');
+    if(!list) return;
+    list.innerHTML = (d.stats || []).map((s, i) => `
+      <div class="admin-list-item">
+        <div style="flex:1; min-width:0; padding-right:16px;">
+          <div style="margin-bottom:8px; font-weight:600; font-size:18px; color:var(--admin-accent);">Value/Target: ${s.target !== undefined ? s.target + (s.suffix||'') : (s.value || '')}</div>
+          <div style="margin-bottom:4px; font-size:14px; overflow:hidden; text-overflow:ellipsis;"><strong>EN:</strong> ${s.labelEn}</div>
+          <div dir="rtl" style="font-size:14px; color:var(--admin-text-muted); overflow:hidden; text-overflow:ellipsis;"><strong>AR:</strong> ${s.labelAr}</div>
+        </div>
+        <div style="display:flex; align-items:center; flex-shrink:0;">
+          <button class="admin-edit-btn" style="margin-right:8px;" onclick="window.adminApp.editTrainingStat(${i})">Edit</button>
+          <button class="admin-btn-secondary" style="color:#ff4444;border-color:#ff4444;" onclick="window.adminApp.deleteTrainingStat(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderTrainingVideos() {
+    const d = loadTrainingData();
+    const list = getEl('adminTrainingVideosList');
+    if(!list) return;
+    list.innerHTML = (d.videos || []).map((v, i) => `
+      <div class="admin-work-card" style="display:flex; flex-direction:column; gap:12px;">
+        <div class="admin-work-info" style="min-width:0; width:100%;">
+          <div class="admin-work-name" style="font-size:16px; font-weight:600; overflow:hidden; text-overflow:ellipsis;">${v.name}</div>
+          <div class="admin-work-cat" style="font-size:13px; color:var(--admin-primary); margin-top:4px;">${v.roleEn}</div>
+          <div style="margin-top:8px;font-size:12px;color:var(--admin-text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:rgba(255,255,255,0.05);padding:4px 8px;border-radius:4px;">${v.url}</div>
+        </div>
+        <div class="admin-work-actions" style="display:flex; align-items:center; gap:8px;">
+          <button class="admin-edit-btn" style="flex:1;" onclick="window.adminApp.editTrainingVideo(${i})">Edit</button>
+          <button class="admin-delete-btn" style="flex:1; color:#ff4444; border-color:#ff4444;" onclick="window.adminApp.deleteTrainingVideo(${i})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function saveTrainingMain() {
+    const d = loadTrainingData();
+    d.eyebrowEn = getEl('adminTrainingEyebrowEn').value;
+    d.eyebrowAr = getEl('adminTrainingEyebrowAr').value;
+    d.headingEn = getEl('adminTrainingHeadingEn').value;
+    d.headingAr = getEl('adminTrainingHeadingAr').value;
+    d.cardTitleEn = getEl('adminTrainingCardTitleEn').value;
+    d.cardTitleAr = getEl('adminTrainingCardTitleAr').value;
+    d.para1En = getEl('adminTrainingPara1En').value;
+    d.para1Ar = getEl('adminTrainingPara1Ar').value;
+    d.para2En = getEl('adminTrainingPara2En').value;
+    d.para2Ar = getEl('adminTrainingPara2Ar').value;
+    d.videoHeadingEn = getEl('adminTrainingVideoHeadingEn').value;
+    d.videoHeadingAr = getEl('adminTrainingVideoHeadingAr').value;
+    d.videoSubEn = getEl('adminTrainingVideoSubEn').value;
+    d.videoSubAr = getEl('adminTrainingVideoSubAr').value;
+    saveTrainingData(d);
+    showToast('Training main settings saved');
+  }
+
+  function openTrainingVideoModal(index = -1) {
+    const modal = getEl('adminTrainingVideoModal');
+    if(!modal) return;
+    const d = loadTrainingData();
+    const v = index >= 0 ? d.videos[index] : null;
+
+    getEl('trainingVideoEditIndex').value = index;
+    getEl('tvName').value = v ? v.name : '';
+    getEl('tvRoleEn').value = v ? v.roleEn : '';
+    getEl('tvRoleAr').value = v ? v.roleAr : '';
+    getEl('tvTextEn').value = v ? v.textEn : '';
+    getEl('tvTextAr').value = v ? v.textAr : '';
+    getEl('tvUrl').value = v ? v.url : '';
+
+    modal.classList.add('active');
+  }
+
+  function saveTrainingVideo() {
+    const index = parseInt(getEl('trainingVideoEditIndex').value);
+    const d = loadTrainingData();
+    const v = {
+      name: getEl('tvName').value,
+      roleEn: getEl('tvRoleEn').value,
+      roleAr: getEl('tvRoleAr').value,
+      textEn: getEl('tvTextEn').value,
+      textAr: getEl('tvTextAr').value,
+      url: getEl('tvUrl').value
+    };
+
+    if (index >= 0) {
+      d.videos[index] = v;
+    } else {
+      d.videos.push(v);
+    }
+
+    saveTrainingData(d);
+    renderTrainingVideos();
+    getEl('adminTrainingVideoModal').classList.remove('active');
+    showToast(index >= 0 ? 'Video updated' : 'Video added');
+  }
+
+  window.adminApp = window.adminApp || {};
+  window.adminApp.editTrainingVideo = openTrainingVideoModal;
+
+  window.adminApp.editTrainingBullet = function(index) {
+    const d = loadTrainingData();
+    const b = d.bullets[index];
+    if(!b) return;
+    getEl('adminTrainingBulletEditIndex').value = index;
+    getEl('adminTrainingBulletEn').value = b.en || '';
+    getEl('adminTrainingBulletAr').value = b.ar || '';
+    getEl('adminTrainingBulletBtnText').innerText = 'Save';
+    getEl('adminTrainingBulletEn').focus();
+  };
+
+  window.adminApp.editTrainingStat = function(index) {
+    const d = loadTrainingData();
+    const s = d.stats[index];
+    if(!s) return;
+    getEl('adminTrainingStatEditIndex').value = index;
+    getEl('adminTrainingStatTarget').value = s.target !== undefined ? s.target : '';
+    getEl('adminTrainingStatSuffix').value = s.suffix || '';
+    getEl('adminTrainingStatValue').value = s.value || '';
+    getEl('adminTrainingStatLabelEn').value = s.labelEn || '';
+    getEl('adminTrainingStatLabelAr').value = s.labelAr || '';
+    getEl('adminTrainingStatBtnText').innerText = 'Save';
+    getEl('adminTrainingStatTarget').focus();
+  };
+
+  window.adminApp.deleteTrainingVideo = async function(index) {
+    const ok = await showConfirm('Delete Video', 'Are you sure you want to delete this video?');
+    if(!ok) return;
+    const d = loadTrainingData();
+    d.videos.splice(index, 1);
+    saveTrainingData(d);
+    renderTrainingVideos();
+    showToast('Video deleted');
+  };
+
+  window.adminApp.deleteTrainingBullet = async function(index) {
+    const ok = await showConfirm('Delete Bullet', 'Are you sure you want to delete this bullet point?');
+    if(!ok) return;
+    const d = loadTrainingData();
+    d.bullets.splice(index, 1);
+    saveTrainingData(d);
+    renderTrainingBullets();
+    showToast('Bullet deleted');
+  };
+
+  window.adminApp.deleteTrainingStat = async function(index) {
+    const ok = await showConfirm('Delete Stat', 'Are you sure you want to delete this stat?');
+    if(!ok) return;
+    const d = loadTrainingData();
+    d.stats.splice(index, 1);
+    saveTrainingData(d);
+    renderTrainingStats();
+    showToast('Stat deleted');
+  };
+
 
   async function deleteReview(type, index) {
      const ok = await showConfirm('Delete Review', 'Are you sure you want to delete this review? This cannot be undone.');
@@ -1362,6 +1807,74 @@
         btn.closest('.admin-modal-overlay').classList.remove('active');
       });
     });
+
+    // Training Pages Listeners
+    if(getEl('adminSaveTrainingPage')) getEl('adminSaveTrainingPage').addEventListener('click', saveTrainingMain);
+    if(getEl('adminAddTrainingVideoBtn')) getEl('adminAddTrainingVideoBtn').addEventListener('click', () => openTrainingVideoModal(-1));
+    if(getEl('adminSaveTrainingVideo')) getEl('adminSaveTrainingVideo').addEventListener('click', saveTrainingVideo);
+    
+    if(getEl('adminAddTrainingBullet')) {
+      getEl('adminAddTrainingBullet').addEventListener('click', () => {
+        const index = parseInt(getEl('adminTrainingBulletEditIndex').value);
+        const en = getEl('adminTrainingBulletEn').value;
+        const ar = getEl('adminTrainingBulletAr').value;
+        if(!en || !ar) return showToast('Please enter both English and Arabic bullets', true);
+        const d = loadTrainingData();
+        
+        if (index >= 0) {
+          d.bullets[index] = { en, ar };
+        } else {
+          d.bullets.push({ en, ar });
+        }
+        
+        saveTrainingData(d);
+        renderTrainingBullets();
+        getEl('adminTrainingBulletEditIndex').value = '-1';
+        getEl('adminTrainingBulletBtnText').innerText = 'Add';
+        getEl('adminTrainingBulletEn').value = '';
+        getEl('adminTrainingBulletAr').value = '';
+        showToast(index >= 0 ? 'Bullet updated' : 'Bullet added');
+      });
+    }
+
+    if(getEl('adminAddTrainingStat')) {
+      getEl('adminAddTrainingStat').addEventListener('click', () => {
+        const index = parseInt(getEl('adminTrainingStatEditIndex').value);
+        const target = getEl('adminTrainingStatTarget').value;
+        const suffix = getEl('adminTrainingStatSuffix').value;
+        const val = getEl('adminTrainingStatValue').value;
+        const labelEn = getEl('adminTrainingStatLabelEn').value;
+        const labelAr = getEl('adminTrainingStatLabelAr').value;
+        if(!labelEn || !labelAr) return showToast('Please enter both labels', true);
+        const d = loadTrainingData();
+        
+        let statObj = { labelEn, labelAr };
+        if(target !== '') {
+          statObj.target = parseInt(target);
+          statObj.suffix = suffix;
+        } else {
+          statObj.value = val;
+        }
+        
+        if (index >= 0) {
+          d.stats[index] = statObj;
+        } else {
+          d.stats.push(statObj);
+        }
+        
+        saveTrainingData(d);
+        renderTrainingStats();
+        getEl('adminTrainingStatEditIndex').value = '-1';
+        getEl('adminTrainingStatBtnText').innerText = 'Add';
+        getEl('adminTrainingStatTarget').value = '';
+        getEl('adminTrainingStatSuffix').value = '';
+        getEl('adminTrainingStatValue').value = '';
+        getEl('adminTrainingStatLabelEn').value = '';
+        getEl('adminTrainingStatLabelAr').value = '';
+        showToast(index >= 0 ? 'Stat updated' : 'Stat added');
+      });
+    }
+
     
     // Feedback Listeners
     if(getEl('adminAddReview')) getEl('adminAddReview').addEventListener('click', () => openReviewModal(currentFeedbackTab));
@@ -1456,7 +1969,8 @@
     }
     
     // Expose needed functions globally for inline handlers
-    window.adminApp = {
+    window.adminApp = window.adminApp || {};
+    Object.assign(window.adminApp, {
       editIntro: (idx) => openIntroModal(idx),
       editReview: (type, idx) => openReviewModal(type, idx),
       deleteReview,
@@ -1464,7 +1978,7 @@
       deleteProvided: deleteProvidedService,
       deleteCountry,
       deleteAnalyticsEntry
-    };
+    });
     
     // Set user display
     const credsStr = localStorage.getItem(STORAGE_KEYS.CREDS);

@@ -90,6 +90,11 @@ function safeJSONParse(str, fallback) {
   catch (e) { return fallback; }
 }
 
+function esc(str) {
+  if (typeof str !== 'string') return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 const savedIntroPages = safeJSONParse(localStorage.getItem('ka_admin_intro_pages'), null);
 window.INTRO_PAGES = savedIntroPages && savedIntroPages.length === 7 ? savedIntroPages : DEFAULT_INTRO_PAGES;
 
@@ -1275,17 +1280,24 @@ window.addEventListener("hashchange", function () {
 
   const stage = document.querySelector(".story-stage");
   if (!stage) return;
-  const chapters = stage.querySelectorAll(".story-chapter");
+  let chapters = stage.querySelectorAll(".story-chapter");
   const aboutSection = document.getElementById("about");
 
   // Journey line elements
   const journeyProgress = document.getElementById("journeyProgress");
   const journeyTip = document.getElementById("journeyTip");
-  const journeyNodes = stage.querySelectorAll(".journey-node");
+  let journeyNodes = stage.querySelectorAll(".journey-node");
   const journeyTrack = stage.querySelector(".journey-line-track");
 
   // Track which chapters have been "reached" (for glow effect — once only)
   const reachedChapters = new WeakSet();
+  
+  window.updateStoryScrollNodes = function() {
+    chapters = stage.querySelectorAll(".story-chapter");
+    journeyNodes = stage.querySelectorAll(".journey-node");
+    positionJourneyNodes();
+    onScroll();
+  };
 
   // Position nodes at each chapter's center (last node at chapter top for clean ending)
   function positionJourneyNodes() {
@@ -2034,42 +2046,25 @@ Looking forward to chatting!`;
 
 /* ═══ Script Block 11: Dynamic Map and Stats Data ═══ */
 window.updateFrontendStats = function(stats) {
-  // 1. Calculate Real Works
-  let realWorksCount = 0;
-  try {
-    const works = JSON.parse(localStorage.getItem('ka_admin_works')) || window.serviceWorks || {};
-    for (let key in works) {
-      if (works[key] && works[key].works) {
-        realWorksCount += works[key].works.length;
-      }
-    }
-  } catch(e) {}
-
-  // 2. Calculate Real Reviews
-  let realReviewsCount = 0;
-  try {
-    const clientR = JSON.parse(localStorage.getItem('ka_admin_reviews_client')) || window.clientReviews || [];
-    const studentR = JSON.parse(localStorage.getItem('ka_admin_reviews_student')) || window.studentReviews || [];
-    realReviewsCount = clientR.length + studentR.length;
-  } catch(e) {}
+  if (!stats) return;
 
   const wsItems = document.querySelectorAll('.ws-item .count');
   if (wsItems.length >= 3) {
-    // Projects -> Real Works
-    wsItems[0].dataset.target = realWorksCount;
-    wsItems[0].dataset.suffix = ""; // Remove '+' suffix for exact numbers
+    wsItems[0].dataset.target = stats.projects;
+    wsItems[1].dataset.target = stats.countries;
+    wsItems[2].dataset.target = stats.clients;
 
-    // Countries -> Keep from admin stats
-    if (stats) wsItems[1].dataset.target = stats.countries;
+    // Reset suffixes to +
+    wsItems[0].dataset.suffix = "+";
+    wsItems[1].dataset.suffix = "+";
+    wsItems[2].dataset.suffix = "+";
 
-    // Clients -> Change to Reviews
-    wsItems[2].dataset.target = realReviewsCount;
-    wsItems[2].dataset.suffix = ""; // Remove '+' suffix
+    // Restore the label for the third item back to Clients just in case it was changed to Total Reviews
     const reviewsLabel = wsItems[2].closest('.ws-item').querySelector('.ws-lbl');
     if (reviewsLabel) {
-      reviewsLabel.dataset.en = "Total Reviews";
-      reviewsLabel.dataset.ar = "إجمالي المراجعات";
-      reviewsLabel.textContent = document.documentElement.lang === 'ar' ? "إجمالي المراجعات" : "Total Reviews";
+      reviewsLabel.dataset.en = "Clients";
+      reviewsLabel.dataset.ar = "عميل";
+      reviewsLabel.textContent = document.documentElement.lang === 'ar' ? "عميل" : "Clients";
     }
     
     // Update texts with animation if already counted
@@ -2089,9 +2084,9 @@ window.updateFrontendStats = function(stats) {
   // Update "projects shipped" story stat
   const storyStats = document.querySelectorAll('.story-stat-num');
   if (storyStats.length > 0) {
-    storyStats[0].dataset.countTarget = realWorksCount;
+    storyStats[0].dataset.countTarget = stats.projects;
     if (storyStats[0].dataset.counted) {
-      const target = parseInt(realWorksCount);
+      const target = parseInt(stats.projects);
       if (window.animateCount) window.animateCount(storyStats[0], target, "");
       else storyStats[0].textContent = target.toLocaleString('en-US');
     }
@@ -2180,3 +2175,216 @@ try {
   // Track this page view
   trackView();
 })();
+
+const DEFAULT_ABOUT_DATA = {
+  chapters: [
+    {
+      eyebrowEn: 'Chapter One', eyebrowAr: 'الفصل الأول',
+      titleEn: 'A boy with a <em>camera.</em>', titleAr: 'ولد ومعاه <em>كاميرا.</em>',
+      textEn: 'It started in 2017. A borrowed camera. A small editing program. And a stubborn belief that stories deserved to be told the right way.', textAr: 'بدأت في ٢٠١٧. كاميرا مستعارة. برنامج مونتاج بسيط. وإيمان عنيد إن القصص لازم تتروى صح.',
+      yearEn: '2017', yearAr: '٢٠١٧',
+      visualType: 'photo1'
+    },
+    {
+      eyebrowEn: 'Chapter Two', eyebrowAr: 'الفصل الثاني',
+      titleEn: 'The first <em>spark.</em>', titleAr: 'أول <em>شرارة.</em>',
+      textEn: 'The first project paid in experience, not money. Then the second. Then the tenth. Each cut taught me something the last one didn\'t.', textAr: 'أول مشروع كان دفعه خبرة مش فلوس. وبعدين التاني. وبعدين العاشر. كل مونتاج علّمني حاجة جديدة.',
+      stats: [{ target: 100, labelEn: 'early projects', labelAr: 'مشروع البداية' }],
+      visualType: 'glyph'
+    },
+    {
+      eyebrowEn: 'Chapter Three', eyebrowAr: 'الفصل الثالث',
+      titleEn: 'Mastering the <em>craft.</em>', titleAr: 'إتقان <em>الحرفة.</em>',
+      textEn: 'Eight years of late nights. Of color grading until sunrise. Of rebuilding sequences three times to find the one cut that makes it sing.', textAr: '٨ سنين من السهر. من تدريج الألوان لحد طلوع الشمس. من إعادة بناء السكوينس ٣ مرات عشان نلاقي المونتاج اللي بيخلي الفيلم يغني.',
+      stats: [
+        { target: 1318, labelEn: 'projects shipped', labelAr: 'مشروع منجز' },
+        { target: 8, labelEn: 'years crafting', labelAr: 'سنوات إبداع' }
+      ],
+      visualType: 'photo2'
+    },
+    {
+      eyebrowEn: 'Chapter Four', eyebrowAr: 'الفصل الرابع',
+      titleEn: 'Stories that <em>travel.</em>', titleAr: 'قصص <em>بتسافر.</em>',
+      textEn: 'From Cairo, the work reached fourteen countries. From small startups to global brands like Samsung, CUPRA, and Artlist. Every story unique. Every cut intentional.', textAr: 'من القاهرة، الشغل وصل لـ ١٤ دولة. من شركات ناشئة صغيرة لبراندات عالمية زي Samsung، CUPRA و Artlist. كل قصة فريدة. كل قطعة مونتاج مقصودة.',
+      stats: [
+        { target: 14, labelEn: 'countries', labelAr: 'دولة' },
+        { target: 470, labelEn: 'clients', labelAr: 'عميل' }
+      ],
+      visualType: 'globe'
+    },
+    {
+      eyebrowEn: 'And Today', eyebrowAr: 'واليوم',
+      titleEn: 'The story<br><em>continues.</em>', titleAr: 'القصة<br><em>مستمرة.</em>',
+      textEn: 'Still chasing that perfect cut. Still up at 3am refining a sequence. Still believing every brand has a story worth telling — and that I\'m here to tell it.', textAr: 'لسه ببحث عن المونتاج المثالي. لسه صاحي الساعة ٣ الفجر بحسّن سكوينس. لسه مؤمن إن كل براند عنده قصة تستاهل تتحكي — وإني هنا عشان أحكيها.',
+      visualType: 'final'
+    }
+  ],
+  process: [
+    {
+      titleEn: 'Getting brief', titleAr: 'استلام الملخص',
+      descEn: 'We kick off with a deep dive into your brand\'s vision. We\'ll identify your exact target audience, core messaging, and specific business objectives to ensure our strategy aligns. This lays the solid foundation needed for a successful project.', descAr: 'نبدأ بالتعمق في رؤية علامتك التجارية. سنحدد بدقة جمهورك المستهدف ورسالتك الأساسية وأهداف عملك المحددة للتأكد من مواءمة استراتيجيتنا. هذا يضع الأساس القوي لمشروع ناجح.',
+      icon: 1
+    },
+    {
+      titleEn: 'Plan & make visuals', titleAr: 'التخطيط وتجهيز المرئيات',
+      descEn: 'This is where the magic starts taking shape. I\'ll develop detailed storyboards, mood boards, and shot lists. We map out the entire visual aesthetic, leaving no detail to chance.', descAr: 'هنا يبدأ السحر في التبلور. سأقوم بتطوير لوحات القصة ولوحات المزاج وقوائم اللقطات التفصيلية. نرسم الجمالية البصرية بأكملها ولا نترك أي تفصيل للصدفة.',
+      icon: 2
+    },
+    {
+      titleEn: 'Deliver full plan & Videos', titleAr: 'تسليم الخطة والفيديوهات',
+      descEn: 'The final execution phase where all elements come together. We handle the complete shooting, high-end editing, color grading, and sound design to deliver stunning, ready-to-publish assets.', descAr: 'مرحلة التنفيذ النهائية حيث تتجمع كل العناصر معًا. نتولى التصوير الكامل والتحرير الراقي وتصحيح الألوان وتصميم الصوت لتقديم أصول مذهلة وجاهزة للنشر.',
+      icon: 3
+    },
+    {
+      titleEn: 'Feedback', titleAr: 'الملاحظات',
+      descEn: 'Your absolute satisfaction is our priority. We\'ll go through dedicated review rounds of the videos, making precise tweaks to pacing, color, or sound. We polish every single frame until it exceeds expectations.', descAr: 'رضاك التام هو أولويتنا. سنقوم بجولات مراجعة مخصصة لمقاطع الفيديو، وإجراء تعديلات دقيقة على السرعة أو اللون أو الصوت. نقوم بصقل كل إطار حتى يتجاوز التوقعات.',
+      icon: 4
+    }
+  ]
+};
+
+const savedAboutData = safeJSONParse(localStorage.getItem('ka_admin_about_data'), null);
+window.ABOUT_DATA = savedAboutData ? Object.assign({}, DEFAULT_ABOUT_DATA, savedAboutData) : DEFAULT_ABOUT_DATA;
+if (savedAboutData) {
+  window.ABOUT_DATA.chapters = savedAboutData.chapters || DEFAULT_ABOUT_DATA.chapters;
+  window.ABOUT_DATA.process = savedAboutData.process || DEFAULT_ABOUT_DATA.process;
+}
+
+function getChapterVisualHtml(type) {
+  if (type === 'photo1') {
+    return `<div class="story-photo-frame"><div class="story-photo-bg" id="storyPhoto1"></div><div class="story-photo-overlay"></div></div>`;
+  }
+  if (type === 'photo2') {
+    return `<div class="story-photo-frame story-photo-tilted"><div class="story-photo-bg" id="storyPhoto2"></div><div class="story-photo-overlay"></div><div class="story-photo-badge"><span data-en="The craft" data-ar="الحرفة">The craft</span></div></div>`;
+  }
+  if (type === 'glyph') {
+    return `<div class="story-glyph"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="100" cy="100" r="80" opacity="0.3"/><circle cx="100" cy="100" r="60" opacity="0.5"/><circle cx="100" cy="100" r="40" opacity="0.7"/><circle cx="100" cy="100" r="20" fill="currentColor" opacity="0.4"/><path d="M100 20 L100 180 M20 100 L180 100" opacity="0.2"/></svg></div>`;
+  }
+  if (type === 'globe') {
+    return `<div class="story-globe"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1"><circle cx="100" cy="100" r="85" opacity="0.4"/><ellipse cx="100" cy="100" rx="85" ry="35" opacity="0.4"/><ellipse cx="100" cy="100" rx="85" ry="55" opacity="0.3"/><ellipse cx="100" cy="100" rx="35" ry="85" opacity="0.4"/><ellipse cx="100" cy="100" rx="55" ry="85" opacity="0.3"/><circle cx="100" cy="100" r="3" fill="#5fa3e0"/><circle cx="55" cy="80" r="2" fill="#5fa3e0"/><circle cx="140" cy="120" r="2" fill="#5fa3e0"/><circle cx="70" cy="140" r="2" fill="#5fa3e0"/><circle cx="155" cy="65" r="2" fill="#5fa3e0"/></svg></div>`;
+  }
+  return '';
+}
+
+function getProcessIconHtml(iconId) {
+  if (iconId == 1) {
+    return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><g transform="translate(200, 125) scale(1.4) translate(-200, -125)"><circle cx="200" cy="125" r="50" stroke="rgba(95,163,224,0.4)" stroke-width="2" fill="rgba(95,163,224,0.05)"/><circle cx="200" cy="125" r="70" stroke="rgba(95,163,224,0.1)" stroke-width="1"/><line x1="200" y1="40" x2="200" y2="210" stroke="rgba(95,163,224,0.2)" stroke-width="1"/><line x1="110" y1="125" x2="290" y2="125" stroke="rgba(95,163,224,0.2)" stroke-width="1"/><g transform="translate(180, 105) scale(1.6)" stroke="#7fa6e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="#7fa6e3"/></g><path d="M120 70 L 150 90 M 120 180 L 150 160 M 280 70 L 250 90 M 280 180 L 250 160" stroke="rgba(255,255,255,0.15)" stroke-width="2"/><circle cx="110" cy="60" r="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><g transform="translate(102, 52) scale(0.6)" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="#fff"/></g><circle cx="110" cy="190" r="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><g transform="translate(102, 182) scale(0.6)" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="#fff"/></g><circle cx="290" cy="60" r="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><g transform="translate(282, 52) scale(0.6)" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="#fff"/></g><circle cx="290" cy="190" r="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><g transform="translate(282, 182) scale(0.6)" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4" fill="#fff"/></g></g></svg>`;
+  }
+  if (iconId == 2) {
+    return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><g transform="translate(200, 125) scale(1.4) translate(-200, -125)"><rect x="80" y="50" width="240" height="130" rx="12" stroke="rgba(95,163,224,0.2)" stroke-width="2" fill="rgba(95,163,224,0.05)"/><line x1="200" y1="180" x2="200" y2="200" stroke="rgba(255,255,255,0.1)" stroke-width="20"/><line x1="160" y1="200" x2="240" y2="200" stroke="rgba(255,255,255,0.2)" stroke-width="4"/><circle cx="100" cy="70" r="8" fill="rgba(255,255,255,0.1)"/><circle cx="100" cy="68" r="3" fill="#7fa6e3" stroke="none"/><path d="M96 74 Q 100 70 104 74" stroke="#7fa6e3" stroke-width="1.5" stroke-linecap="round"/><rect x="110" y="80" width="40" height="70" rx="4" fill="rgba(255,255,255,0.1)"/><rect x="160" y="60" width="40" height="90" rx="4" fill="rgba(255,255,255,0.2)"/><rect x="210" y="30" width="40" height="120" rx="4" fill="#7fa6e3"/><rect x="260" y="70" width="40" height="80" rx="4" fill="rgba(255,255,255,0.15)"/><rect x="20" y="110" width="20" height="40" rx="2" fill="rgba(255,255,255,0.03)"/><rect x="50" y="90" width="20" height="60" rx="2" fill="rgba(255,255,255,0.03)"/><rect x="340" y="80" width="20" height="70" rx="2" fill="rgba(255,255,255,0.03)"/></g></svg>`;
+  }
+  if (iconId == 3) {
+    return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><g transform="translate(200, 125) scale(1.4) translate(-200, -125)"><rect x="150" y="75" width="100" height="100" rx="24" fill="url(#gradShield)" stroke="rgba(95,163,224,0.1)" stroke-width="2"/><path d="M200 100 L 175 110 V 135 C 175 155 190 165 200 170 C 210 165 225 155 225 135 V 110 Z" fill="#7fa6e3" stroke="rgba(255,255,255,0.5)" stroke-width="2"/><path d="M190 135 L 197 142 L 210 125" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M130 110 L 110 110 L 100 100 L 80 100" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M130 140 L 110 140 L 100 150 L 80 150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M270 110 L 290 110 L 300 100 L 320 100" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><path d="M270 140 L 290 140 L 300 150 L 320 150" stroke="rgba(255,255,255,0.2)" stroke-width="2"/><rect x="160" y="190" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><rect x="190" y="200" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><rect x="220" y="190" width="20" height="10" rx="2" fill="rgba(255,255,255,0.05)"/><defs><radialGradient id="gradShield" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(95,163,224,0.2)"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs></g></svg>`;
+  }
+  return `<svg viewBox="0 0 400 250" fill="none" stroke="currentColor"><rect x="160" y="85" width="80" height="80" rx="20" stroke="rgba(95,163,224,0.4)" stroke-width="3" fill="rgba(95,163,224,0.05)"/><rect x="150" y="75" width="100" height="100" rx="26" stroke="rgba(95,163,224,0.1)" stroke-width="2"/><path d="M185 110 A 15 15 0 0 1 215 110 A 15 15 0 0 1 215 140 A 15 15 0 0 1 185 140 A 15 15 0 0 1 185 110 Z" fill="#7fa6e3" stroke="none" transform="translate(200, 125) scale(4) translate(-200, -125)"/><path d="M200 125 A 5 5 0 0 1 200 125 Z" fill="#fff" stroke="none"/><circle cx="100" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="100" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">X</text><circle cx="35" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="35" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">f</text><circle cx="300" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><text x="300" y="134" fill="#fff" font-size="24" font-family="sans-serif" text-anchor="middle" stroke="none">in</text><circle cx="365" cy="125" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)"/><path d="M356 113 L 376 125 L 356 137 Z" fill="#fff" stroke="none"/></svg>`;
+}
+
+function renderFrontendAboutPage() {
+  const stage = document.querySelector('.story-stage');
+  const processGrid = document.querySelector('.process-grid-new');
+  if (!stage || !processGrid) return;
+  
+  const d = window.ABOUT_DATA;
+  
+  // Render chapters
+  // First clear old chapters and journey nodes
+  stage.querySelectorAll('.story-chapter, .journey-node').forEach(el => el.remove());
+  
+  let journeyLine = stage.querySelector('.journey-line');
+  if (journeyLine) {
+    d.chapters.forEach((c, i) => {
+      let node = document.createElement('div');
+      node.className = 'journey-node';
+      node.setAttribute('data-node', i + 1);
+      journeyLine.appendChild(node);
+    });
+  }
+
+  let chaptersHtml = '';
+  d.chapters.forEach((c, i) => {
+    let classes = ['story-chapter'];
+    if (i % 2 !== 0 && c.visualType !== 'final') classes.push('story-chapter-reverse');
+    if (c.visualType === 'final') classes.push('story-chapter-final');
+    
+    if (c.visualType === 'final') {
+      chaptersHtml += `
+        <div class="${classes.join(' ')}" data-story-chapter="${i+1}">
+          <div class="story-content story-content-centered">
+            <div class="story-eyebrow reveal-story"><span data-en="${esc(c.eyebrowEn)}" data-ar="${esc(c.eyebrowAr)}">${c.eyebrowEn}</span></div>
+            <h2 class="story-title-big reveal-story" style="width: fit-content; margin-inline: auto; text-align: center;" data-en="${esc(c.titleEn)}" data-ar="${esc(c.titleAr)}">${c.titleEn}</h2>
+            <p class="story-text-big reveal-story" data-en="${esc(c.textEn)}" data-ar="${esc(c.textAr)}">${c.textEn}</p>
+            <div class="story-cta-wrap reveal-story">
+              <a href="#contact" class="cta-primary">
+                <span data-en="Let's create together" data-ar="خلينا نبدع سوا">Let's create together</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      let statsHtml = '';
+      if (c.stats && c.stats.length > 0) {
+        statsHtml = '<div class="story-stats reveal-story">' + c.stats.map(s => `
+          <div class="story-stat-item"><span class="story-stat-num" data-count-target="${s.target}">0</span><span class="story-stat-lbl" data-en="${esc(s.labelEn)}" data-ar="${esc(s.labelAr)}">${s.labelEn}</span></div>
+        `).join('') + '</div>';
+      }
+      
+      let yearHtml = '';
+      if (c.yearEn) {
+        yearHtml = `<div class="story-year reveal-story" data-en="${esc(c.yearEn)}" data-ar="${esc(c.yearAr)}">${c.yearEn}</div>`;
+      }
+      
+      chaptersHtml += `
+        <div class="${classes.join(' ')}" data-story-chapter="${i+1}">
+          <div class="story-content">
+            <div class="story-eyebrow reveal-story"><span data-en="${esc(c.eyebrowEn)}" data-ar="${esc(c.eyebrowAr)}">${c.eyebrowEn}</span></div>
+            <h2 class="story-title reveal-story" data-en="${esc(c.titleEn)}" data-ar="${esc(c.titleAr)}">${c.titleEn}</h2>
+            <p class="story-text reveal-story" data-en="${esc(c.textEn)}" data-ar="${esc(c.textAr)}">${c.textEn}</p>
+            ${statsHtml}
+            ${yearHtml}
+          </div>
+          <div class="story-visual">
+            ${getChapterVisualHtml(c.visualType)}
+          </div>
+        </div>
+      `;
+    }
+  });
+  
+  stage.insertAdjacentHTML('beforeend', chaptersHtml);
+  
+  // Render process steps
+  // Clear old process cards except for the CTA at the end
+  const processCards = processGrid.querySelectorAll('.process-card');
+  processCards.forEach(card => card.remove());
+  
+  let processHtml = '';
+  d.process.forEach((p, i) => {
+    let rowClass = i < 2 ? 'top-row' : 'bottom-row'; // Assuming first 2 are top row if they exist
+    processHtml += `
+      <div class="process-card ${rowClass}">
+        <div class="process-icon-wrap">
+          ${getProcessIconHtml(p.icon)}
+        </div>
+        <h3 class="process-card-title" data-en="${esc(p.titleEn)}" data-ar="${esc(p.titleAr)}">${p.titleEn}</h3>
+        <p class="process-card-desc" data-en="${esc(p.descEn)}" data-ar="${esc(p.descAr)}">${p.descEn}</p>
+      </div>
+    `;
+  });
+  
+  // Insert before the contact CTA div
+  const ctaDiv = processGrid.querySelector('div[style*="text-align:center"]');
+  if (ctaDiv) {
+    ctaDiv.insertAdjacentHTML('beforebegin', processHtml);
+  } else {
+    processGrid.innerHTML = processHtml;
+  }
+  
+  if (window.updateStoryScrollNodes) {
+    window.updateStoryScrollNodes();
+  }
+}
+
+renderFrontendAboutPage();
+

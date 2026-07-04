@@ -9228,3 +9228,25 @@ html body .in-portfolio footer {
 .video-card-role {
   font-family: 'Montserrat', sans-serif !important;
 }
+/* Video Modal */
+.video-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9); z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.video-modal-overlay.active { opacity: 1; pointer-events: auto; }
+.video-modal-content {
+  position: relative; width: 90%; max-width: 900px; aspect-ratio: 16/9;
+  background: #000; border-radius: 8px; overflow: hidden;
+  transform: scale(0.95); transition: transform 0.3s ease;
+}
+.video-modal-overlay.active .video-modal-content { transform: scale(1); }
+.video-modal-close {
+  position: absolute; top: 10px; right: 10px; z-index: 10;
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  width: 40px; height: 40px; border-radius: 50%; font-size: 24px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); transition: background 0.3s ease;
+}
+.video-modal-close:hover { background: rgba(255,255,255,0.4); }

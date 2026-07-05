@@ -973,6 +973,7 @@
     getEl('tvTextEn').value = v ? v.textEn : '';
     getEl('tvTextAr').value = v ? v.textAr : '';
     getEl('tvUrl').value = v ? v.url : '';
+    if(getEl('tvCoverUrl')) getEl('tvCoverUrl').value = (v && v.coverUrl) ? v.coverUrl : '';
 
     modal.classList.add('active');
   }
@@ -986,7 +987,8 @@
       roleAr: getEl('tvRoleAr').value,
       textEn: getEl('tvTextEn').value,
       textAr: getEl('tvTextAr').value,
-      url: getEl('tvUrl').value
+      url: getEl('tvUrl').value,
+      coverUrl: getEl('tvCoverUrl') ? getEl('tvCoverUrl').value : ''
     };
 
     if (index >= 0) {

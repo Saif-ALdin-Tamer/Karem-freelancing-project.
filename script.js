@@ -92,7 +92,7 @@ function safeJSONParse(str, fallback) {
 
 function esc(str) {
   if (typeof str !== 'string') return '';
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 const savedIntroPages = safeJSONParse(localStorage.getItem('ka_admin_intro_pages'), null);
@@ -2491,6 +2491,61 @@ window.closeVideoModal = function() {
   }
 };
 
+window.playInlineVideo = function(event, card) {
+  if (event) event.stopPropagation();
+  if (card.querySelector('.inline-video-player')) return;
+
+  let url = card.getAttribute('data-url') || '';
+  let finalUrl = url.trim();
+  let playerEl;
+
+  if (finalUrl.startsWith('<iframe') || finalUrl.startsWith('<video') || finalUrl.startsWith('<embed')) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = finalUrl;
+    playerEl = tempDiv.firstElementChild;
+    if (playerEl.tagName === 'IFRAME' && playerEl.src && !playerEl.src.includes('autoplay=1')) {
+      playerEl.src += (playerEl.src.includes('?') ? '&' : '?') + 'autoplay=1';
+    }
+  } else if (finalUrl.endsWith('.mp4') || finalUrl.endsWith('.webm') || finalUrl.endsWith('.ogg') || finalUrl.endsWith('.mp3')) {
+    playerEl = document.createElement(finalUrl.endsWith('.mp3') ? 'audio' : 'video');
+    playerEl.src = finalUrl;
+    playerEl.controls = true;
+    playerEl.autoplay = true;
+    if (playerEl.tagName === 'VIDEO') playerEl.style.objectFit = 'cover';
+  } else {
+    playerEl = document.createElement('iframe');
+    if (finalUrl.includes('youtube.com/watch?v=')) {
+      finalUrl = finalUrl.replace('watch?v=', 'embed/');
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+    } else if (finalUrl.includes('youtu.be/')) {
+      finalUrl = finalUrl.replace('youtu.be/', 'youtube.com/embed/');
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+    } else if (finalUrl.includes('youtube.com/shorts/')) {
+      finalUrl = finalUrl.replace('youtube.com/shorts/', 'youtube.com/embed/');
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+    } else if (finalUrl.includes('vimeo.com/')) {
+      finalUrl = finalUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+    } else if (finalUrl.includes('facebook.com') && finalUrl.includes('/videos/')) {
+      finalUrl = 'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(finalUrl) + '&show_text=false&autoplay=1';
+    }
+    playerEl.src = finalUrl;
+    playerEl.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+  }
+
+  playerEl.className = 'inline-video-player';
+  playerEl.style.position = 'absolute';
+  playerEl.style.top = '0';
+  playerEl.style.left = '0';
+  playerEl.style.width = '100%';
+  playerEl.style.height = '100%';
+  playerEl.style.border = 'none';
+  playerEl.style.zIndex = '100';
+  playerEl.style.borderRadius = 'inherit';
+
+  card.appendChild(playerEl);
+};
+
 window.renderFrontendTrainingPage = function() {
   const dStr = localStorage.getItem('ka_admin_training_data');
   if (!dStr) return;
@@ -2550,9 +2605,9 @@ window.renderFrontendTrainingPage = function() {
     const vGrid = section.querySelector('.video-reviews-grid');
     if (vGrid) {
       vGrid.innerHTML = d.videos.map(v => `
-        <div class="video-card" onclick="window.openVideoModal('${esc(v.url)}')">
+        <div class="video-card" data-url="${esc(v.url)}" onclick="window.playInlineVideo(event, this)">
           <div class="video-card-glow"></div>
-          <div class="video-card-bg"></div>
+          <div class="video-card-bg" ${v.coverUrl ? `style="background-image: url('${esc(v.coverUrl)}'); background-size: cover; background-position: center; background-repeat: no-repeat;"` : ''}></div>
           <div class="video-card-quote">"</div>
           <div class="video-card-play"><svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg></div>
           <div class="video-card-info">

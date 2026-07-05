@@ -9254,5 +9254,13 @@ html body .in-portfolio footer {
 @media (min-width: 769px) {
   .mobile-break {
     display: none;
-  }
+}
+
+/* Force inline video controls to stay visible */
+video.inline-video-player::-webkit-media-controls-panel,
+video.inline-video-player::-webkit-media-controls-enclosure,
+video.inline-video-player::-webkit-media-controls {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }

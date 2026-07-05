@@ -1,2 +1,0 @@
-userOfDashboard: kareem 
-pass: 123456

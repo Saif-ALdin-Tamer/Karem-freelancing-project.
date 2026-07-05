@@ -273,7 +273,14 @@
   }
 
   function loadTrainingData() {
-    const saved = safeJSONParse(localStorage.getItem(STORAGE_KEYS.TRAINING_DATA), null);
+    let saved = safeJSONParse(localStorage.getItem(STORAGE_KEYS.TRAINING_DATA), null);
+    
+    // Auto-fix corrupted empty state from previous bug
+    if (saved && !saved.eyebrowEn && window.TRAINING_DATA && window.TRAINING_DATA.eyebrowEn) {
+      saved = null; // Force reload from defaults
+      localStorage.removeItem(STORAGE_KEYS.TRAINING_DATA);
+    }
+    
     if (!saved) return JSON.parse(JSON.stringify(window.TRAINING_DATA || {}));
     
     // Ensure arrays exist
@@ -1201,7 +1208,7 @@
 
   function addProvidedService() {
     const catSelect = getEl('adminProvidedMainCat');
-    const category = catSelect ? catSelect.value : currentProvidedCategory;
+    const category = (catSelect && catSelect.value) ? catSelect.value : currentProvidedCategory;
     const orientation = getEl('adminProvidedOrientation').value;
     const url = getEl('adminProvidedUrl').value;
     
@@ -1216,8 +1223,8 @@
       return;
     }
     
-    if (safeUrl.includes('youtube.com') || safeUrl.includes('youtu.be')) {
-      showToast('YouTube links cannot be used here. Please provide a direct image URL.', 'error');
+    if (safeUrl.includes('youtube.com') || safeUrl.includes('youtu.be') || safeUrl.includes('vimeo.com')) {
+      showToast('Video links cannot be used here. Please provide a direct image URL.', 'error');
       return;
     }
     

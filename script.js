@@ -2471,12 +2471,22 @@ window.openVideoModal = function(url) {
   const modal = document.getElementById('globalVideoModal');
   const iframe = document.getElementById('globalVideoIframe');
   if (modal && iframe) {
-    let finalUrl = url;
-    if (url.includes('youtube.com/watch?v=')) {
-      finalUrl = url.replace('watch?v=', 'embed/');
-    } else if (url.includes('youtu.be/')) {
-      finalUrl = url.replace('youtu.be/', 'youtube.com/embed/');
+    let finalUrl = url.trim().replace(/^["']+|["']+$/g, '');
+    if (finalUrl.includes('youtube.com/watch?v=')) {
+      finalUrl = finalUrl.replace('watch?v=', 'embed/');
+    } else if (finalUrl.includes('youtu.be/')) {
+      finalUrl = finalUrl.replace('youtu.be/', 'youtube.com/embed/');
+    } else if (finalUrl.includes('youtube.com/shorts/')) {
+      finalUrl = finalUrl.replace('youtube.com/shorts/', 'youtube.com/embed/');
+    } else if (finalUrl.includes('vimeo.com/') && !finalUrl.includes('player.vimeo.com')) {
+      finalUrl = finalUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
     }
+    
+    // Add autoplay if not there
+    if (!finalUrl.includes('autoplay=1')) {
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+    }
+
     iframe.src = finalUrl;
     modal.classList.add('active');
   }
@@ -2496,7 +2506,7 @@ window.playInlineVideo = function(event, card) {
   if (card.querySelector('.inline-video-player')) return;
 
   let url = card.getAttribute('data-url') || '';
-  let finalUrl = url.trim();
+  let finalUrl = url.trim().replace(/^["']+|["']+$/g, '');
   let playerEl;
 
   if (finalUrl.startsWith('<iframe') || finalUrl.startsWith('<video') || finalUrl.startsWith('<embed')) {
@@ -2523,7 +2533,7 @@ window.playInlineVideo = function(event, card) {
     } else if (finalUrl.includes('youtube.com/shorts/')) {
       finalUrl = finalUrl.replace('youtube.com/shorts/', 'youtube.com/embed/');
       finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
-    } else if (finalUrl.includes('vimeo.com/')) {
+    } else if (finalUrl.includes('vimeo.com/') && !finalUrl.includes('player.vimeo.com')) {
       finalUrl = finalUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
       finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
     } else if (finalUrl.includes('facebook.com') && finalUrl.includes('/videos/')) {

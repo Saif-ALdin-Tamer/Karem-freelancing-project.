@@ -355,6 +355,16 @@ html[dir="rtl"] .skip-btn-floating:hover svg {
   transform: translateY(-2px);
 }
 
+/* Language Button Fonts */
+html:not([lang="ar"]) .lang-btn,
+html:not([lang="ar"]) .lang-btn-floating {
+  font-family: "IBM Plex Sans Arabic", sans-serif !important;
+}
+html[lang="ar"] .lang-btn,
+html[lang="ar"] .lang-btn-floating {
+  font-family: "Inter", sans-serif !important;
+}
+
 @keyframes skipBtnPulse {
   0%,
   100% {
@@ -389,7 +399,7 @@ html[dir="rtl"] .skip-btn-floating:hover svg {
 
   .skip-btn-floating {
     position: absolute;
-    bottom: 24px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     pointer-events: auto;
@@ -407,13 +417,15 @@ html[dir="rtl"] .skip-btn-floating:hover svg {
   
   .lang-btn-floating {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 14px;
+    right: 18px;
     left: auto;
     pointer-events: auto;
+    padding: 8px 14px;
+    font-size: 11px;
   }
   html[dir="rtl"] .lang-btn-floating {
-    left: 24px;
+    left: 18px;
     right: auto;
   }
   .lang-btn-floating.hidden-on-mobile {
@@ -1040,7 +1052,7 @@ html[dir="rtl"] .chapter-final .final-cta:hover svg {
 
   /* Scroll hint — move higher above counter, center */
   .scroll-hint {
-    bottom: 90px;
+    bottom: 196px;
     font-size: 10px;
     letter-spacing: 2px;
   }
@@ -2062,24 +2074,24 @@ html[dir="rtl"] .nav-cta svg {
 }
 .hero-image .photo-bg {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -10%;
+  right: -8%;
   width: 78%;
-  height: 100%;
-  background-image: url('hero-portrait.png');
+  height: 110%;
+  background-image: url('correct-photo.jpeg');
   background-size: cover;
   background-position: left center;
   background-repeat: no-repeat;
   /* Smooth fade into background on all edges */
   -webkit-mask-image:
     linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.85) 35%, black 50%),
-    linear-gradient(to top, transparent 0%, rgba(0,0,0,0.6) 10%, black 25%),
+    linear-gradient(to top, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.8) 35%, black 50%),
     linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 8%, black 20%),
     linear-gradient(to left, transparent 0%, black 5%);
   -webkit-mask-composite: destination-in;
   mask-image:
     linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 15%, rgba(0,0,0,0.85) 35%, black 50%),
-    linear-gradient(to top, transparent 0%, rgba(0,0,0,0.6) 10%, black 25%),
+    linear-gradient(to top, transparent 0%, rgba(0,0,0,0.2) 15%, rgba(0,0,0,0.8) 35%, black 50%),
     linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 8%, black 20%),
     linear-gradient(to left, transparent 0%, black 5%);
   mask-composite: intersect;
@@ -3004,10 +3016,11 @@ html[dir="rtl"] .mentorship-link:hover::after {
 .svc-rotator {
   margin-top: 24px;
   margin-bottom: 8px;
+  font-family: 'Montserrat', sans-serif;
   font-size: clamp(20px, 2vw, 26px);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.5;
-  letter-spacing: -0.3px;
+  letter-spacing: -1.5px;
   color: var(--muted);
   max-width: 900px;
   display: flex;

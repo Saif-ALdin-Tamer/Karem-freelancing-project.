@@ -1927,8 +1927,20 @@
     if(getEl('adminHomePhotoSaveBtn')) {
       getEl('adminHomePhotoSaveBtn').addEventListener('click', () => {
         if (tempHomePhoto) {
-          localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, tempHomePhoto);
-          showToast('Home photo saved successfully (Refresh main page to see)');
+          try {
+            localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, tempHomePhoto);
+            
+            // Dynamically update frontend
+            const photoBg = document.querySelector('.hero-image .photo-bg');
+            if (photoBg) {
+              photoBg.style.backgroundImage = 'url(' + tempHomePhoto + ')';
+            }
+            
+            showToast('Home photo saved successfully');
+          } catch (e) {
+            console.error('Storage error:', e);
+            showToast('Photo is too large! Please compress it to a smaller size (under 1MB) and try again.', 'error');
+          }
         } else {
           showToast('Please select a photo first');
         }
@@ -1936,9 +1948,16 @@
     }
     if(getEl('adminHomePhotoRemoveBtn')) {
       getEl('adminHomePhotoRemoveBtn').addEventListener('click', () => {
-        getEl('adminHomePhotoPreview').src = 'hero-portrait.png';
+        getEl('adminHomePhotoPreview').src = 'correct-photo.jpeg';
         tempHomePhoto = null;
         localStorage.removeItem(STORAGE_KEYS.HOME_PHOTO);
+        
+        // Dynamically update frontend back to default
+        const photoBg = document.querySelector('.hero-image .photo-bg');
+        if (photoBg) {
+          photoBg.style.backgroundImage = ''; 
+        }
+        
         showToast('Home photo removed. Reverted to default.');
       });
     }

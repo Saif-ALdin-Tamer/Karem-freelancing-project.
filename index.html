@@ -1739,7 +1739,7 @@
           <div class="admin-form-group">
             <label class="admin-label">Current Photo</label>
             <div id="adminHomePhotoPreviewContainer" style="margin-bottom: 1rem; border: 2px dashed rgba(255,255,255,0.1); border-radius: 8px; padding: 1rem; text-align: center; background: rgba(0,0,0,0.2);">
-              <img id="adminHomePhotoPreview" src="hero-portrait.png" alt="Home Page Picture" style="max-height: 300px; max-width: 100%; border-radius: 4px; object-fit: contain;">
+              <img id="adminHomePhotoPreview" src="correct-photo.jpeg" alt="Home Page Picture" style="width: 250px; height: 350px; border-radius: 4px; object-fit: cover;">
             </div>
             <div style="display: flex; gap: 1rem; align-items: center;">
               <input type="file" id="adminHomePhotoInput" accept="image/png, image/jpeg, image/webp" style="display: none;">
@@ -2557,11 +2557,74 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
 <script>
-/* Removed inline style injection to allow CSS to control sizing */
+  // Intercept localStorage to sync writes to Firebase
+  const originalSetItem = localStorage.setItem;
+  localStorage.setItem = function(key, value) {
+    originalSetItem.apply(this, arguments);
+    if (window.kaDatabase && (key.startsWith('ka_admin_') || key === 'ka_analytics' || key.includes('reviews') || key.includes('works') || key.includes('stats'))) {
+       window.kaDatabase.ref('data/' + key).set(value);
+    }
+  };
+
+  const originalRemoveItem = localStorage.removeItem;
+  localStorage.removeItem = function(key) {
+    originalRemoveItem.apply(this, arguments);
+    if (window.kaDatabase && (key.startsWith('ka_admin_') || key === 'ka_analytics' || key.includes('reviews') || key.includes('works') || key.includes('stats'))) {
+       window.kaDatabase.ref('data/' + key).remove();
+    }
+  };
+
+  // Wait for Firebase to load data, sync to localStorage, then load app scripts
+  if (window.kaDatabase) {
+    window.kaDatabase.ref('data').once('value').then((snapshot) => {
+      const data = snapshot.val() || {};
+      for (const key in data) {
+          originalSetItem.call(localStorage, key, data[key]);
+      }
+      loadAppScripts();
+    }).catch((err) => {
+      console.error("Firebase load failed, falling back to local cache", err);
+      loadAppScripts();
+    });
+  } else {
+    loadAppScripts();
+  }
+
+  function loadAppScripts() {
+    // Patch addEventListener so DOMContentLoaded fires immediately for dynamically loaded scripts
+    const origDocAdd = document.addEventListener;
+    document.addEventListener = function(type, listener, options) {
+      if (type === 'DOMContentLoaded') {
+         setTimeout(() => listener(new Event('DOMContentLoaded')), 0);
+      } else {
+         origDocAdd.call(this, type, listener, options);
+      }
+    };
+    const origWinAdd = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+      if (type === 'DOMContentLoaded' || type === 'load') {
+         setTimeout(() => listener(new Event(type)), 0);
+      } else {
+         origWinAdd.call(this, type, listener, options);
+      }
+    };
+
+    const scripts = ['script.js?v=12', 'patch.js?v=2', 'admin.js?v=9'];
+    let i = 0;
+    function loadNext() {
+      if(i >= scripts.length) return;
+      const s = document.createElement('script');
+      s.src = scripts[i];
+      s.onload = loadNext;
+      document.body.appendChild(s);
+      i++;
+    }
+    loadNext();
+  }
 </script>
-<script src="script.js?v=12"></script>
-<script src="patch.js?v=2"></script>
-<script src="admin.js?v=7"></script>
 </body>
 </html>

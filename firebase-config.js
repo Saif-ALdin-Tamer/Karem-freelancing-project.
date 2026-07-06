@@ -16,3 +16,6 @@ if (!firebase.apps.length) {
 }
 const db = firebase.database();
 window.kaDatabase = db; // Make it globally accessible as window.kaDatabase
+
+const storage = firebase.storage();
+window.kaStorage = storage; // Make storage globally accessible

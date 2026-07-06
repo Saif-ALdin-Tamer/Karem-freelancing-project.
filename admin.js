@@ -95,6 +95,34 @@
     }, 3000);
   }
 
+  function uploadToFirebase(file, progressCallback) {
+    return new Promise((resolve, reject) => {
+      if (!window.kaStorage) {
+        reject(new Error("Firebase Storage is not initialized."));
+        return;
+      }
+      
+      const fileName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
+      const storageRef = window.kaStorage.ref('uploads/' + fileName);
+      const uploadTask = storageRef.put(file);
+
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          if (progressCallback) progressCallback(progress);
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  }
+
   function showConfirm(title, message) {
     return new Promise(resolve => {
       const dialog = getEl('adminConfirmDialog');
@@ -1905,36 +1933,51 @@
     }
 
     // Home Page Picture Listeners
-    let tempHomePhoto = null;
+    let tempHomePhotoFile = null;
+    let tempHomePhotoPreview = null;
     if(getEl('adminHomePhotoInput')) {
       getEl('adminHomePhotoInput').addEventListener('change', (e) => {
         const file = e.target.files[0];
         if(!file) return;
-        // Optionally resize image if needed, but for now simple FileReader
+        tempHomePhotoFile = file;
+        // Show local preview immediately
         const reader = new FileReader();
         reader.onload = (ev) => {
-          tempHomePhoto = ev.target.result;
-          getEl('adminHomePhotoPreview').src = tempHomePhoto;
+          tempHomePhotoPreview = ev.target.result;
+          getEl('adminHomePhotoPreview').src = tempHomePhotoPreview;
         };
         reader.readAsDataURL(file);
       });
     }
     if(getEl('adminHomePhotoSaveBtn')) {
-      getEl('adminHomePhotoSaveBtn').addEventListener('click', () => {
-        if (tempHomePhoto) {
+      getEl('adminHomePhotoSaveBtn').addEventListener('click', async () => {
+        if (tempHomePhotoFile) {
           try {
-            localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, tempHomePhoto);
+            getEl('adminHomePhotoSaveBtn').disabled = true;
+            getEl('adminHomePhotoProgress').style.display = 'block';
+            getEl('adminHomePhotoProgress').innerText = 'Uploading... 0%';
+            
+            const downloadURL = await uploadToFirebase(tempHomePhotoFile, (progress) => {
+               getEl('adminHomePhotoProgress').innerText = `Uploading... ${progress}%`;
+            });
+            
+            localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, downloadURL);
             
             // Dynamically update frontend
             const photoBg = document.querySelector('.hero-image .photo-bg');
             if (photoBg) {
-              photoBg.style.backgroundImage = 'url(' + tempHomePhoto + ')';
+              photoBg.style.backgroundImage = 'url(' + downloadURL + ')';
             }
             
+            getEl('adminHomePhotoProgress').innerText = 'Upload complete!';
+            setTimeout(() => getEl('adminHomePhotoProgress').style.display = 'none', 3000);
             showToast('Home photo saved successfully');
           } catch (e) {
             console.error('Storage error:', e);
-            showToast('Photo is too large! Please compress it to a smaller size (under 1MB) and try again.', 'error');
+            showToast('Upload failed! Please check Firebase Storage rules.', 'error');
+            getEl('adminHomePhotoProgress').style.display = 'none';
+          } finally {
+            getEl('adminHomePhotoSaveBtn').disabled = false;
           }
         } else {
           showToast('Please select a photo first');
@@ -1982,6 +2025,35 @@
        getEl('adminProvidedCategory').addEventListener('change', (e) => {
          currentProvidedCategory = e.target.value;
          renderProvidedServices(currentProvidedCategory);
+       });
+    }
+    if(getEl('adminProvidedUpload')) {
+       getEl('adminProvidedUpload').addEventListener('change', async (e) => {
+         const file = e.target.files[0];
+         if(!file) return;
+         try {
+           getEl('adminProvidedProgress').style.display = 'block';
+           getEl('adminProvidedProgress').innerText = 'Uploading... 0%';
+           const btnLabel = document.querySelector('label[for="adminProvidedUpload"]');
+           if(btnLabel) btnLabel.style.opacity = '0.5';
+           
+           const downloadURL = await uploadToFirebase(file, (progress) => {
+              getEl('adminProvidedProgress').innerText = `Uploading... ${progress}%`;
+           });
+           
+           getEl('adminProvidedUrl').value = downloadURL;
+           getEl('adminProvidedProgress').innerText = 'Upload complete! Click Add Item.';
+           setTimeout(() => getEl('adminProvidedProgress').style.display = 'none', 3000);
+           
+         } catch (err) {
+           console.error('Upload error:', err);
+           showToast('Upload failed! Please check Firebase Storage rules.', 'error');
+           getEl('adminProvidedProgress').style.display = 'none';
+         } finally {
+           const btnLabel = document.querySelector('label[for="adminProvidedUpload"]');
+           if(btnLabel) btnLabel.style.opacity = '1';
+           getEl('adminProvidedUpload').value = ''; // Reset input
+         }
        });
     }
     if(getEl('adminAddProvided')) getEl('adminAddProvided').addEventListener('click', addProvidedService);

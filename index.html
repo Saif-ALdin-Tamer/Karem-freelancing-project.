@@ -1926,7 +1926,14 @@
               <option value="portrait">Portrait</option>
               <option value="landscape">Landscape</option>
             </select>
-            <input type="text" id="adminProvidedUrl" class="admin-input" placeholder="Media URL (Image/YouTube/Vimeo/MP4)">
+            <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
+              <input type="text" id="adminProvidedUrl" class="admin-input" placeholder="Media URL (or use upload button)">
+              <label for="adminProvidedUpload" class="admin-btn-secondary" style="cursor:pointer; padding: 12px; margin: 0; white-space: nowrap;">
+                Upload File
+              </label>
+              <input type="file" id="adminProvidedUpload" accept="image/*,video/mp4" style="display: none;">
+            </div>
+            <div id="adminProvidedProgress" style="display:none; width:100%; font-size:12px; color:var(--ka-accent); text-align:center;">Uploading... 0%</div>
             <button class="admin-add-btn" id="adminAddProvided">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
               Add Item
@@ -2559,6 +2566,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script>
   // Intercept localStorage to sync writes to Firebase

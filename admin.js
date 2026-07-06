@@ -1223,13 +1223,8 @@
       return;
     }
     
-    if (safeUrl.includes('youtube.com') || safeUrl.includes('youtu.be') || safeUrl.includes('vimeo.com')) {
-      showToast('Video links cannot be used here. Please provide a direct image URL.', 'error');
-      return;
-    }
-    
-    if (!safeUrl.startsWith('http') && !safeUrl.startsWith('/')) {
-      showToast('Please enter a valid image URL (must start with http:// or https://)', 'error');
+    if (!safeUrl.startsWith('http') && !safeUrl.startsWith('/') && !safeUrl.startsWith('<iframe')) {
+      showToast('Please enter a valid URL or iframe (must start with http://, https://, or <iframe)', 'error');
       return;
     }
     

@@ -3287,8 +3287,8 @@ html[dir="rtl"] .svc-card:hover {
   padding-right: 16px; /* matches internal gap so loop math is exact */
 }
 
-/* Pause independently on hover */
-.services-showcase-marquee:hover {
+/* Pause both rows when hovering over the wrapper */
+.services-showcase-marquee-wrap:hover .services-showcase-marquee {
   animation-play-state: paused !important;
 }
 

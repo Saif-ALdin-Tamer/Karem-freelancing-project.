@@ -2047,15 +2047,53 @@ Looking forward to chatting!`;
     
     // Build items HTML
     let groupHtml = '';
+
+    const getMediaHtml = (url, orientation) => {
+      let safeUrl = url ? url.trim() : '';
+      if (!safeUrl) return `<div class="sm-item sm-${orientation}"></div>`;
+      
+      if (safeUrl.startsWith('<iframe')) {
+        return `<div class="sm-item sm-${orientation}" style="overflow: hidden; padding: 0; position: relative;">${safeUrl}</div>`;
+      }
+      
+      const lowerUrl = safeUrl.toLowerCase();
+      let mediaContent = '';
+      
+      // YouTube Regex (handles watch?v=, embed/, youtu.be/, shorts/, etc)
+      const ytMatch = safeUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/i);
+      
+      if (ytMatch && ytMatch[1]) {
+        const videoId = ytMatch[1];
+        mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 1;"></iframe>`;
+      } 
+      // Vimeo
+      else if (lowerUrl.includes('vimeo.com')) {
+        const match = safeUrl.match(/vimeo\.com\/(?:video\/)?([0-9]+)/i);
+        if (match && match[1]) {
+          const videoId = match[1];
+          mediaContent = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&byline=0&title=0&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 1;"></iframe>`;
+        }
+      } 
+      // Direct MP4 / WebM
+      else if (lowerUrl.match(/\.(mp4|webm|mov)$/i) || lowerUrl.includes('.mp4?')) {
+        mediaContent = `<video autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"><source src="${safeUrl}" type="video/mp4"></video>`;
+      } 
+      
+      if (mediaContent) {
+        return `<div class="sm-item sm-${orientation}" style="overflow: hidden; padding: 0; position: relative;">${mediaContent}</div>`;
+      } else {
+        const escapedUrl = safeUrl.replace(/'/g, "%27").replace(/"/g, "%22");
+        return `<div class="sm-item sm-${orientation}" style="background-image: url('${escapedUrl}'); background-size: cover; background-position: center;"></div>`;
+      }
+    };
+
     if (items.length > 0) {
       let displayItems = [...items];
       while (displayItems.length < 6) {
         displayItems = displayItems.concat(items);
       }
       displayItems.forEach(item => {
-        const safeUrl = item.url ? item.url.replace(/'/g, "%27").replace(/"/g, "%22") : '';
-        const bg = safeUrl ? ` style="background-image: url('${safeUrl}'); background-size: cover; background-position: center;"` : '';
-        groupHtml += `<div class="sm-item sm-${item.orientation}"${bg}></div>`;
+        groupHtml += getMediaHtml(item.url, item.orientation);
       });
     } else {
       // Fallback empty placeholders

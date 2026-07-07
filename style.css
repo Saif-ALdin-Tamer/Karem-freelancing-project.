@@ -3275,20 +3275,16 @@ html[dir="rtl"] .svc-card:hover {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.75);
   padding: 10px 22px;
   border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
-  /* backdrop-filter disabled for perf */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #3270b2 0%, #5291cc 100%);
+  color: #fff;
+  box-shadow: 
+    0 8px 24px rgba(58, 127, 199, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transition: all 0.3s ease;
   cursor: default;
-}
-
-.svc-marquee-tags span.active {
-  background: rgba(72, 103, 255, 0.15);
-  border-color: rgba(72, 103, 255, 0.5);
-  color: #fff;
 }
 
 @media (max-width: 640px) {
@@ -3333,8 +3329,9 @@ html[dir="rtl"] .svc-card:hover {
   padding-right: 16px; /* matches internal gap so loop math is exact */
 }
 
-/* Pause both rows when hovering over the wrapper */
-.services-showcase-marquee-wrap:hover .services-showcase-marquee {
+/* Pause both rows when hovering over the wrapper or when locked via interaction */
+.services-showcase-marquee-wrap:hover .services-showcase-marquee,
+.services-showcase-marquee-wrap.is-locked-paused .services-showcase-marquee {
   animation-play-state: paused !important;
 }
 

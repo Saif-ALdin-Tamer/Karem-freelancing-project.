@@ -1909,6 +1909,7 @@ window.TRAINING_DATA = {
     };
     
     showcaseWrap.innerHTML = buildMarquee(false) + buildMarquee(true);
+    if (window.initMarqueeMediaListeners) window.initMarqueeMediaListeners(showcaseWrap);
   }
 
   // Setup click listeners
@@ -2486,3 +2487,79 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+/* ═══ Script Block 12: Marquee Interaction Lock & Video State ═══ */
+(function() {
+  if (!document.getElementById('yt-api-script')) {
+    const tag = document.createElement('script');
+    tag.id = 'yt-api-script';
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+  if (!document.getElementById('vimeo-api-script')) {
+    const vTag = document.createElement('script');
+    vTag.id = 'vimeo-api-script';
+    vTag.src = "https://player.vimeo.com/api/player.js";
+    document.head.appendChild(vTag);
+  }
+
+  function setLock(el, locked) {
+    const wrap = el.closest('.services-showcase-marquee-wrap');
+    if (wrap) {
+      if (locked) wrap.classList.add('is-locked-paused');
+      else wrap.classList.remove('is-locked-paused');
+    }
+  }
+
+  window.initMarqueeMediaListeners = function(container) {
+    container.querySelectorAll('video').forEach(v => {
+      v.addEventListener('play', () => setLock(v, true));
+      v.addEventListener('pause', () => setLock(v, false));
+      v.addEventListener('ended', () => setLock(v, false));
+    });
+
+    container.querySelectorAll('iframe[src*="youtube.com"]').forEach(iframe => {
+      if (!iframe.id) iframe.id = 'yt-' + Math.random().toString(36).substr(2, 9);
+      if (!iframe.src.includes('enablejsapi=1')) iframe.src += '&enablejsapi=1';
+      const tryInitYT = () => {
+        if (window.YT && window.YT.Player) {
+          new YT.Player(iframe.id, {
+            events: {
+              'onStateChange': (e) => {
+                if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
+                  setLock(iframe, false);
+                } else if (e.data === YT.PlayerState.PLAYING && document.activeElement === iframe) {
+                  setLock(iframe, true);
+                }
+              }
+            }
+          });
+        } else {
+          setTimeout(tryInitYT, 200);
+        }
+      };
+      tryInitYT();
+    });
+
+    container.querySelectorAll('iframe[src*="vimeo.com"]').forEach(iframe => {
+      const tryInitVimeo = () => {
+        if (window.Vimeo && window.Vimeo.Player) {
+          const player = new Vimeo.Player(iframe);
+          player.on('play', () => { if (document.activeElement === iframe) setLock(iframe, true); });
+          player.on('pause', () => setLock(iframe, false));
+          player.on('ended', () => setLock(iframe, false));
+        } else {
+          setTimeout(tryInitVimeo, 200);
+        }
+      };
+      tryInitVimeo();
+    });
+  };
+
+  document.addEventListener('click', (e) => {
+    const wraps = document.querySelectorAll('.services-showcase-marquee-wrap');
+    wraps.forEach(wrap => {
+      if (wrap.contains(e.target)) wrap.classList.add('is-locked-paused');
+      else wrap.classList.remove('is-locked-paused');
+    });
+  });
+})();

@@ -2527,7 +2527,7 @@ window.addEventListener('DOMContentLoaded', function() {
               'onStateChange': (e) => {
                 if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
                   setLock(iframe, false);
-                } else if (e.data === YT.PlayerState.PLAYING && document.activeElement === iframe) {
+                } else if (e.data === YT.PlayerState.PLAYING) {
                   setLock(iframe, true);
                 }
               }
@@ -2544,7 +2544,7 @@ window.addEventListener('DOMContentLoaded', function() {
       const tryInitVimeo = () => {
         if (window.Vimeo && window.Vimeo.Player) {
           const player = new Vimeo.Player(iframe);
-          player.on('play', () => { if (document.activeElement === iframe) setLock(iframe, true); });
+          player.on('play', () => setLock(iframe, true));
           player.on('pause', () => setLock(iframe, false));
           player.on('ended', () => setLock(iframe, false));
         } else {
@@ -2561,5 +2561,10 @@ window.addEventListener('DOMContentLoaded', function() {
       if (wrap.contains(e.target)) wrap.classList.add('is-locked-paused');
       else wrap.classList.remove('is-locked-paused');
     });
+  });
+
+  // Initialize for any already rendered wrappers
+  document.querySelectorAll('.services-showcase-marquee-wrap').forEach(wrap => {
+    window.initMarqueeMediaListeners(wrap);
   });
 })();

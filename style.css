@@ -3313,20 +3313,20 @@ html[dir="rtl"] .svc-card:hover {
   padding: 20px 0;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 
 .services-showcase-marquee {
   display: flex;
   width: max-content;
-  animation: servicesMarqueeMove 30s linear infinite;
+  animation: servicesMarqueeMove 60s linear infinite;
 }
 
 .services-showcase-marquee .sm-group {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   flex-shrink: 0;
-  padding-right: 16px; /* matches internal gap so loop math is exact */
+  padding-right: 8px; /* matches internal gap so loop math is exact */
 }
 
 /* Pause both rows when hovering over the wrapper or when locked via interaction */
@@ -3341,7 +3341,7 @@ html[dir="rtl"] .svc-card:hover {
   100% { transform: translateX(50%); }
 }
 html[dir="rtl"] .services-showcase-marquee {
-  animation: servicesMarqueeMoveRTL 30s linear infinite;
+  animation: servicesMarqueeMoveRTL 60s linear infinite;
 }
 
 .sm-item {

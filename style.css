@@ -2508,7 +2508,7 @@ section {
   font-size: clamp(36px, 4.5vw, 56px);
   font-weight: 600;
   line-height: 1.05;
-  letter-spacing: -1.5px;
+  letter-spacing: 0px;
   color: var(--white);
   margin-bottom: 24px;
 }
@@ -2622,6 +2622,7 @@ section {
   margin-top: 40px;
   display: flex;
   justify-content: center;
+  grid-column: 1 / -1;
 }
 .consult-btn {
   display: inline-flex;
@@ -3295,7 +3296,7 @@ html[dir="rtl"] .svc-card:hover {
 /* RTL: native rtl animation (translates positive to pull from left) */
 @keyframes servicesMarqueeMoveRTL {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(25%); }
+  100% { transform: translateX(50%); }
 }
 html[dir="rtl"] .services-showcase-marquee {
   animation: servicesMarqueeMoveRTL 30s linear infinite;
@@ -3349,7 +3350,7 @@ html[dir="rtl"] .services-showcase-marquee {
 
 @keyframes servicesMarqueeMove {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-25%); }
+  100% { transform: translateX(-50%); }
 }
 
 @media (max-width: 768px) {
@@ -3377,7 +3378,7 @@ html[dir="rtl"] .services-showcase-marquee {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: 40px 32px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
@@ -3387,16 +3388,18 @@ html[dir="rtl"] .services-showcase-marquee {
   pointer-events: auto;
 }
 .modal {
-  background: linear-gradient(135deg, rgba(20, 35, 60, 0.9) 0%, rgba(10, 15, 30, 0.95) 100%);
-  /* backdrop-filter disabled for perf */
-  /* -webkit-backdrop-filter disabled */
+  background: linear-gradient(135deg, rgba(20, 35, 60, 0.75) 0%, rgba(10, 15, 30, 0.85) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 28px;
   padding: 48px;
-  width: 100%;
+  width: 96%;
   max-width: 1000px;
-  max-height: 90vh;
-  overflow-y: auto;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   box-shadow:
     0 16px 48px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
@@ -3436,6 +3439,7 @@ html[dir="rtl"] .services-showcase-marquee {
   color: #7fc4ff;
   margin-bottom: 8px;
   font-weight: 500;
+  flex-shrink: 0;
 }
 .modal-title {
   font-size: 32px;
@@ -3443,14 +3447,19 @@ html[dir="rtl"] .services-showcase-marquee {
   color: var(--white);
   margin-bottom: 32px;
   letter-spacing: -0.8px;
+  flex-shrink: 0;
 }
 .modal-works {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 29px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  padding-right: 8px; /* For scrollbar breathing room */
 }
 .modal-work {
-  aspect-ratio: 16/10;
+  aspect-ratio: 2/1;
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.4);
   /* backdrop-filter disabled for perf */
@@ -4575,12 +4584,6 @@ footer {
   .country-flag-label .flag-emoji {
     font-size: 12px;
   }
-  .modal {
-    padding: 32px;
-  }
-  .modal-works {
-    grid-template-columns: 1fr;
-  }
   .testi-card {
     width: 340px;
   }
@@ -4606,6 +4609,15 @@ footer {
   }
 }
 @media (max-width: 640px) {
+  .modal {
+    padding: 20px;
+    width: 88%;
+    max-height: 70vh;
+  }
+  .modal-works {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
   nav {
     max-width: calc(100vw - 20px); /* Slightly more room */
     padding: 6px 10px;
@@ -6252,7 +6264,7 @@ html[dir="rtl"] .story-photo-badge {
   position: relative;
   width: 100%;
   max-width: 560px;
-  max-height: 90vh;
+  max-height: 75vh;
   background: linear-gradient(
     180deg,
     rgba(20, 28, 48, 0.95) 0%,
@@ -6564,12 +6576,12 @@ html[dir="rtl"] .qb-close {
   transition: all 0.3s;
 }
 .qb-back {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(240, 243, 248, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 .qb-back:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   color: #fff;
 }
 .qb-back:disabled {
@@ -6612,7 +6624,7 @@ html[dir="rtl"] .qb-next svg {
   .qb-modal-container {
     width: 80%;
     padding: 24px 16px;
-    max-height: 95vh;
+    max-height: 75vh;
     border-radius: 20px;
   }
   .qb-title {
@@ -7097,7 +7109,7 @@ body.in-portfolio footer {
   position: relative;
   width: 100%;
   max-width: 560px;
-  max-height: 90vh;
+  max-height: 75vh;
   background: rgba(20, 28, 42, 0.2);
   /* backdrop-filter disabled for perf */
   /* -webkit-backdrop-filter disabled */
@@ -7498,9 +7510,9 @@ html[dir="rtl"] .qb-btn svg {
     padding: 0;
   }
   .qb-modal-content {
-    border-radius: 0;
-    max-height: 100vh;
-    height: 100vh;
+    border-radius: 28px;
+    max-height: 80vh;
+    height: auto;
     padding: 32px 22px;
   }
   .qb-title {
@@ -8270,7 +8282,7 @@ h3,
 h4 {
   color: #ffffff !important;
   font-weight: 700 !important;
-  letter-spacing: -1px !important;
+  letter-spacing: 1.0px !important;
   background: none !important;
   -webkit-text-fill-color: initial !important; /* Removes any old text gradients */
 }
@@ -9267,6 +9279,7 @@ html body .in-portfolio footer {
 @media (min-width: 769px) {
   .mobile-break {
     display: none;
+  }
 }
 
 /* Force inline video controls to stay visible */

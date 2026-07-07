@@ -40,7 +40,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/maps/world.js" defer></script>
 
 
-<link rel="stylesheet" href="style.css?v=84">
+<link rel="stylesheet" href="style.css?v=85">
 <link rel="stylesheet" href="admin.css?v=6">
 <style>
   @media (max-width: 1024px) {
@@ -1018,16 +1018,16 @@
           <li data-en="Storytelling and pacing techniques" data-ar="تقنيات السرد والإيقاع">Storytelling and pacing techniques</li>
           <li data-en="Building your portfolio &amp; finding clients" data-ar="بناء البورتفوليو والوصول للعملاء">Building your portfolio &amp; finding clients</li>
         </ul>
-        <div class="consult-btn-wrap">
-          <a href="#" onclick="openQuickBrief();return false;" class="consult-btn">
-            <span data-en="Book a Consultation" data-ar="احجز استشارة">Book a Consultation</span>
-          </a>
-        </div>
       </div>
       <div class="training-stats">
         <div class="ts"><div class="ts-n"><span class="count" data-target="200" data-suffix="+">0</span></div><div class="ts-l" data-en="Students Trained" data-ar="طالب مدرّب">Students Trained</div></div>
         <div class="ts"><div class="ts-n fade-pulse">1:1</div><div class="ts-l fade-pulse" data-en="Personalized" data-ar="جلسات فردية" style="animation-delay:.5s;">Personalized</div></div>
         <div class="ts"><div class="ts-n" data-en="Online" data-ar="أونلاين" style="font-size:32px;">Online</div><div class="ts-l" data-en="Available Worldwide" data-ar="متاح عالمياً">Available Worldwide</div></div>
+      </div>
+      <div class="consult-btn-wrap">
+        <a href="#" onclick="openQuickBrief();return false;" class="consult-btn">
+          <span data-en="Book a Consultation" data-ar="احجز استشارة">Book a Consultation</span>
+        </a>
       </div>
     </div>
 
@@ -1317,190 +1317,6 @@
 
   </div>
 </div>
-
-
-
-</div>
-
-
-
-<!-- ═══════════════════ QUICK BRIEF MODAL ═══════════════════ -->
-
-
-<div class="qb-modal" id="qbModal">
-  <div class="qb-modal-content">
-    <button class="qb-close" onclick="qbClose()" aria-label="Close">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-
-    <div class="qb-header">
-      <div class="qb-eyebrow" data-en="Quick Brief" data-ar="نموذج سريع">Quick Brief</div>
-      <div class="qb-title" id="qbTitle" data-en="Tell me about your project" data-ar="احكيلي عن مشروعك">Tell me about your project</div>
-      <div class="qb-sub" data-en="Takes 30 seconds — and helps me prepare for our chat." data-ar="٣٠ ثانية بس — وبتساعدني أجهز للحوار.">Takes 30 seconds — and helps me prepare for our chat.</div>
-    </div>
-
-    <div class="qb-progress">
-      <div class="qb-progress-dot active" data-step="1"></div>
-      <div class="qb-progress-dot" data-step="2"></div>
-      <div class="qb-progress-dot" data-step="3"></div>
-      <div class="qb-progress-dot" data-step="4"></div>
-      <div class="qb-progress-dot" data-step="5"></div>
-    </div>
-
-    <!-- STEP 1: Name -->
-    <div class="qb-step active" data-step="1">
-      <div class="qb-step-label" data-en="What's your name?" data-ar="اسمك إيه؟">What's your name?</div>
-      <input type="text" class="qb-input" id="qbName" placeholder="Your name" data-en-placeholder="Your name" data-ar-placeholder="ما اسمك؟">
-      <div class="qb-actions">
-        <button class="qb-btn qb-btn-primary" onclick="qbNext()">
-          <span data-en="Next" data-ar="التالي">Next</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- STEP 2: Project Type -->
-    <div class="qb-step" data-step="2">
-      <div class="qb-step-label" data-en="What kind of project?" data-ar="نوع المشروع؟">What kind of project?</div>
-      <div class="qb-options">
-        <button class="qb-option" data-field="projectType" data-value="Video Editing">
-          <span class="qb-option-icon">🎬</span><span data-en="Video Editing" data-ar="مونتاج فيديو">Video Editing</span>
-        </button>
-        <button class="qb-option" data-field="projectType" data-value="Cinematography">
-          <span class="qb-option-icon">📷</span><span data-en="Cinematography" data-ar="تصوير سينمائي">Cinematography</span>
-        </button>
-        <button class="qb-option" data-field="projectType" data-value="Brand Content">
-          <span class="qb-option-icon">✨</span><span data-en="Brand Content" data-ar="محتوى براند">Brand Content</span>
-        </button>
-        <button class="qb-option" data-field="projectType" data-value="Documentary">
-          <span class="qb-option-icon">🎞️</span><span data-en="Documentary" data-ar="فيلم وثائقي">Documentary</span>
-        </button>
-        <button class="qb-option" data-field="projectType" data-value="Social Media">
-          <span class="qb-option-icon">📱</span><span data-en="Social Media" data-ar="سوشيال ميديا">Social Media</span>
-        </button>
-        <button class="qb-option" data-field="projectType" data-value="Other">
-          <span class="qb-option-icon">💡</span><span data-en="Something else" data-ar="حاجة تانية">Something else</span>
-        </button>
-      </div>
-      <div class="qb-actions">
-        <button class="qb-btn qb-btn-ghost" onclick="qbPrev()">
-          <span data-en="Back" data-ar="رجوع">Back</span>
-        </button>
-        <button class="qb-btn qb-btn-primary" id="qbStep2Next" onclick="qbNext()" disabled>
-          <span data-en="Next" data-ar="التالي">Next</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- STEP 3: Budget -->
-    <div class="qb-step" data-step="3">
-      <div class="qb-step-label" data-en="Budget range?" data-ar="الميزانية التقريبية؟">Budget range?</div>
-      <div class="qb-step-helper" data-en="Helps me suggest the right scope. Honest answers help us both." data-ar="بيساعدني أقترح حاجة مناسبة. الصراحة بتفيدنا الاتنين.">Helps me suggest the right scope. Honest answers help us both.</div>
-      <div class="qb-options">
-        <button class="qb-option" data-field="budget" data-value="Under $500">
-          <span data-en="Under $500" data-ar="أقل من $500">Under $500</span>
-        </button>
-        <button class="qb-option" data-field="budget" data-value="$500 - $2K">
-          <span data-en="$500 — $2K" data-ar="$500 — $2K">$500 — $2K</span>
-        </button>
-        <button class="qb-option" data-field="budget" data-value="$2K - $5K">
-          <span data-en="$2K — $5K" data-ar="$2K — $5K">$2K — $5K</span>
-        </button>
-        <button class="qb-option" data-field="budget" data-value="$5K+">
-          <span data-en="$5K and up" data-ar="$5K وأكثر">$5K and up</span>
-        </button>
-        <button class="qb-option" data-field="budget" data-value="Not sure yet">
-          <span data-en="Not sure yet" data-ar="مش متأكد لسه">Not sure yet</span>
-        </button>
-        <button class="qb-option" data-field="budget" data-value="Flexible">
-          <span data-en="Let's discuss" data-ar="نتفاهم">Let's discuss</span>
-        </button>
-      </div>
-      <div class="qb-actions">
-        <button class="qb-btn qb-btn-ghost" onclick="qbPrev()">
-          <span data-en="Back" data-ar="رجوع">Back</span>
-        </button>
-        <button class="qb-btn qb-btn-primary" id="qbStep3Next" onclick="qbNext()" disabled>
-          <span data-en="Next" data-ar="التالي">Next</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- STEP 4: Timeline + Optional details -->
-    <div class="qb-step" data-step="4">
-      <div class="qb-step-label" data-en="When do you need it?" data-ar="إمتى محتاجه؟">When do you need it?</div>
-      <div class="qb-options" style="margin-bottom:24px;">
-        <button class="qb-option" data-field="timeline" data-value="ASAP (this week)">
-          <span class="qb-option-icon">⚡</span><span data-en="ASAP" data-ar="حالاً">ASAP</span>
-        </button>
-        <button class="qb-option" data-field="timeline" data-value="This month">
-          <span class="qb-option-icon">📅</span><span data-en="This month" data-ar="الشهر ده">This month</span>
-        </button>
-        <button class="qb-option" data-field="timeline" data-value="Next month">
-          <span class="qb-option-icon">📆</span><span data-en="Next month" data-ar="الشهر الجاي">Next month</span>
-        </button>
-        <button class="qb-option" data-field="timeline" data-value="Flexible">
-          <span class="qb-option-icon">🌊</span><span data-en="Flexible" data-ar="مرن">Flexible</span>
-        </button>
-      </div>
-      <div class="qb-step-label" data-en="Anything else? (optional)" data-ar="أي حاجة تانية؟ (اختياري)">Anything else? (optional)</div>
-      <textarea class="qb-input qb-textarea" id="qbDetails" placeholder="Brief description, references, links..." data-en-placeholder="Brief description, references, links..." data-ar-placeholder="وصف سريع، مراجع، روابط..."></textarea>
-      <div class="qb-actions">
-        <button class="qb-btn qb-btn-ghost" onclick="qbPrev()">
-          <span data-en="Back" data-ar="رجوع">Back</span>
-        </button>
-        <button class="qb-btn qb-btn-primary" id="qbStep4Next" onclick="qbNext()" disabled>
-          <span data-en="Continue" data-ar="استمر">Continue</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- STEP 5: Choose channel -->
-    <div class="qb-step" data-step="5">
-      <div class="qb-step-label" data-en="How should we connect?" data-ar="نتواصل إزاي؟">How should we connect?</div>
-      <div class="qb-summary">
-        <div class="qb-summary-title" data-en="Your brief" data-ar="ملخص">Your brief</div>
-        <div id="qbSummaryItems"></div>
-      </div>
-      <div class="qb-channels">
-        <button class="qb-channel qb-channel-whatsapp" onclick="qbSend('whatsapp')">
-          <div class="qb-channel-icon">💬</div>
-          <div class="qb-channel-text">
-            <div class="qb-channel-title" data-en="Message on WhatsApp" data-ar="رسالة على واتساب">Message on WhatsApp</div>
-            <div class="qb-channel-desc" data-en="Fastest reply — usually within hours" data-ar="أسرع رد — عادةً في خلال ساعات">Fastest reply — usually within hours</div>
-          </div>
-          <div class="qb-channel-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
-        </button>
-        <button class="qb-channel qb-channel-email" onclick="qbSend('email')">
-          <div class="qb-channel-icon">✉️</div>
-          <div class="qb-channel-text">
-            <div class="qb-channel-title" data-en="Send via Email" data-ar="ابعت عبر الإيميل">Send via Email</div>
-            <div class="qb-channel-desc" data-en="For detailed briefs and attachments" data-ar="للتفاصيل والمرفقات">For detailed briefs and attachments</div>
-          </div>
-          <div class="qb-channel-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
-        </button>
-        <button class="qb-channel qb-channel-meeting" onclick="qbSend('meeting')">
-          <div class="qb-channel-icon">📅</div>
-          <div class="qb-channel-text">
-            <div class="qb-channel-title" data-en="Book a discovery call" data-ar="احجز مكالمة استكشاف">Book a discovery call</div>
-            <div class="qb-channel-desc" data-en="Free 30-min session at your convenience" data-ar="جلسة ٣٠ دقيقة مجانية في وقت يناسبك">Free 30-min session at your convenience</div>
-          </div>
-          <div class="qb-channel-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg></div>
-        </button>
-      </div>
-      <div class="qb-actions">
-        <button class="qb-btn qb-btn-ghost" onclick="qbPrev()" style="flex:none;padding:14px 28px;">
-          <span data-en="Back" data-ar="رجوع">Back</span>
-        </button>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 
 
 <!-- ══════════════════ ADMIN LOGIN ══════════════════ -->
@@ -2621,7 +2437,7 @@
       }
     };
 
-    const scripts = ['script.js?v=12', 'patch.js?v=2', 'admin.js?v=9'];
+    const scripts = ['script.js?v=13', 'patch.js?v=2', 'admin.js?v=9'];
     let i = 0;
     function loadNext() {
       if(i >= scripts.length) return;

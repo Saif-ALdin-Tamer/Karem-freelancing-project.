@@ -1756,226 +1756,6 @@ window.TRAINING_DATA = {
     }
   ]
 };
-
-  // === CONFIGURATION (edit these) ===
-  const QB_WHATSAPP_NUMBER = "201234567890"; // Replace with real number (country code, no +)
-  const QB_EMAIL_TO = "hello@karimabdelaziz.com"; // Replace with real email
-  const QB_CALENDAR_URL = ""; // Replace with Calendly URL when ready, leave empty for fallback
-
-  // === STATE ===
-  const qbData = {
-    name: "",
-    projectType: "",
-    budget: "",
-    timeline: "",
-    details: "",
-  };
-  let qbCurrentStep = 1;
-  const TOTAL_STEPS = 5;
-
-  // === ELEMENTS ===
-  const modal = document.getElementById("qbModal");
-  const nameInput = document.getElementById("qbName");
-  const detailsInput = document.getElementById("qbDetails");
-
-  // === OPEN / CLOSE ===
-  window.qbOpen = function () {
-    modal.classList.remove("closing");
-    modal.classList.add("open");
-    document.body.style.overflow = "hidden";
-    setTimeout(() => nameInput && nameInput.focus(), 400);
-  };
-  window.qbClose = function () {
-    modal.classList.add("closing");
-    setTimeout(() => {
-      modal.classList.remove("open", "closing");
-      document.body.style.overflow = "";
-    }, 400);
-  };
-
-  // Close on background click
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) qbClose();
-  });
-  // Close on ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("open")) qbClose();
-  });
-
-  // === NAVIGATION ===
-  function showStep(n) {
-    document
-      .querySelectorAll(".qb-step")
-      .forEach((s) => s.classList.remove("active"));
-    document
-      .querySelector(`.qb-step[data-step="${n}"]`)
-      .classList.add("active");
-    // Progress dots
-    document.querySelectorAll(".qb-progress-dot").forEach((d, idx) => {
-      d.classList.remove("active", "done");
-      if (idx + 1 < n) d.classList.add("done");
-      else if (idx + 1 === n) d.classList.add("active");
-    });
-    qbCurrentStep = n;
-    updateButtons();
-  }
-
-  window.qbNext = function () {
-    // Validate step
-    if (qbCurrentStep === 1) {
-      qbData.name = nameInput.value.trim();
-      if (!qbData.name) {
-        nameInput.focus();
-        return;
-      }
-    }
-    if (qbCurrentStep === 4) {
-      qbData.details = detailsInput.value.trim();
-      buildSummary();
-    }
-    if (qbCurrentStep < TOTAL_STEPS) showStep(qbCurrentStep + 1);
-  };
-  window.qbPrev = function () {
-    if (qbCurrentStep > 1) showStep(qbCurrentStep - 1);
-  };
-
-  // === OPTION SELECTION ===
-  document.querySelectorAll(".qb-option").forEach((opt) => {
-    opt.addEventListener("click", function () {
-      const field = this.dataset.field;
-      const value = this.dataset.value;
-      // Deselect siblings
-      document
-        .querySelectorAll(`.qb-option[data-field="${field}"]`)
-        .forEach((s) => s.classList.remove("selected"));
-      this.classList.add("selected");
-      qbData[field] = value;
-      updateButtons();
-    });
-  });
-
-  // Input listeners
-  nameInput.addEventListener("input", updateButtons);
-
-  function updateButtons() {
-    const step2Btn = document.getElementById("qbStep2Next");
-    const step3Btn = document.getElementById("qbStep3Next");
-    const step4Btn = document.getElementById("qbStep4Next");
-    if (step2Btn) step2Btn.disabled = !qbData.projectType;
-    if (step3Btn) step3Btn.disabled = !qbData.budget;
-    if (step4Btn) step4Btn.disabled = !qbData.timeline;
-  }
-
-  // === SUMMARY ===
-  function buildSummary() {
-    const items = document.getElementById("qbSummaryItems");
-    const lang = document.documentElement.lang === "ar" ? "ar" : "en";
-    const labels = {
-      en: {
-        name: "Name",
-        type: "Project",
-        budget: "Budget",
-        timeline: "Timeline",
-      },
-      ar: {
-        name: "الاسم",
-        type: "المشروع",
-        budget: "الميزانية",
-        timeline: "الموعد",
-      },
-    };
-    items.innerHTML = `
-      <div class="qb-summary-item"><span class="qb-summary-item-key">${labels[lang].name}</span><span class="qb-summary-item-val">${qbData.name}</span></div>
-      <div class="qb-summary-item"><span class="qb-summary-item-key">${labels[lang].type}</span><span class="qb-summary-item-val">${qbData.projectType}</span></div>
-      <div class="qb-summary-item"><span class="qb-summary-item-key">${labels[lang].budget}</span><span class="qb-summary-item-val">${qbData.budget}</span></div>
-      <div class="qb-summary-item"><span class="qb-summary-item-key">${labels[lang].timeline}</span><span class="qb-summary-item-val">${qbData.timeline}</span></div>
-    `;
-  }
-
-  // === SEND ===
-  window.qbSend = function (channel) {
-    const msg = buildMessage();
-    if (channel === "whatsapp") {
-      const url = `https://wa.me/${QB_WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-      window.open(url, "_blank");
-    } else if (channel === "email") {
-      const subject = encodeURIComponent(
-        `Project Inquiry: ${qbData.projectType}`,
-      );
-      const body = encodeURIComponent(msg);
-      window.location.href = `mailto:${QB_EMAIL_TO}?subject=${subject}&body=${body}`;
-    } else if (channel === "meeting") {
-      if (QB_CALENDAR_URL) {
-        window.open(QB_CALENDAR_URL, "_blank");
-      } else {
-        // Fallback: send to WhatsApp with meeting request prefix
-        const meetingMsg = `📅 Booking request:\n\n${msg}\n\nPlease share your available times for a 30-min call.`;
-        const url = `https://wa.me/${QB_WHATSAPP_NUMBER}?text=${encodeURIComponent(meetingMsg)}`;
-        window.open(url, "_blank");
-      }
-    }
-  };
-
-  function buildMessage() {
-    return `Hi Karim! 👋
-
-I'm ${qbData.name}, looking for:
-🎬 ${qbData.projectType}
-
-Budget: ${qbData.budget}
-Timeline: ${qbData.timeline}
-${qbData.details ? "\nDetails: " + qbData.details : ""}
-
-Looking forward to chatting!`;
-  }
-
-  // === WIRE UP TRIGGERS ===
-  // Any element with data-qb-trigger or class="qb-trigger" opens the modal
-  document.querySelectorAll("[data-qb-trigger], .qb-trigger").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      qbOpen();
-    });
-  });
-
-  // Auto-wire common CTAs (Book a Free Call, Start your project, etc.)
-  // Match by text content
-  const triggerTexts = [
-    "Book a Free Discovery Call",
-    "Book a free call",
-    "احجز مكالمة مجانية",
-    "Start your project",
-    "ابدأ مشروعك",
-    "Start Your Project",
-    "Let's create together",
-    "خلينا نبدع سوا",
-    "Let's chat",
-    "Get in touch",
-    "تواصل",
-  ];
-  document.querySelectorAll("a, button").forEach((el) => {
-    const text = (el.textContent || "").trim();
-    const matches = triggerTexts.some((t) => text.includes(t));
-    if (
-      matches &&
-      !el.hasAttribute("data-qb-trigger") &&
-      !el.classList.contains("qb-trigger")
-    ) {
-      // Skip elements that already have a specific handler (like spaGo)
-      const onclickAttr = el.getAttribute("onclick") || "";
-      // Allow it for spaGo('contact') type — convert to modal
-      el.setAttribute("data-qb-trigger", "1");
-      el.addEventListener(
-        "click",
-        (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          qbOpen();
-        },
-        true,
-      );
-    }
-  });
 })();
 
 /* ═══ Script Block 9 ═══ */
@@ -2064,19 +1844,19 @@ Looking forward to chatting!`;
       
       if (ytMatch && ytMatch[1]) {
         const videoId = ytMatch[1];
-        mediaContent = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 1;"></iframe>`;
+        mediaContent = `<iframe loading="lazy" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=1&modestbranding=1&playsinline=1" frameborder="0" allow="autoplay; fullscreen; encrypted-media" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"></iframe>`;
       } 
       // Vimeo
       else if (lowerUrl.includes('vimeo.com')) {
         const match = safeUrl.match(/vimeo\.com\/(?:video\/)?([0-9]+)/i);
         if (match && match[1]) {
           const videoId = match[1];
-          mediaContent = `<iframe src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&byline=0&title=0&controls=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; z-index: 1;"></iframe>`;
+          mediaContent = `<iframe loading="lazy" src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&byline=0&title=0&controls=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"></iframe>`;
         }
       } 
       // Direct MP4 / WebM
       else if (lowerUrl.match(/\.(mp4|webm|mov)$/i) || lowerUrl.includes('.mp4?')) {
-        mediaContent = `<video autoplay muted loop playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;"><source src="${safeUrl}" type="video/mp4"></video>`;
+        mediaContent = `<video autoplay muted loop playsinline controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;" loading="lazy"><source src="${safeUrl}" type="video/mp4"></video>`;
       } 
       
       if (mediaContent) {
@@ -2107,14 +1887,11 @@ Looking forward to chatting!`;
       `;
     }
     
-    // Create marquee groups (duplicate for continuous scrolling)
     const buildMarquee = (reverse = false) => {
       const direction = reverse ? ' style="animation-direction: reverse;"' : '';
       return `
         <div class="services-showcase-marquee"${direction}>
           <div class="sm-group">${groupHtml}</div>
-          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
-          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
           <div class="sm-group" aria-hidden="true">${groupHtml}</div>
         </div>
       `;
@@ -2551,8 +2328,18 @@ window.playInlineVideo = function(event, card) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = finalUrl;
     playerEl = tempDiv.firstElementChild;
-    if (playerEl.tagName === 'IFRAME' && playerEl.src && !playerEl.src.includes('autoplay=1')) {
-      playerEl.src += (playerEl.src.includes('?') ? '&' : '?') + 'autoplay=1';
+    if (playerEl.tagName === 'IFRAME') {
+      if (playerEl.src && !playerEl.src.includes('autoplay=1')) {
+        playerEl.src += (playerEl.src.includes('?') ? '&' : '?') + 'autoplay=1';
+      }
+      playerEl.setAttribute('allowfullscreen', 'true');
+      playerEl.setAttribute('webkitallowfullscreen', 'true');
+      playerEl.setAttribute('mozallowfullscreen', 'true');
+      if (playerEl.allow && !playerEl.allow.includes('fullscreen')) {
+        playerEl.allow += '; fullscreen';
+      } else if (!playerEl.allow) {
+        playerEl.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+      }
     }
   } else if (finalUrl.endsWith('.mp4') || finalUrl.endsWith('.webm') || finalUrl.endsWith('.ogg') || finalUrl.endsWith('.mp3')) {
     playerEl = document.createElement(finalUrl.endsWith('.mp3') ? 'audio' : 'video');
@@ -2579,6 +2366,9 @@ window.playInlineVideo = function(event, card) {
     }
     playerEl.src = finalUrl;
     playerEl.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+    playerEl.setAttribute('allowfullscreen', 'true');
+    playerEl.setAttribute('webkitallowfullscreen', 'true');
+    playerEl.setAttribute('mozallowfullscreen', 'true');
   }
 
   playerEl.className = 'inline-video-player';

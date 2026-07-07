@@ -579,7 +579,7 @@ renderFrontendIntroPages();
       modalWorks.innerHTML = data.works
         .map(
           (w) => `
-      <div class="modal-work">
+      <div class="modal-work" ${w.url ? `style="cursor:pointer;" onclick="if(window.openVideoModal) window.openVideoModal('${w.url}', \`${w.name ? w.name.replace(/\`/g, '\\\`') : ''}\`)"` : ''}>
         <div class="modal-work-thumb">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </div>
@@ -1155,7 +1155,8 @@ window.enterSite = function () {
   try {
     // Clean up old localStorage flag (one-time migration)
     localStorage.removeItem("intro_done");
-    if (sessionStorage.getItem("intro_done") === "1") {
+    const h = window.location.hash.replace("#", "");
+    if (sessionStorage.getItem("intro_done") === "1" || h === "admin" || h === "admin-login") {
       // Skip welcome entirely
       const welcomeSection = document.getElementById("welcome-section");
       const portfolioSection = document.getElementById("portfolio-section");
@@ -1165,7 +1166,7 @@ window.enterSite = function () {
         document.body.classList.add("in-portfolio");
         // Apply home page or page from hash
         const hash = window.location.hash.replace("#", "");
-        const validPages = ["home", "about", "services", "training", "contact"];
+        const validPages = ["home", "about", "services", "training", "contact", "admin", "admin-login"];
         const targetPage = validPages.includes(hash) ? hash : "home";
         // Wait for spaGo to be defined
         const tryActivate = () => {
@@ -1251,7 +1252,7 @@ window.spaGo = function (page, skipScroll) {
 window.addEventListener("DOMContentLoaded", function () {
   // If hash exists and welcome is hidden, navigate
   const hash = window.location.hash.replace("#", "");
-  const validPages = ["home", "about", "services", "training", "contact"];
+  const validPages = ["home", "about", "services", "training", "contact", "admin", "admin-login"];
   if (
     validPages.includes(hash) &&
     document.body.classList.contains("in-portfolio")
@@ -1260,14 +1261,21 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Handle browser back/forward
+// Handle browser back/forward and manual hash changes
 window.addEventListener("hashchange", function () {
   const hash = window.location.hash.replace("#", "");
   const validPages = ["home", "about", "services", "training", "contact", "admin", "admin-login"];
-  if (
-    validPages.includes(hash) &&
-    document.body.classList.contains("in-portfolio")
-  ) {
+  if (validPages.includes(hash)) {
+    if (!document.body.classList.contains("in-portfolio")) {
+      const welcomeSection = document.getElementById("welcome-section");
+      const portfolioSection = document.getElementById("portfolio-section");
+      if (welcomeSection && portfolioSection) {
+        welcomeSection.classList.add("hidden");
+        portfolioSection.classList.add("visible");
+        document.body.classList.add("in-portfolio");
+        try { sessionStorage.setItem("intro_done", "1"); } catch(e) {}
+      }
+    }
     spaGo(hash, true);
   }
 });
@@ -1817,7 +1825,10 @@ window.TRAINING_DATA = {
 
   function renderCategory(category) {
     const data = getProvidedData();
-    const items = data[category] || [];
+    let items = [];
+    Object.values(data).forEach(arr => {
+      if (Array.isArray(arr)) items = items.concat(arr);
+    });
     
     // Clear active tags
     tags.forEach(t => t.classList.remove('active'));
@@ -2282,9 +2293,10 @@ function renderFrontendAboutPage() {
 
 renderFrontendAboutPage();
 
-window.openVideoModal = function(url) {
+window.openVideoModal = function(url, title = '') {
   const modal = document.getElementById('globalVideoModal');
   const iframe = document.getElementById('globalVideoIframe');
+  const titleEl = document.getElementById('globalVideoTitle');
   if (modal && iframe) {
     let finalUrl = url.trim().replace(/^["']+|["']+$/g, '');
     if (finalUrl.includes('youtube.com/watch?v=')) {
@@ -2303,6 +2315,9 @@ window.openVideoModal = function(url) {
     }
 
     iframe.src = finalUrl;
+    if (titleEl) {
+      titleEl.textContent = title;
+    }
     modal.classList.add('active');
   }
 };

@@ -449,8 +449,8 @@
     list.innerHTML = d.chapters.map((c, i) => `
       <div class="admin-activity-item">
         <div>
-          <strong>${esc(c.titleEn)}</strong><br>
-          <span style="font-size:12px;color:var(--muted);">${esc(c.eyebrowEn)} - ${c.visualType}</span>
+          <strong>${esc((c.titleEn || '').replace(/<[^>]*>?/gm, ' '))}</strong><br>
+          <span style="font-size:12px;color:var(--muted);">${esc((c.eyebrowEn || '').replace(/<[^>]*>?/gm, ' '))} - ${c.visualType}</span>
         </div>
         <div style="display:flex;gap:8px;">
           <button class="admin-edit-btn" onclick="adminApp.editAboutChapter(${i})">Edit</button>
@@ -471,7 +471,7 @@
     list.innerHTML = d.process.map((p, i) => `
       <div class="admin-activity-item">
         <div>
-          <strong>${esc(p.titleEn)}</strong><br>
+          <strong>${esc((p.titleEn || '').replace(/<[^>]*>?/gm, ' '))}</strong><br>
           <span style="font-size:12px;color:var(--muted);">Icon: Style ${p.icon}</span>
         </div>
         <div style="display:flex;gap:8px;">
@@ -1133,6 +1133,7 @@
         <div class="admin-work-info">
           <span class="admin-work-category">${w.cat}</span>
           <span class="admin-work-name">${w.name}</span>
+          ${w.url ? `<a href="${w.url}" target="_blank" style="margin-left: 10px; color: var(--accent-color); font-size: 0.8rem;" title="Has media attached">[Media URL]</a>` : ''}
         </div>
         <button class="admin-delete-btn" onclick="window.adminApp.deleteWork('${category}', ${index})">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -1146,6 +1147,8 @@
     const category = catSelect ? catSelect.value : currentWorksCategory;
     const nameInput = getEl('adminWorkName');
     const catInput = getEl('adminWorkCat');
+    
+    const urlInput = getEl('adminWorkUrl');
     
     if(!category || category === "") {
       showToast('Please select a main category', 'error');
@@ -1163,7 +1166,8 @@
     
     window.serviceWorks[category].works.unshift({
       name: nameInput.value.trim(),
-      cat: catInput.value.trim()
+      cat: catInput.value.trim(),
+      url: urlInput ? urlInput.value.trim() : ''
     });
     
     // Fix: Update the current category state and UI dropdown so it matches what was just added
@@ -1176,6 +1180,7 @@
     
     nameInput.value = '';
     catInput.value = '';
+    if (urlInput) urlInput.value = '';
     showToast('Work added successfully');
   }
 
@@ -1797,6 +1802,43 @@
     await initAuth();
     loadData();
     
+    // Live Sync Toggle Init
+    const liveSyncToggle = getEl('adminLiveSyncToggle');
+    const liveSyncStatus = getEl('adminModeStatusText');
+    if (liveSyncToggle && liveSyncStatus) {
+      const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
+      liveSyncToggle.checked = !isLiveSyncOff;
+      liveSyncStatus.textContent = isLiveSyncOff ? 'OFF (Local)' : 'ON (Live)';
+      liveSyncStatus.className = 'admin-mode-status ' + (isLiveSyncOff ? 'off' : 'on');
+
+      liveSyncToggle.addEventListener('change', (e) => {
+        const isON = e.target.checked;
+        localStorage.setItem('ka_admin_live_mode', isON ? 'true' : 'false');
+        liveSyncStatus.textContent = isON ? 'ON (Live)' : 'OFF (Local)';
+        liveSyncStatus.className = 'admin-mode-status ' + (isON ? 'on' : 'off');
+        
+        if (isON) {
+          if (window.kaDatabase) {
+             const updates = {};
+             for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key && (key.startsWith('ka_admin_') || key.includes('reviews') || key.includes('works') || key.includes('stats') || key === 'ka_analytics')) {
+                   // Some local storage values are strings (like JSON strings), some might be regular strings. We need to pass the raw string if we're directly mirroring the setItem behavior.
+                   updates['data/' + key] = localStorage.getItem(key);
+                }
+             }
+             window.kaDatabase.ref().update(updates)
+               .then(() => showToast('All changes pushed to live website!', 'success'))
+               .catch(err => showToast('Failed to push changes', 'error'));
+          } else {
+             showToast('Firebase not connected', 'error');
+          }
+        } else {
+          showToast('Live sync disabled. Changes are saved locally.', 'info');
+        }
+      });
+    }
+    
     // Resize listener for charts
     window.addEventListener('resize', () => {
        if(document.body.classList.contains('admin-mode') && currentAnalyticsTab) {
@@ -2025,6 +2067,36 @@
        getEl('adminProvidedCategory').addEventListener('change', (e) => {
          currentProvidedCategory = e.target.value;
          renderProvidedServices(currentProvidedCategory);
+       });
+    }
+    
+    if(getEl('adminWorkUpload')) {
+       getEl('adminWorkUpload').addEventListener('change', async (e) => {
+         const file = e.target.files[0];
+         if(!file) return;
+         try {
+           getEl('adminWorkProgress').style.display = 'block';
+           getEl('adminWorkProgress').innerText = 'Uploading... 0%';
+           const btnLabel = document.querySelector('label[for="adminWorkUpload"]');
+           if(btnLabel) btnLabel.style.opacity = '0.5';
+           
+           const downloadURL = await uploadToFirebase(file, (progress) => {
+              getEl('adminWorkProgress').innerText = `Uploading... ${progress}%`;
+           });
+           
+           getEl('adminWorkUrl').value = downloadURL;
+           getEl('adminWorkProgress').innerText = 'Upload complete! Click Add Item.';
+           setTimeout(() => getEl('adminWorkProgress').style.display = 'none', 3000);
+           
+         } catch (err) {
+           console.error('Upload error:', err);
+           showToast('Upload failed! Please check Firebase Storage rules.', 'error');
+           getEl('adminWorkProgress').style.display = 'none';
+         } finally {
+           const btnLabel = document.querySelector('label[for="adminWorkUpload"]');
+           if(btnLabel) btnLabel.style.opacity = '1';
+           getEl('adminWorkUpload').value = ''; // Reset input
+         }
        });
     }
     if(getEl('adminProvidedUpload')) {

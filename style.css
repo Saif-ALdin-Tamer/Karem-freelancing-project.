@@ -3215,6 +3215,52 @@ html[dir="rtl"] .svc-card:hover {
   transform: translateX(4px);
 }
 
+.svc-dots {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 20px;
+}
+.svc-dots-text {
+  order: 2;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.3px;
+  margin-left: 8px;
+  padding: 10px 18px;
+  border-radius: 100px;
+  border: none;
+  background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  box-shadow:
+    0 4px 14px rgba(59, 130, 246, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.svc-card:hover .svc-dots-text {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #60a5fa 0%, #93c5fd 100%);
+  box-shadow:
+    0 6px 20px rgba(59, 130, 246, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.dots-wrapper {
+  display: flex;
+  gap: 8px;
+}
+.svc-dots .dot {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 0.9;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+}
+
 /* Services pills below Provided Services heading */
 .svc-marquee-tags {
   display: flex;
@@ -3236,10 +3282,9 @@ html[dir="rtl"] .svc-card:hover {
   background: rgba(255,255,255,0.04);
   /* backdrop-filter disabled for perf */
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: default;
 }
 
-.svc-marquee-tags span:hover,
 .svc-marquee-tags span.active {
   background: rgba(72, 103, 255, 0.15);
   border-color: rgba(72, 103, 255, 0.5);
@@ -3371,9 +3416,9 @@ html[dir="rtl"] .services-showcase-marquee {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 6, 10, 0.85);
-  /* backdrop-filter disabled for perf */
-  /* -webkit-backdrop-filter disabled */
+  background: rgba(4, 6, 10, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -3395,7 +3440,7 @@ html[dir="rtl"] .services-showcase-marquee {
   border-radius: 28px;
   padding: 48px;
   width: 96%;
-  max-width: 1000px;
+  max-width: 1200px;
   max-height: 85vh;
   display: flex;
   flex-direction: column;
@@ -3451,15 +3496,17 @@ html[dir="rtl"] .services-showcase-marquee {
 }
 .modal-works {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 29px;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  grid-auto-rows: max-content;
   overflow-y: auto;
   flex: 1;
   min-height: 0;
   padding-right: 8px; /* For scrollbar breathing room */
 }
 .modal-work {
-  aspect-ratio: 2/1;
+  width: 100%;
+  height: 440px;
   border-radius: 16px;
   background: rgba(0, 0, 0, 0.4);
   /* backdrop-filter disabled for perf */
@@ -9256,13 +9303,21 @@ html body .in-portfolio footer {
 /* Video Modal */
 .video-modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.9); z-index: 10000;
-  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.1); z-index: 10000;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
   opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.video-modal-title {
+  color: #fff; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 600;
+  text-align: center; max-width: 90%; opacity: 0; transform: translateY(10px); transition: all 0.3s ease;
+}
+.video-modal-overlay.active .video-modal-title {
+  opacity: 1; transform: translateY(0);
 }
 .video-modal-overlay.active { opacity: 1; pointer-events: auto; }
 .video-modal-content {
-  position: relative; width: 90%; max-width: 900px; aspect-ratio: 16/9;
+  position: relative; width: 95%; max-width: 1200px; aspect-ratio: 16/9;
   background: #000; border-radius: 8px; overflow: hidden;
   transform: scale(0.95); transition: transform 0.3s ease;
 }

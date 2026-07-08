@@ -2348,13 +2348,13 @@ window.playInlineVideo = function(event, card) {
       if (playerEl.src && !playerEl.src.includes('autoplay=1')) {
         playerEl.src += (playerEl.src.includes('?') ? '&' : '?') + 'autoplay=1';
       }
-      playerEl.setAttribute('allowfullscreen', 'true');
-      playerEl.setAttribute('webkitallowfullscreen', 'true');
-      playerEl.setAttribute('mozallowfullscreen', 'true');
-      if (playerEl.allow && !playerEl.allow.includes('fullscreen')) {
-        playerEl.allow += '; fullscreen';
-      } else if (!playerEl.allow) {
-        playerEl.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+      playerEl.removeAttribute('allowfullscreen');
+      playerEl.removeAttribute('webkitallowfullscreen');
+      playerEl.removeAttribute('mozallowfullscreen');
+      if (playerEl.allow) {
+        playerEl.allow = playerEl.allow.replace(/fullscreen;?\s*/g, '');
+      } else {
+        playerEl.allow = 'autoplay; encrypted-media; picture-in-picture';
       }
     }
   } else if (finalUrl.endsWith('.mp4') || finalUrl.endsWith('.webm') || finalUrl.endsWith('.ogg') || finalUrl.endsWith('.mp3')) {
@@ -2367,13 +2367,13 @@ window.playInlineVideo = function(event, card) {
     playerEl = document.createElement('iframe');
     if (finalUrl.includes('youtube.com/watch?v=')) {
       finalUrl = finalUrl.replace('watch?v=', 'embed/');
-      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&fs=0';
     } else if (finalUrl.includes('youtu.be/')) {
       finalUrl = finalUrl.replace('youtu.be/', 'youtube.com/embed/');
-      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&fs=0';
     } else if (finalUrl.includes('youtube.com/shorts/')) {
       finalUrl = finalUrl.replace('youtube.com/shorts/', 'youtube.com/embed/');
-      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
+      finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1&fs=0';
     } else if (finalUrl.includes('vimeo.com/') && !finalUrl.includes('player.vimeo.com')) {
       finalUrl = finalUrl.replace('vimeo.com/', 'player.vimeo.com/video/');
       finalUrl += (finalUrl.includes('?') ? '&' : '?') + 'autoplay=1';
@@ -2381,10 +2381,7 @@ window.playInlineVideo = function(event, card) {
       finalUrl = 'https://www.facebook.com/plugins/video.php?href=' + encodeURIComponent(finalUrl) + '&show_text=false&autoplay=1';
     }
     playerEl.src = finalUrl;
-    playerEl.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
-    playerEl.setAttribute('allowfullscreen', 'true');
-    playerEl.setAttribute('webkitallowfullscreen', 'true');
-    playerEl.setAttribute('mozallowfullscreen', 'true');
+    playerEl.allow = 'autoplay; encrypted-media; picture-in-picture';
   }
 
   playerEl.className = 'inline-video-player';
@@ -2397,8 +2394,61 @@ window.playInlineVideo = function(event, card) {
   playerEl.style.zIndex = '100';
   playerEl.style.borderRadius = 'inherit';
 
+  // Create an ambient background clone for the "ambilight" effect
+  let blurEl = playerEl.cloneNode(true);
+  blurEl.className = 'inline-video-blur';
+  if (blurEl.tagName === 'IFRAME') {
+    if (blurEl.src.includes('?')) {
+      blurEl.src += '&mute=1&controls=0';
+    } else {
+      blurEl.src += '?mute=1&controls=0';
+    }
+    // Prevent background iframe from being interacted with
+    blurEl.style.pointerEvents = 'none';
+  } else if (blurEl.tagName === 'VIDEO' || blurEl.tagName === 'AUDIO') {
+    blurEl.muted = true;
+    blurEl.removeAttribute('controls');
+    blurEl.style.pointerEvents = 'none';
+  }
+
+  card.classList.add('playing');
+  card.appendChild(blurEl);
   card.appendChild(playerEl);
+
+  // Add Custom Fullscreen Button
+  let existingBtn = card.querySelector('.custom-fs-btn');
+  if (existingBtn) {
+    existingBtn.remove();
+  }
+  
+  const fsBtn = document.createElement('div');
+  fsBtn.className = 'custom-fs-btn';
+  fsBtn.innerHTML = `<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>`;
+  fsBtn.onclick = function(e) {
+    e.stopPropagation();
+    card.classList.toggle('custom-fullscreen-active');
+    if (card.classList.contains('custom-fullscreen-active')) {
+      document.body.style.overflow = 'hidden';
+      document.body.classList.add('fs-mode-active');
+    } else {
+      document.body.style.overflow = '';
+      document.body.classList.remove('fs-mode-active');
+    }
+  };
+  card.appendChild(fsBtn);
 };
+
+// Global listener to exit custom fullscreen on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    const activeCards = document.querySelectorAll('.custom-fullscreen-active');
+    if (activeCards.length > 0) {
+      activeCards.forEach(card => card.classList.remove('custom-fullscreen-active'));
+      document.body.style.overflow = '';
+      document.body.classList.remove('fs-mode-active');
+    }
+  }
+});
 
 window.renderFrontendTrainingPage = function() {
   const dStr = localStorage.getItem('ka_admin_training_data');

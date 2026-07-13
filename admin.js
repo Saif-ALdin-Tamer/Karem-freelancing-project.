@@ -95,31 +95,27 @@
     }, 3000);
   }
 
-  function uploadToFirebase(file, progressCallback) {
+  function compressImage(file, maxWidth, quality) {
+    maxWidth = maxWidth || 1200;
+    quality = quality || 0.7;
     return new Promise((resolve, reject) => {
-      if (!window.kaStorage) {
-        reject(new Error("Firebase Storage is not initialized."));
-        return;
-      }
-      
-      const fileName = Date.now() + "_" + file.name.replace(/[^a-zA-Z0-9.\-_]/g, '');
-      const storageRef = window.kaStorage.ref('uploads/' + fileName);
-      const uploadTask = storageRef.put(file);
-
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          if (progressCallback) progressCallback(progress);
-        },
-        (error) => {
-          reject(error);
-        },
-        () => {
-          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            resolve(downloadURL);
-          });
-        }
-      );
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let w = img.width, h = img.height;
+          if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = e.target.result;
+      };
+      reader.onerror = () => reject(new Error('Failed to read file'));
+      reader.readAsDataURL(file);
     });
   }
 
@@ -1806,35 +1802,59 @@
     const liveSyncToggle = getEl('adminLiveSyncToggle');
     const liveSyncStatus = getEl('adminModeStatusText');
     if (liveSyncToggle && liveSyncStatus) {
-      const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
-      liveSyncToggle.checked = !isLiveSyncOff;
-      liveSyncStatus.textContent = isLiveSyncOff ? 'OFF (Local)' : 'ON (Live)';
-      liveSyncStatus.className = 'admin-mode-status ' + (isLiveSyncOff ? 'off' : 'on');
+      // Load initial state from Firebase
+      if (window.kaDatabase) {
+        window.kaDatabase.ref('data/ka_maintenance_mode').once('value').then((snap) => {
+          const isMaintenance = snap.val() === true;
+          liveSyncToggle.checked = !isMaintenance;
+          localStorage.setItem('ka_admin_live_mode', isMaintenance ? 'false' : 'true');
+          liveSyncStatus.textContent = isMaintenance ? 'OFF (Local)' : 'ON (Live)';
+          liveSyncStatus.className = 'admin-mode-status ' + (isMaintenance ? 'off' : 'on');
+        });
+      } else {
+        const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
+        liveSyncToggle.checked = !isLiveSyncOff;
+        liveSyncStatus.textContent = isLiveSyncOff ? 'OFF (Local)' : 'ON (Live)';
+        liveSyncStatus.className = 'admin-mode-status ' + (isLiveSyncOff ? 'off' : 'on');
+      }
 
-      liveSyncToggle.addEventListener('change', (e) => {
+      liveSyncToggle.addEventListener('change', async (e) => {
         const isON = e.target.checked;
         localStorage.setItem('ka_admin_live_mode', isON ? 'true' : 'false');
         liveSyncStatus.textContent = isON ? 'ON (Live)' : 'OFF (Local)';
         liveSyncStatus.className = 'admin-mode-status ' + (isON ? 'on' : 'off');
         
-        if (isON) {
-          if (window.kaDatabase) {
-             const updates = {};
-             for (let i = 0; i < localStorage.length; i++) {
+        if (window.kaDatabase) {
+          try {
+             if (isON) {
+              // Push all local changes to Firebase and disable maintenance mode
+              const updates = { 'data/ka_maintenance_mode': false };
+              let count = 0;
+              for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key && (key.startsWith('ka_admin_') || key.includes('reviews') || key.includes('works') || key.includes('stats') || key === 'ka_analytics')) {
-                   // Some local storage values are strings (like JSON strings), some might be regular strings. We need to pass the raw string if we're directly mirroring the setItem behavior.
-                   updates['data/' + key] = localStorage.getItem(key);
+                  let val = localStorage.getItem(key);
+                  try { val = JSON.parse(val); } catch(e) {}
+                  updates['data/' + key] = val;
+                  count++;
                 }
-             }
-             window.kaDatabase.ref().update(updates)
-               .then(() => showToast('All changes pushed to live website!', 'success'))
-               .catch(err => showToast('Failed to push changes', 'error'));
-          } else {
-             showToast('Firebase not connected', 'error');
+              }
+              console.log('Pushing ' + count + ' items to Firebase:', Object.keys(updates));
+              await window.kaDatabase.ref().update(updates);
+              showToast('Website is LIVE! Pushed ' + count + ' items. Reloading...', 'success');
+              // Reload after a short delay so the toast is visible
+              setTimeout(() => window.location.reload(), 1500);
+            } else {
+              // Enable maintenance mode — users will see "Under Repair" page
+              await window.kaDatabase.ref('data/ka_maintenance_mode').set(true);
+              showToast('Website is now in maintenance mode. Users will see "Under Repair" page.', 'info');
+            }
+          } catch (err) {
+            console.error('Sync error:', err);
+            showToast('Failed to update website status: ' + err.message, 'error');
           }
         } else {
-          showToast('Live sync disabled. Changes are saved locally.', 'info');
+          showToast('Firebase not connected', 'error');
         }
       });
     }
@@ -1996,28 +2016,28 @@
         if (tempHomePhotoFile) {
           try {
             getEl('adminHomePhotoSaveBtn').disabled = true;
-            getEl('adminHomePhotoProgress').style.display = 'block';
-            getEl('adminHomePhotoProgress').innerText = 'Uploading... 0%';
+            showToast('Compressing and saving photo...');
             
-            const downloadURL = await uploadToFirebase(tempHomePhotoFile, (progress) => {
-               getEl('adminHomePhotoProgress').innerText = `Uploading... ${progress}%`;
-            });
+            // Compress image to reduce size for database storage
+            const dataURL = await compressImage(tempHomePhotoFile, 1200, 0.7);
             
-            localStorage.setItem(STORAGE_KEYS.HOME_PHOTO, downloadURL);
+            // Save to Firebase Realtime Database so all users see the update
+            await window.kaDatabase.ref('data/ka_admin_home_photo').set(dataURL);
             
             // Dynamically update frontend
             const photoBg = document.querySelector('.hero-image .photo-bg');
             if (photoBg) {
-              photoBg.style.backgroundImage = 'url(' + downloadURL + ')';
+              photoBg.style.backgroundImage = 'url(' + dataURL + ')';
             }
             
-            getEl('adminHomePhotoProgress').innerText = 'Upload complete!';
-            setTimeout(() => getEl('adminHomePhotoProgress').style.display = 'none', 3000);
-            showToast('Home photo saved successfully');
+            showToast('Home photo saved successfully!');
           } catch (e) {
             console.error('Storage error:', e);
-            showToast('Upload failed! Please check Firebase Storage rules.', 'error');
-            getEl('adminHomePhotoProgress').style.display = 'none';
+            if (e.code === 'PERMISSION_DENIED' || (e.message && e.message.includes('PERMISSION_DENIED'))) {
+              showToast('Permission denied! Go to Firebase Console → Realtime Database → Rules and set .read and .write to true', 'error');
+            } else {
+              showToast('Upload failed: ' + e.message, 'error');
+            }
           } finally {
             getEl('adminHomePhotoSaveBtn').disabled = false;
           }
@@ -2027,10 +2047,12 @@
       });
     }
     if(getEl('adminHomePhotoRemoveBtn')) {
-      getEl('adminHomePhotoRemoveBtn').addEventListener('click', () => {
+      getEl('adminHomePhotoRemoveBtn').addEventListener('click', async () => {
         getEl('adminHomePhotoPreview').src = 'correct-photo.jpeg';
         tempHomePhoto = null;
-        localStorage.removeItem(STORAGE_KEYS.HOME_PHOTO);
+        
+        // Remove from Firebase Realtime Database
+        await window.kaDatabase.ref('data/ka_admin_home_photo').remove();
         
         // Dynamically update frontend back to default
         const photoBg = document.querySelector('.hero-image .photo-bg');
@@ -2041,9 +2063,14 @@
         showToast('Home photo removed. Reverted to default.');
       });
     }
-    const savedHomePhoto = localStorage.getItem(STORAGE_KEYS.HOME_PHOTO);
-    if(savedHomePhoto && getEl('adminHomePhotoPreview')) {
-      getEl('adminHomePhotoPreview').src = savedHomePhoto;
+    // Load home photo from Firebase Realtime Database for admin preview
+    if(getEl('adminHomePhotoPreview')) {
+      window.kaDatabase.ref('data/ka_admin_home_photo').once('value').then((snapshot) => {
+        const savedPhoto = snapshot.val();
+        if (savedPhoto) {
+          getEl('adminHomePhotoPreview').src = savedPhoto;
+        }
+      });
     }
     
     // Feedback Listeners
@@ -2080,9 +2107,8 @@
            const btnLabel = document.querySelector('label[for="adminWorkUpload"]');
            if(btnLabel) btnLabel.style.opacity = '0.5';
            
-           const downloadURL = await uploadToFirebase(file, (progress) => {
-              getEl('adminWorkProgress').innerText = `Uploading... ${progress}%`;
-           });
+           getEl('adminWorkProgress').innerText = 'Compressing...';
+           const downloadURL = await compressImage(file, 1200, 0.7);
            
            getEl('adminWorkUrl').value = downloadURL;
            getEl('adminWorkProgress').innerText = 'Upload complete! Click Add Item.';
@@ -2090,7 +2116,7 @@
            
          } catch (err) {
            console.error('Upload error:', err);
-           showToast('Upload failed! Please check Firebase Storage rules.', 'error');
+           showToast('Upload failed! Could not read the selected file.', 'error');
            getEl('adminWorkProgress').style.display = 'none';
          } finally {
            const btnLabel = document.querySelector('label[for="adminWorkUpload"]');
@@ -2109,9 +2135,8 @@
            const btnLabel = document.querySelector('label[for="adminProvidedUpload"]');
            if(btnLabel) btnLabel.style.opacity = '0.5';
            
-           const downloadURL = await uploadToFirebase(file, (progress) => {
-              getEl('adminProvidedProgress').innerText = `Uploading... ${progress}%`;
-           });
+           getEl('adminProvidedProgress').innerText = 'Compressing...';
+           const downloadURL = await compressImage(file, 1200, 0.7);
            
            getEl('adminProvidedUrl').value = downloadURL;
            getEl('adminProvidedProgress').innerText = 'Upload complete! Click Add Item.';
@@ -2119,7 +2144,7 @@
            
          } catch (err) {
            console.error('Upload error:', err);
-           showToast('Upload failed! Please check Firebase Storage rules.', 'error');
+           showToast('Upload failed! Could not read the selected file.', 'error');
            getEl('adminProvidedProgress').style.display = 'none';
          } finally {
            const btnLabel = document.querySelector('label[for="adminProvidedUpload"]');

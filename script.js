@@ -2528,12 +2528,75 @@ window.renderFrontendTrainingPage();
 
 
 window.addEventListener('DOMContentLoaded', function() {
-  const savedHomePhoto = localStorage.getItem('ka_admin_home_photo');
-  if (savedHomePhoto) {
-    const photoBg = document.querySelector('.hero-image .photo-bg');
-    if (photoBg) {
-      photoBg.style.backgroundImage = 'url(' + savedHomePhoto + ')';
-    }
+  // Skip maintenance check if in admin mode
+  var isAdmin = document.body.classList.contains('admin-mode') || window.location.hash === '#admin';
+  
+  if (window.kaDatabase) {
+    window.kaDatabase.ref('data').once('value').then(function(snapshot) {
+      var data = snapshot.val();
+      if (!data) return;
+      
+      // Check maintenance mode — show "Under Repair" page for non-admin users
+      if (data['ka_maintenance_mode'] === true && !isAdmin) {
+        var overlay = document.getElementById('maintenanceOverlay');
+        if (overlay) {
+          overlay.style.display = 'flex';
+          // Hide the loading screen and main content
+          var loader = document.getElementById('pageLoader');
+          if (loader) loader.style.display = 'none';
+          document.body.style.overflow = 'hidden';
+        }
+        return; // Don't load the rest of the site
+      }
+      
+      var isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
+      
+      // Sync Firebase data to localStorage (ONLY if Live Sync is ON, or if it's a regular user)
+      if (!isLiveSyncOff) {
+        var needsRerender = false;
+        Object.keys(data).forEach(function(key) {
+          if (key === 'ka_maintenance_mode') return; // Skip maintenance flag
+          var currentVal = localStorage.getItem(key);
+          var newVal = data[key];
+          if (typeof newVal === 'object' && newVal !== null) {
+            newVal = JSON.stringify(newVal);
+          }
+          if (newVal !== null && newVal !== undefined && newVal !== currentVal) {
+            localStorage.setItem(key, newVal);
+            needsRerender = true;
+          }
+        });
+        
+        // Update home photo
+        var savedHomePhoto = data['ka_admin_home_photo'];
+        if (savedHomePhoto) {
+          var photoBg = document.querySelector('.hero-image .photo-bg');
+          if (photoBg) {
+            photoBg.style.backgroundImage = 'url(' + savedHomePhoto + ')';
+          }
+        }
+        
+        // Re-render all dynamic sections if data changed
+        if (needsRerender) {
+          if (window.renderFrontendIntroPages) window.renderFrontendIntroPages();
+          if (window.renderFrontendTrainingPage) window.renderFrontendTrainingPage();
+          if (window.renderFrontendAboutPage) window.renderFrontendAboutPage();
+          
+          // Re-render reviews
+          if (typeof renderReviews === 'function') renderReviews();
+          
+          // Re-render works
+          if (typeof renderWorksSection === 'function') renderWorksSection();
+          
+          // Re-render provided services
+          if (typeof renderProvidedSection === 'function') renderProvidedSection();
+          
+          // Re-render map/stats
+          if (typeof renderMapCountries === 'function') renderMapCountries();
+          if (typeof renderGlobalStats === 'function') renderGlobalStats();
+        }
+      }
+    });
   }
 });
 

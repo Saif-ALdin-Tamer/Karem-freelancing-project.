@@ -1115,6 +1115,9 @@
     renderWorks(currentWorksCategory);
   }
 
+  let editingWorkIndex = -1;
+  let editingWorkCategory = null;
+
   function renderWorks(category) {
     const container = getEl('adminWorksList');
     if(!container) return;
@@ -1124,18 +1127,40 @@
       return;
     }
     
-    container.innerHTML = window.serviceWorks[category].works.map((w, index) => `
-      <div class="admin-work-card">
-        <div class="admin-work-info">
-          <span class="admin-work-category">${w.cat}</span>
-          <span class="admin-work-name">${w.name}</span>
-          ${w.url ? `<a href="${w.url}" target="_blank" style="margin-left: 10px; color: var(--accent-color); font-size: 0.8rem;" title="Has media attached">[Media URL]</a>` : ''}
+    container.innerHTML = window.serviceWorks[category].works.map((w, index) => {
+      if (editingWorkCategory === category && editingWorkIndex === index) {
+        return `
+          <div class="admin-work-card" style="flex-direction: column; align-items: stretch; gap: 10px; background: rgba(255,255,255,0.05); padding: 15px;">
+            <input type="text" id="editWorkName-${index}" class="admin-input" value="${(w.name||'').replace(/"/g, '&quot;')}" placeholder="Work Name">
+            <input type="text" id="editWorkCat-${index}" class="admin-input" value="${(w.cat||'').replace(/"/g, '&quot;')}" placeholder="Category Tag">
+            <textarea id="editWorkDesc-${index}" class="admin-input" style="resize:vertical; min-height:60px;" placeholder="Work Description">${(w.desc||'').replace(/</g, '&lt;')}</textarea>
+            <input type="text" id="editWorkUrl-${index}" class="admin-input" value="${(w.url||'').replace(/"/g, '&quot;')}" placeholder="Video/Media URL">
+            <div style="display:flex; gap: 10px; justify-content: flex-end;">
+              <button class="admin-btn-secondary" onclick="window.adminApp.cancelEditWork()">Cancel</button>
+              <button class="admin-add-btn" style="width: auto;" onclick="window.adminApp.saveEditWork('${category}', ${index})">Save</button>
+            </div>
+          </div>
+        `;
+      }
+      return `
+        <div class="admin-work-card">
+          <div class="admin-work-info">
+            <span class="admin-work-category">${w.cat}</span>
+            <span class="admin-work-name">${w.name}</span>
+            ${w.url ? `<a href="${w.url}" target="_blank" style="margin-left: 10px; color: var(--accent-color); font-size: 0.8rem;" title="Has media attached">[Media URL]</a>` : ''}
+            ${w.desc ? `<div style="font-size: 0.8rem; color: #888; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${w.desc}</div>` : ''}
+          </div>
+          <div style="display:flex; gap: 8px;">
+            <button class="admin-delete-btn" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="window.adminApp.editWork('${category}', ${index})" title="Edit Work">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="admin-delete-btn" onclick="window.adminApp.deleteWork('${category}', ${index})" title="Delete Work">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
         </div>
-        <button class="admin-delete-btn" onclick="window.adminApp.deleteWork('${category}', ${index})">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
   function addWork() {
@@ -1143,6 +1168,7 @@
     const category = catSelect ? catSelect.value : currentWorksCategory;
     const nameInput = getEl('adminWorkName');
     const catInput = getEl('adminWorkCat');
+    const descInput = getEl('adminWorkDesc');
     
     const urlInput = getEl('adminWorkUrl');
     
@@ -1163,6 +1189,7 @@
     window.serviceWorks[category].works.unshift({
       name: nameInput.value.trim(),
       cat: catInput.value.trim(),
+      desc: descInput ? descInput.value.trim() : '',
       url: urlInput ? urlInput.value.trim() : ''
     });
     
@@ -1176,8 +1203,47 @@
     
     nameInput.value = '';
     catInput.value = '';
+    if (descInput) descInput.value = '';
     if (urlInput) urlInput.value = '';
     showToast('Work added successfully');
+  }
+  function editWork(category, index) {
+    editingWorkCategory = category;
+    editingWorkIndex = index;
+    renderWorks(category);
+  }
+
+  function cancelEditWork() {
+    const cat = editingWorkCategory;
+    editingWorkCategory = null;
+    editingWorkIndex = -1;
+    if(cat) renderWorks(cat);
+  }
+
+  function saveEditWork(category, index) {
+    const w = window.serviceWorks[category].works[index];
+    const name = getEl(`editWorkName-${index}`).value.trim();
+    const cat = getEl(`editWorkCat-${index}`).value.trim();
+    const desc = getEl(`editWorkDesc-${index}`).value.trim();
+    const url = getEl(`editWorkUrl-${index}`).value.trim();
+    
+    if(!name || !cat) {
+      showToast('Name and Category tag are required', 'error');
+      return;
+    }
+    
+    w.name = name;
+    w.cat = cat;
+    w.desc = desc;
+    w.url = url;
+    
+    saveWorks(window.serviceWorks);
+    logActivity(`Edited work "${name}" in ${category}`);
+    
+    editingWorkCategory = null;
+    editingWorkIndex = -1;
+    renderWorks(category);
+    showToast('Work updated successfully');
   }
 
   async function deleteWork(category, index) {
@@ -2228,6 +2294,9 @@
       editReview: (type, idx) => openReviewModal(type, idx),
       deleteReview,
       deleteWork,
+      editWork,
+      saveEditWork,
+      cancelEditWork,
       deleteProvided: deleteProvidedService,
       deleteCountry,
       deleteAnalyticsEntry

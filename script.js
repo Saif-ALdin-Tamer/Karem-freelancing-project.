@@ -593,6 +593,44 @@ renderFrontendIntroPages();
     `,
         )
         .join("");
+      
+      // Reset scroll to start
+      modalWorks.scrollTo({ left: 0 });
+
+      const modalPagination = document.getElementById("modalPagination");
+      if (modalPagination) {
+        // Generate dots
+        modalPagination.innerHTML = data.works.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`).join("");
+        
+        const dots = modalPagination.querySelectorAll('.dot');
+        
+        // Handle dot clicks
+        dots.forEach(dot => {
+          dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            modalWorks.scrollTo({ left: index * modalWorks.clientWidth, behavior: 'smooth' });
+          });
+        });
+
+        // Update active dot and description on scroll
+        modalWorks.onscroll = () => {
+          if (!modalWorks.clientWidth) return;
+          const index = Math.round(modalWorks.scrollLeft / modalWorks.clientWidth);
+          dots.forEach((d, i) => d.classList.toggle('active', i === index));
+          
+          const descEl = document.getElementById("modalDescription");
+          if (descEl && data.works[index]) {
+            descEl.textContent = data.works[index].desc || "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT";
+          }
+        };
+        
+        // Initial description update
+        const descEl = document.getElementById("modalDescription");
+        if (descEl && data.works[0]) {
+          descEl.textContent = data.works[0].desc || "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT, SED DO EIUSMOD TEMPOR INCIDIDUNT";
+        }
+      }
+
       modal.classList.add("open");
     });
   });

@@ -1817,6 +1817,10 @@
               <option value="portrait">Portrait</option>
               <option value="landscape">Landscape</option>
             </select>
+            <select id="adminProvidedTargetRow" class="admin-input admin-select">
+              <option value="rows12">Row 1 & 2</option>
+              <option value="row3">Row 3</option>
+            </select>
             <div style="display: flex; gap: 8px; align-items: center; width: 100%;">
               <input type="text" id="adminProvidedUrl" class="admin-input" placeholder="Media URL (or use upload button)">
               <label for="adminProvidedUpload" class="admin-btn-secondary" style="cursor:pointer; padding: 12px; margin: 0; white-space: nowrap;">
@@ -1831,6 +1835,15 @@
             </button>
           </div>
         </div>
+        
+        <!-- 3rd Line Toggle -->
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: rgba(255,255,255,0.04); border-radius: 12px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 16px;">
+          <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--admin-text); font-size: 0.95rem; user-select: none;">
+            <input type="checkbox" id="adminProvidedThirdLine" style="width: 18px; height: 18px; accent-color: var(--ka-accent, #4867ff); cursor: pointer;">
+            Enable 3rd Row
+          </label>
+        </div>
+
         <div id="adminProvidedList" class="admin-works-grid"></div>
       </div>
 

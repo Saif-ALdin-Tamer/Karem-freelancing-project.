@@ -15,7 +15,9 @@
     INTRO_PAGES: 'ka_admin_intro_pages',
     TRAINING_DATA: 'ka_admin_training_data',
     ABOUT_DATA: 'ka_admin_about_data',
-    HOME_PHOTO: 'ka_admin_home_photo'
+    HOME_PHOTO: 'ka_admin_home_photo',
+    PROVIDED_THIRD_LINE: 'ka_admin_provided_third_line',
+    PROVIDED_ROW3: 'ka_admin_provided_services_row3'
   };
 
   const DEFAULT_CREDS = {
@@ -1273,8 +1275,35 @@
     }
   }
 
+  // Row 3 separate storage
+  function loadProvidedServicesRow3() {
+    let data = safeJSONParse(localStorage.getItem(STORAGE_KEYS.PROVIDED_ROW3), {});
+    if (Array.isArray(data)) data = {};
+    return data;
+  }
+
+  function saveProvidedServicesRow3(data, updatedCategory) {
+    localStorage.setItem(STORAGE_KEYS.PROVIDED_ROW3, JSON.stringify(data));
+    if (typeof window.renderFrontendProvidedServices === 'function') {
+      window.renderFrontendProvidedServices(updatedCategory || currentProvidedCategory);
+    }
+  }
+
   function renderProvidedPage() {
     if(getEl('adminProvidedCategory')) getEl('adminProvidedCategory').value = currentProvidedCategory;
+    // Load 3rd line toggle state
+    const thirdLineCheckbox = getEl('adminProvidedThirdLine');
+    if (thirdLineCheckbox) {
+      thirdLineCheckbox.checked = localStorage.getItem(STORAGE_KEYS.PROVIDED_THIRD_LINE) === 'true';
+    }
+    // Show/hide the Row 3 option in target row selector
+    const targetRowSelect = getEl('adminProvidedTargetRow');
+    if (targetRowSelect) {
+      const row3Option = targetRowSelect.querySelector('option[value="row3"]');
+      if (row3Option) {
+        row3Option.disabled = localStorage.getItem(STORAGE_KEYS.PROVIDED_THIRD_LINE) !== 'true';
+      }
+    }
     renderProvidedServices(currentProvidedCategory);
   }
 
@@ -1283,22 +1312,55 @@
     if(!container) return;
     
     const data = loadProvidedServices();
-    if (!data[category] || data[category].length === 0) {
+    const dataRow3 = loadProvidedServicesRow3();
+    const row12Items = (data[category] || []);
+    const row3Items = (dataRow3[category] || []);
+    const thirdLineEnabled = localStorage.getItem(STORAGE_KEYS.PROVIDED_THIRD_LINE) === 'true';
+    
+    if (row12Items.length === 0 && (!thirdLineEnabled || row3Items.length === 0)) {
       container.innerHTML = '<p class="admin-empty-state">No items found in this category.</p>';
       return;
     }
     
-    container.innerHTML = data[category].map((item, index) => `
-      <div class="admin-work-card">
-        <div class="admin-work-info">
-          <span class="admin-work-category">${item.orientation}</span>
-          <span class="admin-work-name" style="word-break: break-all;">${item.url}</span>
+    let html = '';
+    
+    // Row 1 & 2 items
+    if (row12Items.length > 0) {
+      html += '<div style="margin-bottom: 8px; color: rgba(255,255,255,0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Row 1 & 2</div>';
+      html += row12Items.map((item, index) => `
+        <div class="admin-work-card">
+          <div class="admin-work-info">
+            <span class="admin-work-category">${item.orientation}</span>
+            <span class="admin-work-name" style="word-break: break-all;">${item.url}</span>
+          </div>
+          <button class="admin-delete-btn" onclick="window.adminApp.deleteProvided('${category}', ${index})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
         </div>
-        <button class="admin-delete-btn" onclick="window.adminApp.deleteProvided('${category}', ${index})">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </button>
-      </div>
-    `).join('');
+      `).join('');
+    }
+    
+    // Row 3 items
+    if (thirdLineEnabled) {
+      html += '<div style="margin-top: 16px; margin-bottom: 8px; color: rgba(255,255,255,0.5); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">Row 3</div>';
+      if (row3Items.length > 0) {
+        html += row3Items.map((item, index) => `
+          <div class="admin-work-card" style="border-left: 3px solid var(--ka-accent, #4867ff);">
+            <div class="admin-work-info">
+              <span class="admin-work-category">${item.orientation}</span>
+              <span class="admin-work-name" style="word-break: break-all;">${item.url}</span>
+            </div>
+            <button class="admin-delete-btn" onclick="window.adminApp.deleteProvidedRow3('${category}', ${index})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+          </div>
+        `).join('');
+      } else {
+        html += '<p class="admin-empty-state" style="margin: 8px 0;">Row 3 is empty — placeholders will be shown. Add items above using "Row 3" target.</p>';
+      }
+    }
+    
+    container.innerHTML = html;
   }
 
   function addProvidedService() {
@@ -1306,6 +1368,7 @@
     const category = (catSelect && catSelect.value) ? catSelect.value : currentProvidedCategory;
     const orientation = getEl('adminProvidedOrientation').value;
     const url = getEl('adminProvidedUrl').value;
+    const targetRow = getEl('adminProvidedTargetRow') ? getEl('adminProvidedTargetRow').value : 'rows12';
     
     if(!category || category === "") {
       showToast('Please select a main category', 'error');
@@ -1323,19 +1386,25 @@
       return;
     }
     
-    const data = loadProvidedServices();
-    if (!data[category]) data[category] = [];
+    if (targetRow === 'row3') {
+      const data = loadProvidedServicesRow3();
+      if (!data[category]) data[category] = [];
+      data[category].unshift({ orientation, url: safeUrl });
+      currentProvidedCategory = category;
+      if(getEl('adminProvidedCategory')) getEl('adminProvidedCategory').value = category;
+      saveProvidedServicesRow3(data, category);
+      logActivity(`Added image to Provided Services Row 3: ${category}`);
+    } else {
+      const data = loadProvidedServices();
+      if (!data[category]) data[category] = [];
+      data[category].unshift({ orientation, url: safeUrl });
+      currentProvidedCategory = category;
+      if(getEl('adminProvidedCategory')) getEl('adminProvidedCategory').value = category;
+      saveProvidedServices(data, category);
+      logActivity(`Added image to Provided Services: ${category}`);
+    }
     
-    data[category].unshift({ orientation, url: safeUrl });
-    
-    // Fix: Update the current category state and UI dropdown so it matches what was just added
-    currentProvidedCategory = category;
-    if(getEl('adminProvidedCategory')) getEl('adminProvidedCategory').value = category;
-    
-    saveProvidedServices(data, category);
-    logActivity(`Added image to Provided Services: ${category}`);
     renderProvidedServices(category);
-    
     getEl('adminProvidedUrl').value = '';
     showToast('Item added successfully');
   }
@@ -1348,6 +1417,18 @@
     data[category].splice(index, 1);
     saveProvidedServices(data, category);
     logActivity(`Deleted image from Provided Services: ${category}`);
+    renderProvidedServices(category);
+    showToast('Item deleted');
+  }
+
+  async function deleteProvidedServiceRow3(category, index) {
+    const ok = await showConfirm('Delete Item', 'Are you sure you want to delete this Row 3 item?');
+    if(!ok) return;
+    
+    const data = loadProvidedServicesRow3();
+    data[category].splice(index, 1);
+    saveProvidedServicesRow3(data, category);
+    logActivity(`Deleted image from Provided Services Row 3: ${category}`);
     renderProvidedServices(category);
     showToast('Item deleted');
   }
@@ -2221,6 +2302,17 @@
     }
     if(getEl('adminAddProvided')) getEl('adminAddProvided').addEventListener('click', addProvidedService);
     
+    // 3rd Line Toggle Listener
+    if(getEl('adminProvidedThirdLine')) {
+      getEl('adminProvidedThirdLine').addEventListener('change', (e) => {
+        localStorage.setItem(STORAGE_KEYS.PROVIDED_THIRD_LINE, e.target.checked ? 'true' : 'false');
+        if (typeof window.renderFrontendProvidedServices === 'function') {
+          window.renderFrontendProvidedServices(currentProvidedCategory);
+        }
+        showToast(e.target.checked ? '3rd row enabled' : '3rd row disabled');
+      });
+    }
+    
     // Map & Stats Listeners
     if(getEl('adminSaveReview')) getEl('adminSaveReview').addEventListener('click', saveReview);
     if(getEl('adminSaveIntro')) getEl('adminSaveIntro').addEventListener('click', saveIntro);
@@ -2298,6 +2390,7 @@
       saveEditWork,
       cancelEditWork,
       deleteProvided: deleteProvidedService,
+      deleteProvidedRow3: deleteProvidedServiceRow3,
       deleteCountry,
       deleteAnalyticsEntry
     });

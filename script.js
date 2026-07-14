@@ -1936,17 +1936,58 @@ window.TRAINING_DATA = {
       `;
     }
     
-    const buildMarquee = (reverse = false) => {
+    const buildMarquee = (content, reverse = false) => {
       const direction = reverse ? ' style="animation-direction: reverse;"' : '';
       return `
         <div class="services-showcase-marquee"${direction}>
-          <div class="sm-group">${groupHtml}</div>
-          <div class="sm-group" aria-hidden="true">${groupHtml}</div>
+          <div class="sm-group">${content}</div>
+          <div class="sm-group" aria-hidden="true">${content}</div>
         </div>
       `;
     };
     
-    showcaseWrap.innerHTML = buildMarquee(false) + buildMarquee(true);
+    // Check if 3rd line is enabled
+    const thirdLineEnabled = localStorage.getItem('ka_admin_provided_third_line') === 'true';
+    
+    let marqueeHtml = buildMarquee(groupHtml, false) + buildMarquee(groupHtml, true);
+    
+    if (thirdLineEnabled) {
+      // Build Row 3 content from its own separate storage
+      let row3GroupHtml = '';
+      try {
+        const row3Data = JSON.parse(localStorage.getItem('ka_admin_provided_services_row3')) || {};
+        let row3Items = [];
+        Object.values(row3Data).forEach(arr => {
+          if (Array.isArray(arr)) row3Items = row3Items.concat(arr);
+        });
+        
+        if (row3Items.length > 0) {
+          let displayItems = [...row3Items];
+          while (displayItems.length < 6) {
+            displayItems = displayItems.concat(row3Items);
+          }
+          displayItems.forEach(item => {
+            row3GroupHtml += getMediaHtml(item.url, item.orientation);
+          });
+        }
+      } catch(e) { /* ignore */ }
+      
+      // If no Row 3 content, show empty placeholders
+      if (!row3GroupHtml) {
+        row3GroupHtml = `
+          <div class="sm-item sm-portrait"></div>
+          <div class="sm-item sm-landscape"></div>
+          <div class="sm-item sm-portrait"></div>
+          <div class="sm-item sm-portrait"></div>
+          <div class="sm-item sm-landscape"></div>
+          <div class="sm-item sm-portrait"></div>
+        `;
+      }
+      
+      marqueeHtml += buildMarquee(row3GroupHtml, false);
+    }
+    
+    showcaseWrap.innerHTML = marqueeHtml;
     if (window.initMarqueeMediaListeners) window.initMarqueeMediaListeners(showcaseWrap);
   }
 

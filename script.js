@@ -2706,11 +2706,19 @@ window.addEventListener('DOMContentLoaded', function() {
     });
   };
 
+  // When clicking inside the marquee (e.g. to interact with a video), lock-pause it
   document.addEventListener('click', (e) => {
     const wraps = document.querySelectorAll('.services-showcase-marquee-wrap');
     wraps.forEach(wrap => {
       if (wrap.contains(e.target)) wrap.classList.add('is-locked-paused');
       else wrap.classList.remove('is-locked-paused');
+    });
+  });
+
+  // Auto-resume when the mouse leaves the marquee wrapper (no click needed)
+  document.querySelectorAll('.services-showcase-marquee-wrap').forEach(wrap => {
+    wrap.addEventListener('mouseleave', () => {
+      wrap.classList.remove('is-locked-paused');
     });
   });
 

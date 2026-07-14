@@ -3329,9 +3329,14 @@ html[dir="rtl"] .svc-card:hover {
   padding-right: 8px; /* matches internal gap so loop math is exact */
 }
 
-/* Pause both rows when hovering over the wrapper or when locked via interaction */
-.services-showcase-marquee-wrap:hover .services-showcase-marquee,
+/* Pause both rows when hovering over an individual item or when locked via media interaction */
+.services-showcase-marquee-wrap .sm-item:hover ~ .sm-item,
 .services-showcase-marquee-wrap.is-locked-paused .services-showcase-marquee {
+  animation-play-state: paused !important;
+}
+
+/* Pause ALL marquee rows when any sm-item is hovered */
+.services-showcase-marquee-wrap:has(.sm-item:hover) .services-showcase-marquee {
   animation-play-state: paused !important;
 }
 

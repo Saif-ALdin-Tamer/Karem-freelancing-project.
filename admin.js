@@ -121,6 +121,19 @@
     });
   }
 
+  async function uploadImageToStorage(dataUrl, folderName = 'images') {
+    if (!window.kaStorage) {
+      throw new Error('Firebase Storage is not initialized.');
+    }
+    const fileName = `${folderName}/IMG_${Date.now()}_${Math.floor(Math.random() * 1000)}.jpg`;
+    const storageRef = window.kaStorage.ref(fileName);
+    
+    // Upload the dataURL string
+    const snapshot = await storageRef.putString(dataUrl, 'data_url');
+    const downloadURL = await snapshot.ref.getDownloadURL();
+    return downloadURL;
+  }
+
   function showConfirm(title, message) {
     return new Promise(resolve => {
       const dialog = getEl('adminConfirmDialog');
@@ -1956,47 +1969,30 @@
         window.kaDatabase.ref('data/ka_maintenance_mode').once('value').then((snap) => {
           const isMaintenance = snap.val() === true;
           liveSyncToggle.checked = !isMaintenance;
-          localStorage.setItem('ka_admin_live_mode', isMaintenance ? 'false' : 'true');
-          liveSyncStatus.textContent = isMaintenance ? 'OFF (Local)' : 'ON (Live)';
+          liveSyncStatus.textContent = isMaintenance ? 'OFF (Maintenance)' : 'ON (Live)';
           liveSyncStatus.className = 'admin-mode-status ' + (isMaintenance ? 'off' : 'on');
         });
       } else {
-        const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
-        liveSyncToggle.checked = !isLiveSyncOff;
-        liveSyncStatus.textContent = isLiveSyncOff ? 'OFF (Local)' : 'ON (Live)';
-        liveSyncStatus.className = 'admin-mode-status ' + (isLiveSyncOff ? 'off' : 'on');
+        liveSyncToggle.checked = true;
+        liveSyncStatus.textContent = 'ON (Live)';
+        liveSyncStatus.className = 'admin-mode-status on';
       }
 
       liveSyncToggle.addEventListener('change', async (e) => {
         const isON = e.target.checked;
-        localStorage.setItem('ka_admin_live_mode', isON ? 'true' : 'false');
-        liveSyncStatus.textContent = isON ? 'ON (Live)' : 'OFF (Local)';
+        liveSyncStatus.textContent = isON ? 'ON (Live)' : 'OFF (Maintenance)';
         liveSyncStatus.className = 'admin-mode-status ' + (isON ? 'on' : 'off');
         
         if (window.kaDatabase) {
           try {
              if (isON) {
-              // Push all local changes to Firebase and disable maintenance mode
-              const updates = { 'data/ka_maintenance_mode': false };
-              let count = 0;
-              for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && (key.startsWith('ka_admin_') || key.includes('reviews') || key.includes('works') || key.includes('stats') || key === 'ka_analytics')) {
-                  let val = localStorage.getItem(key);
-                  try { val = JSON.parse(val); } catch(e) {}
-                  updates['data/' + key] = val;
-                  count++;
-                }
-              }
-              console.log('Pushing ' + count + ' items to Firebase:', Object.keys(updates));
-              await window.kaDatabase.ref().update(updates);
-              showToast('Website is LIVE! Pushed ' + count + ' items. Reloading...', 'success');
-              // Reload after a short delay so the toast is visible
-              setTimeout(() => window.location.reload(), 1500);
+              // Disable maintenance mode — visitors will see the live site
+              await window.kaDatabase.ref('data/ka_maintenance_mode').set(false);
+              showToast('Website is LIVE! All your changes are already saved globally.', 'success');
             } else {
-              // Enable maintenance mode — users will see "Under Repair" page
+              // Enable maintenance mode — visitors will see "Under Repair" page
               await window.kaDatabase.ref('data/ka_maintenance_mode').set(true);
-              showToast('Website is now in maintenance mode. Users will see "Under Repair" page.', 'info');
+              showToast('Maintenance mode ON. Visitors see "Under Repair" page. Your edits still save globally.', 'info');
             }
           } catch (err) {
             console.error('Sync error:', err);
@@ -2167,10 +2163,10 @@
             getEl('adminHomePhotoSaveBtn').disabled = true;
             showToast('Compressing and saving photo...');
             
-            // Compress image to reduce size for database storage
+            // Compress image to reduce size
             const dataURL = await compressImage(tempHomePhotoFile, 1200, 0.7);
             
-            // Save to Firebase Realtime Database so all users see the update
+            // Save directly to Firebase Realtime Database
             await window.kaDatabase.ref('data/ka_admin_home_photo').set(dataURL);
             
             // Dynamically update frontend

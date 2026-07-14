@@ -2485,51 +2485,45 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script src="firebase-config.js"></script>
 <script>
-  // Intercept localStorage to sync writes to Firebase
+  // Intercept localStorage to ALWAYS sync writes to Firebase (globally, not locally)
   const originalSetItem = localStorage.setItem;
   localStorage.setItem = function(key, value) {
     originalSetItem.apply(this, arguments);
-    const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
     const isTargetKey = key.startsWith('ka_admin_') || key.includes('reviews') || key.includes('works') || key.includes('stats');
-    if (window.kaDatabase && isTargetKey) {
-       if (isLiveSyncOff) return; // Local mode: do not push to Firebase
-       window.kaDatabase.ref('data/' + key).set(value);
-    } else if (window.kaDatabase && key === 'ka_analytics') {
-       window.kaDatabase.ref('data/' + key).set(value); // Always sync analytics
+    if (window.kaDatabase && (isTargetKey || key === 'ka_analytics')) {
+       let valToSave = value;
+       try { valToSave = JSON.parse(value); } catch(e) {}
+       window.kaDatabase.ref('data/' + key).set(valToSave)
+         .then(() => console.log('✅ Firebase SAVED:', key))
+         .catch((err) => console.error('❌ Firebase FAILED to save:', key, err));
     }
   };
 
   const originalRemoveItem = localStorage.removeItem;
   localStorage.removeItem = function(key) {
     originalRemoveItem.apply(this, arguments);
-    const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
     const isTargetKey = key.startsWith('ka_admin_') || key.includes('reviews') || key.includes('works') || key.includes('stats');
-    if (window.kaDatabase && isTargetKey) {
-       if (isLiveSyncOff) return;
-       window.kaDatabase.ref('data/' + key).remove();
-    } else if (window.kaDatabase && key === 'ka_analytics') {
+    if (window.kaDatabase && (isTargetKey || key === 'ka_analytics')) {
        window.kaDatabase.ref('data/' + key).remove();
     }
   };
 
-  // Wait for Firebase to load data, sync to localStorage, then load app scripts
+  // ALWAYS load data from Firebase first, then load app scripts
   if (window.kaDatabase) {
-    const isLiveSyncOff = localStorage.getItem('ka_admin_live_mode') === 'false';
-    if (isLiveSyncOff) {
-      console.log("Local sync mode is OFF, skipping Firebase initial load to preserve local edits.");
+    window.kaDatabase.ref('data').once('value').then((snapshot) => {
+      const data = snapshot.val() || {};
+      for (const key in data) {
+          let val = data[key];
+          if (typeof val === 'object' && val !== null) {
+            val = JSON.stringify(val);
+          }
+          originalSetItem.call(localStorage, key, val);
+      }
       loadAppScripts();
-    } else {
-      window.kaDatabase.ref('data').once('value').then((snapshot) => {
-        const data = snapshot.val() || {};
-        for (const key in data) {
-            originalSetItem.call(localStorage, key, data[key]);
-        }
-        loadAppScripts();
-      }).catch((err) => {
-        console.error("Firebase load failed, falling back to local cache", err);
-        loadAppScripts();
-      });
-    }
+    }).catch((err) => {
+      console.error("Firebase load failed, falling back to local cache", err);
+      loadAppScripts();
+    });
   } else {
     loadAppScripts();
   }
@@ -2553,7 +2547,7 @@
       }
     };
 
-    const scripts = ['script.js?v=18', 'patch.js?v=2', 'admin.js?v=10'];
+    const scripts = ['script.js?v=20', 'patch.js?v=3', 'admin.js?v=13'];
     let i = 0;
     function loadNext() {
       if(i >= scripts.length) return;

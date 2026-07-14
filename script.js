@@ -1518,11 +1518,12 @@ window.addEventListener("hashchange", function () {
 // ═══════ QUICK BRIEF MODAL ═══════
 (function () {
   // CONFIG — Update these with your real contact info
-  const QB_CONFIG = {
+  window.QB_CONFIG = {
     whatsappNumber: "201234567890", // ← Replace with your real WhatsApp number (no + or spaces)
     email: "hello@karimabdelaziz.com", // ← Replace with your real email
     calendlyUrl: "https://calendly.com/your-link", // ← Replace when ready
   };
+  const QB_CONFIG = window.QB_CONFIG;
 
   let qbState = {
     currentStep: 1,
@@ -1684,12 +1685,12 @@ window.addEventListener("hashchange", function () {
   // Build the message
   function buildMessage() {
     const { name, projectType, budget, timeline, details } = qbState.data;
-    let msg = `Hi Karim! 👋\n\nI'm ${name}, and I'd like to discuss a project.\n\n`;
-    msg += `📋 Project Type: ${projectType}\n`;
-    msg += `💰 Budget: ${budget}\n`;
-    msg += `⏰ Timeline: ${timeline}\n`;
+    let msg = `Hi Karim!\n\nI'm ${name}, and I'd like to discuss a project.\n\n`;
+    msg += `Project Type: ${projectType}\n`;
+    msg += `Budget: ${budget}\n`;
+    msg += `Timeline: ${timeline}\n`;
     if (details && details.trim()) {
-      msg += `\n📝 Details:\n${details.trim()}\n`;
+      msg += `\nDetails:\n${details.trim()}\n`;
     }
     msg += `\nLooking forward to hearing from you!`;
     return msg;
@@ -1699,18 +1700,31 @@ window.addEventListener("hashchange", function () {
   window.sendQuickBrief = function (method) {
     const msg = buildMessage();
     let url;
+    
+    // Clean WhatsApp number (remove +, spaces, dashes, brackets)
+    let cleanWa = (QB_CONFIG.whatsappNumber || '').replace(/[\+\s\-\(\)]/g, '');
+    
+    // Automatically add Egypt country code if missing
+    if (cleanWa.startsWith('01') && cleanWa.length === 11) {
+      cleanWa = '2' + cleanWa;
+    } else if (cleanWa.startsWith('1') && cleanWa.length === 10) {
+      cleanWa = '20' + cleanWa;
+    }
 
     if (method === "whatsapp") {
-      url = `https://wa.me/${QB_CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`;
+      url = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
       window.open(url, "_blank");
     } else if (method === "email") {
-      const subject = `New Project Inquiry — ${qbState.data.projectType} (${qbState.data.name})`;
-      url = `mailto:${QB_CONFIG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(msg)}`;
-      window.location.href = url;
+      const cleanEmail = (QB_CONFIG.email || '').trim();
+      const subject = `New Project Inquiry — ${qbState.data.name || 'Client'}`;
+      // Use a shorter body for mailto to prevent OS client crashes/ignores
+      const shortMsg = `Hi Karim,\n\nI have a new project inquiry.\n\nProject Type: ${qbState.data.projectType}\nBudget: ${qbState.data.budget}\nTimeline: ${qbState.data.timeline}\n\n${qbState.data.details ? 'Details:\n' + qbState.data.details : ''}\n\nThanks,\n${qbState.data.name}`;
+      url = `mailto:${cleanEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortMsg)}`;
+      window.open(url, "_blank");
     } else if (method === "meeting") {
-      // For now, open WhatsApp with a meeting request (since Calendly not set up yet)
-      const meetingMsg = `Hi Karim! 👋\n\nI'd like to book a meeting to discuss a project.\n\n📋 Project Type: ${qbState.data.projectType}\n💰 Budget: ${qbState.data.budget}\n⏰ Timeline: ${qbState.data.timeline}\n\nI'm ${qbState.data.name}. ${qbState.data.details ? "\n\nDetails: " + qbState.data.details : ""}\n\nWhat times work best for you?`;
-      url = `https://wa.me/${QB_CONFIG.whatsappNumber}?text=${encodeURIComponent(meetingMsg)}`;
+      // For now, open WhatsApp with a meeting request
+      const meetingMsg = `Hi Karim!\n\nI'd like to book a meeting to discuss a project.\n\nProject Type: ${qbState.data.projectType}\nBudget: ${qbState.data.budget}\nTimeline: ${qbState.data.timeline}\n\nI'm ${qbState.data.name}. ${qbState.data.details ? "\n\nDetails: " + qbState.data.details : ""}\n\nWhat times work best for you?`;
+      url = `https://wa.me/${cleanWa}?text=${encodeURIComponent(meetingMsg)}`;
       window.open(url, "_blank");
     }
 

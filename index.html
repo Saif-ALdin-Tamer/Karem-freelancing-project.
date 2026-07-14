@@ -1960,7 +1960,8 @@
                 <option value="Instagram">Instagram</option>
                 <option value="LinkedIn">LinkedIn</option>
                 <option value="YouTube">YouTube</option>
-                <option value="Behance">Behance</option>
+                <option value="Facebook">Facebook</option>
+                <option value="TikTok">TikTok</option>
                 <option value="WhatsApp">WhatsApp</option>
                 <option value="Email">Email</option>
                 <option value="Other">Other</option>
@@ -2083,6 +2084,10 @@
             </h3>
             <p class="admin-settings-card-desc">Update your social media links</p>
             <div class="admin-form-group">
+              <label>Facebook</label>
+              <input type="url" id="settingsFacebook" class="admin-input" placeholder="https://facebook.com/...">
+            </div>
+            <div class="admin-form-group">
               <label>Instagram</label>
               <input type="url" id="settingsInstagram" class="admin-input" placeholder="https://instagram.com/...">
             </div>
@@ -2095,8 +2100,8 @@
               <input type="url" id="settingsYoutube" class="admin-input" placeholder="https://youtube.com/@...">
             </div>
             <div class="admin-form-group">
-              <label>Behance</label>
-              <input type="url" id="settingsBehance" class="admin-input" placeholder="https://behance.net/...">
+              <label>TikTok</label>
+              <input type="url" id="settingsTiktok" class="admin-input" placeholder="https://tiktok.com/@...">
             </div>
             <button class="admin-save-btn" id="settingsSaveSocial">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
@@ -2271,6 +2276,13 @@
 <div class="social-rail" id="socialRail">
   <div class="social-rail-track"></div>
 
+  <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="social-rail-dot" aria-label="Facebook">
+    <svg class="social-rail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+    <span class="social-rail-tooltip" data-en="Facebook" data-ar="فيسبوك">Facebook</span>
+  </a>
+
   <a href="https://instagram.com/karim_abdelaziz" target="_blank" rel="noopener noreferrer" class="social-rail-dot" aria-label="Instagram">
     <svg class="social-rail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -2297,11 +2309,11 @@
     <span class="social-rail-tooltip" data-en="YouTube" data-ar="يوتيوب">YouTube</span>
   </a>
 
-  <a href="https://behance.net/karimabdelaziz" target="_blank" rel="noopener noreferrer" class="social-rail-dot" aria-label="Behance">
+  <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" class="social-rail-dot" aria-label="TikTok">
     <svg class="social-rail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M2 6h6.5a3 3 0 0 1 0 6H2zM2 12h7a3 3 0 0 1 0 6H2zM14 9h7M17.5 9a3.5 3.5 0 0 0-3.5 3.5v2a3.5 3.5 0 0 0 3.5 3.5h.5a3 3 0 0 0 2.83-2"/>
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/>
     </svg>
-    <span class="social-rail-tooltip" data-en="Behance" data-ar="بيهانس">Behance</span>
+    <span class="social-rail-tooltip" data-en="TikTok" data-ar="تيك توك">TikTok</span>
   </a>
 
 </div>
@@ -2547,6 +2559,7 @@
       if(i >= scripts.length) return;
       const s = document.createElement('script');
       s.src = scripts[i];
+      s.charset = "UTF-8";
       s.onload = loadNext;
       document.body.appendChild(s);
       i++;

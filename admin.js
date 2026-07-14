@@ -249,7 +249,8 @@
        updateSocial('instagram', 'Instagram');
        updateSocial('linkedin', 'LinkedIn');
        updateSocial('youtube', 'YouTube');
-       updateSocial('behance', 'Behance');
+       updateSocial('facebook', 'Facebook');
+       updateSocial('tiktok', 'TikTok');
     }
   }
 
@@ -1752,7 +1753,8 @@
     if(getEl('settingsInstagram')) getEl('settingsInstagram').value = settings.instagram || document.querySelector('a[aria-label="Instagram"]')?.href || '';
     if(getEl('settingsLinkedin')) getEl('settingsLinkedin').value = settings.linkedin || document.querySelector('a[aria-label="LinkedIn"]')?.href || '';
     if(getEl('settingsYoutube')) getEl('settingsYoutube').value = settings.youtube || document.querySelector('a[aria-label="YouTube"]')?.href || '';
-    if(getEl('settingsBehance')) getEl('settingsBehance').value = settings.behance || document.querySelector('a[aria-label="Behance"]')?.href || '';
+    if(getEl('settingsFacebook')) getEl('settingsFacebook').value = settings.facebook || document.querySelector('a[aria-label="Facebook"]')?.href || '';
+    if(getEl('settingsTiktok')) getEl('settingsTiktok').value = settings.tiktok || document.querySelector('a[aria-label="TikTok"]')?.href || '';
   }
 
   async function updateCredentials() {
@@ -2350,7 +2352,8 @@
         s.instagram = getEl('settingsInstagram').value;
         s.linkedin = getEl('settingsLinkedin').value;
         s.youtube = getEl('settingsYoutube').value;
-        s.behance = getEl('settingsBehance').value;
+        s.facebook = getEl('settingsFacebook').value;
+        s.tiktok = getEl('settingsTiktok') ? getEl('settingsTiktok').value : '';
         saveSettings(s);
         showToast('Social links saved');
       });

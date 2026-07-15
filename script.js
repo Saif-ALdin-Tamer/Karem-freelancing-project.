@@ -1951,11 +1951,10 @@ window.TRAINING_DATA = {
     }
     
     const buildMarquee = (content, reverse = false) => {
-      const direction = reverse ? ' style="animation-direction: reverse;"' : '';
+      // Create a single group instead of two for marquee, as we are now using a manual slider
       return `
-        <div class="services-showcase-marquee"${direction}>
+        <div class="services-showcase-marquee">
           <div class="sm-group">${content}</div>
-          <div class="sm-group" aria-hidden="true">${content}</div>
         </div>
       `;
     };
@@ -2004,6 +2003,56 @@ window.TRAINING_DATA = {
     showcaseWrap.innerHTML = marqueeHtml;
     if (window.initMarqueeMediaListeners) window.initMarqueeMediaListeners(showcaseWrap);
   }
+
+  // === Slider button logic (set up ONCE, outside renderCategory) ===
+  let currentOffset = 0; // Track how much we've shifted
+
+  const prevBtn = document.getElementById('servicesSliderPrev');
+  const nextBtn = document.getElementById('servicesSliderNext');
+
+  if (prevBtn && nextBtn) {
+    const scrollAmount = 400;
+
+    // Add hover effects
+    [prevBtn, nextBtn].forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'scale(1.1)';
+        btn.style.color = '#fff';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+        btn.style.color = '';
+      });
+    });
+
+    prevBtn.addEventListener('click', () => {
+      const isRTL = document.documentElement.dir === 'rtl';
+      currentOffset += isRTL ? -scrollAmount : scrollAmount;
+      if ((!isRTL && currentOffset > 0) || (isRTL && currentOffset < 0)) currentOffset = 0;
+      applyOffset();
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const isRTL = document.documentElement.dir === 'rtl';
+      currentOffset += isRTL ? scrollAmount : -scrollAmount;
+      applyOffset();
+    });
+
+    function applyOffset() {
+      const groups = showcaseWrap.querySelectorAll('.sm-group');
+      groups.forEach(group => {
+        group.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1)';
+        group.style.transform = `translateX(${currentOffset}px)`;
+      });
+    }
+  }
+
+  // Reset offset when category changes
+  const originalRenderCategory = renderCategory;
+  renderCategory = function(cat) {
+    currentOffset = 0;
+    originalRenderCategory(cat);
+  };
 
   // Setup click listeners
   tags.forEach(tag => {
